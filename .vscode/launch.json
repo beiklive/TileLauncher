@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      
+      {
+        "name": "Build and Run with Xmake",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/build/windows/x64/debug/TileLauncher.exe", // 替换为实际可执行文件路径
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,
+        "preLaunchTask": "xmake run", // 执行之前定义的任务
+        "miDebuggerPath": "gdb" // 根据调试器调整
+      }
+    ]
+  }
