@@ -1,6 +1,7 @@
-#if BEIKLIVE_FRAMELESS
 
 #include "FramelessWindowHelper.h"
+
+#if BEIKLIVE_FRAMELESS
 #include <QMouseEvent>
 #include <QApplication>
 #include <QCursor>

@@ -4,8 +4,8 @@
 #ifndef _INCLUDE_WINDOW_FRAMELESS_H_
 #define _INCLUDE_WINDOW_FRAMELESS_H_
 
-#if BEIKLIVE_FRAMELESS
 
+#if BEIKLIVE_FRAMELESS
 #include <QObject>
 #include <QWidget>
 #include <QPoint>
