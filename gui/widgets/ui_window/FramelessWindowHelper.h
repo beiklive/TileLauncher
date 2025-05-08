@@ -4,30 +4,106 @@
 #ifndef _INCLUDE_WINDOW_FRAMELESS_H_
 #define _INCLUDE_WINDOW_FRAMELESS_H_
 
+/*
+无边框窗口辅助类
+功能：
+1. 给窗口添加标题栏以及控制按钮
+2. 实现窗口边缘的可拖动
+*/
 
 #if BEIKLIVE_FRAMELESS
 #include <QObject>
 #include <QWidget>
-#include <QPoint>
+#include <QFrame>
+#include <QCursor>
 #include <QRect>
+#include <QSize>
+#include <QPoint>
+#include <QSizeGrip>
+#include <QMouseEvent>
+#include <QResizeEvent>
+
+class EdgeWidget;
+class EdgeGrips;
+class FramelessWindowHelper;
+
+// 边缘位置枚举
+enum EdgePosition
+{
+    None = 0,
+    Top = 1,
+    Bottom = 2,
+    Left = 4,
+    Right = 8,
+    TopLeft = Top | Left,
+    TopRight = Top | Right,
+    BottomLeft = Bottom | Left,
+    BottomRight = Bottom | Right
+};
+
+
+class CustomGrip : public QFrame {
+    Q_OBJECT
+public:
+    explicit CustomGrip(QWidget* parent = nullptr);
+
+protected:
+    void mouseMoveEvent(QMouseEvent* event) override;
+};
+
+
+// 边缘控件，用来标记窗口边缘可拖动
+class EdgeWidget
+{
+public:
+    EdgeWidget();
+    ~EdgeWidget();
+
+    void top_left(QWidget *form);
+    void top_right(QWidget *form);
+    void bottom_left(QWidget *form);
+    void bottom_right(QWidget *form);
+    void top(QWidget *form);
+    void bottom(QWidget *form);
+    void left(QWidget *form);
+    void right(QWidget *form);
+
+public:
+    CustomGrip *top_left_grip;
+    CustomGrip *top_right_grip;
+    CustomGrip *bottom_left_grip;
+    CustomGrip *bottom_right_grip;
+    CustomGrip *top_grip;
+    CustomGrip *bottom_grip;
+    CustomGrip *left_grip;
+    CustomGrip *right_grip;
+};
+
+class EdgeGrips : public QWidget
+{
+public:
+    EdgeGrips(QWidget *parent = nullptr, EdgePosition edgePosition = None, bool showColor = false);
+    ~EdgeGrips() = default;
+
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+
+private:
+    QWidget *m_targetWidget;
+    EdgeWidget *m_edgeWidget;
+    bool m_showColor;
+    QSizeGrip *grip;
+};
 
 class FramelessWindowHelper : public QObject
 {
     Q_OBJECT
 public:
     explicit FramelessWindowHelper(QWidget *parent = nullptr);
-
-    // 设置是否可调整窗口大小
     void setResizable(bool resizable);
-    // 设置是否可移动窗口
-    void setMovable(bool movable);
-    // 设置边框宽度（用于调整窗口大小）
-    void setBorderWidth(int width);
-    // 设置标题栏高度（用于窗口移动）
-    void setTitleBarHeight(int height);
 
-protected:
-    bool eventFilter(QObject *watched, QEvent *event) override;
+private:
+    void _addEdgeWidgets();
 
 private:
     QWidget *m_targetWidget; // 目标窗口
@@ -40,34 +116,18 @@ private:
     QPoint m_startPos;     // 鼠标按下时的位置
     QRect m_startGeometry; // 窗口开始时的几何形状
 
-    // 计算鼠标在窗口边缘的位置
-    int calculateMousePosition(const QPoint &pos);
-
-    // 处理鼠标按下事件
-    void handleMousePress(QMouseEvent *event);
-    // 处理鼠标移动事件
-    void handleMouseMove(QMouseEvent *event);
-    // 处理鼠标释放事件
-    void handleMouseRelease(QMouseEvent *event);
-
-    // 更新鼠标光标形状
-    void updateCursorShape(const QPoint &pos);
-
-    // 边缘位置枚举
-    enum EdgePosition
-    {
-        None = 0,
-        Top = 1,
-        Bottom = 2,
-        Left = 4,
-        Right = 8,
-        TopLeft = Top | Left,
-        TopRight = Top | Right,
-        BottomLeft = Bottom | Left,
-        BottomRight = Bottom | Right
-    };
-
     int m_edgePosition; // 当前边缘位置
+
+
+
+    EdgeGrips *top_left_grip;
+    EdgeGrips *top_right_grip;
+    EdgeGrips *bottom_left_grip;
+    EdgeGrips *bottom_right_grip;
+    EdgeGrips *top_grip;
+    EdgeGrips *bottom_grip;
+    EdgeGrips *left_grip;
+    EdgeGrips *right_grip;
 };
 #endif
 #endif // _INCLUDE_WINDOW_FRAMELESS_H_

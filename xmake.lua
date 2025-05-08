@@ -4,7 +4,7 @@ add_requires("spdlog")
 target("TileLauncher")
     add_rules("qt.widgetapp")
     set_languages("c99", "c++17")
-    add_defines("BEIKLIVE_FRAMELESS=0")
+    add_defines("BEIKLIVE_FRAMELESS=1")
 
 
     add_includedirs("gui/widgets/")

@@ -13,7 +13,7 @@ beiklive::Ui_Window::Ui_Window()
 void beiklive::Ui_Window::setFrameless()
 {
     FramelessWindowHelper helper(this);
-    helper.setBorderWidth(5);          // 设置边框宽度
-    helper.setTitleBarHeight(30);      // 设置标题栏高度
+    helper.setResizable(true);
+
 }
 #endif

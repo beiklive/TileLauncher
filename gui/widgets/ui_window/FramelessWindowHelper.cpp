@@ -7,222 +7,283 @@
 #include <QCursor>
 #include <QDebug>
 
-FramelessWindowHelper::FramelessWindowHelper(QWidget *parent) : QObject(parent),
-                                                                m_targetWidget(parent),
-                                                                m_resizable(true),
-                                                                m_movable(true),
-                                                                m_borderWidth(5),
-                                                                m_titleBarHeight(30),
-                                                                m_isPressed(false),
-                                                                m_edgePosition(None)
+CustomGrip::CustomGrip(QWidget *parent) : QFrame(parent)
+{
+    // Setup your grip here
+}
+
+void CustomGrip::mouseMoveEvent(QMouseEvent *event)
+{
+    // Your resize logic here
+    QFrame::mouseMoveEvent(event); // Call base class implementation
+    QString name = this->objectName();
+    QPoint delta = event->pos();
+    if (name == "top_grip")
+    {
+        int height = qMax(this->parentWidget()->minimumHeight(),
+                          this->parentWidget()->height() - delta.y());
+        QRect geo = this->parentWidget()->geometry();
+        geo.setTop(geo.bottom() - height);
+        this->parentWidget()->setGeometry(geo);
+    }
+    else if (name == "bottom_grip")
+    {
+        int height = qMax(this->parentWidget()->minimumHeight(),
+                          this->parentWidget()->height() + delta.y());
+        this->parentWidget()->resize(this->parentWidget()->width(), height);
+    }
+    else if (name == "left_grip")
+    {
+        int width = qMax(this->parentWidget()->minimumWidth(),
+                         this->parentWidget()->width() - delta.x());
+
+        QRect geo = parentWidget()->geometry();
+        geo.setLeft(geo.right() - width);
+        this->parentWidget()->setGeometry(geo);
+    }
+    else if (name == "right_grip")
+    {
+        int width = qMax(this->parentWidget()->minimumWidth(),
+                         this->parentWidget()->width() + delta.x());
+        this->parentWidget()->resize(width, this->parentWidget()->height());
+    }
+
+    event->accept();
+}
+
+EdgeWidget::EdgeWidget() : top_left_grip(nullptr),
+                           top_right_grip(nullptr),
+                           bottom_left_grip(nullptr),
+                           bottom_right_grip(nullptr),
+                           top_grip(nullptr),
+                           bottom_grip(nullptr),
+                           left_grip(nullptr),
+                           right_grip(nullptr)
+{
+}
+
+EdgeWidget::~EdgeWidget()
+{
+    // Clean up allocated resources
+    delete top_left_grip;
+    delete top_right_grip;
+    delete bottom_left_grip;
+    delete bottom_right_grip;
+    delete top_grip;
+    delete bottom_grip;
+    delete left_grip;
+    delete right_grip;
+}
+
+void EdgeWidget::top_left(QWidget *form)
+{
+    top_left_grip = new CustomGrip(form);
+    top_left_grip->setObjectName("top_left_grip");
+    top_left_grip->setFixedSize(15, 15);
+    top_left_grip->setStyleSheet("background-color: #333; border: 2px solid #55FF00;");
+}
+
+void EdgeWidget::top_right(QWidget *form)
+{
+    top_right_grip = new CustomGrip(form);
+    top_right_grip->setObjectName("top_right_grip");
+    top_right_grip->setFixedSize(15, 15);
+    top_right_grip->setStyleSheet("background-color: #333; border: 2px solid #55FF00;");
+}
+
+void EdgeWidget::bottom_left(QWidget *form)
+{
+    bottom_left_grip = new CustomGrip(form);
+    bottom_left_grip->setObjectName("bottom_left_grip");
+    bottom_left_grip->setFixedSize(15, 15);
+    bottom_left_grip->setStyleSheet("background-color: #333; border: 2px solid #55FF00;");
+}
+
+void EdgeWidget::bottom_right(QWidget *form)
+{
+    bottom_right_grip = new CustomGrip(form);
+    bottom_right_grip->setObjectName("bottom_right_grip");
+    bottom_right_grip->setFixedSize(15, 15);
+    bottom_right_grip->setStyleSheet("background-color: #333; border: 2px solid #55FF00;");
+}
+
+void EdgeWidget::top(QWidget *form)
+{
+    top_grip = new CustomGrip(form);
+    top_grip->setObjectName("top_grip");
+    top_grip->setGeometry(QRect(0, 0, 500, 10));
+    top_grip->setStyleSheet("background-color: rgb(85, 255, 255);");
+    top_grip->setCursor(QCursor(Qt::SizeVerCursor));
+}
+
+void EdgeWidget::bottom(QWidget *form)
+{
+    bottom_grip = new CustomGrip(form);
+    bottom_grip->setObjectName("bottom_grip");
+    bottom_grip->setGeometry(QRect(0, 0, 500, 10));
+    bottom_grip->setStyleSheet("background-color: rgb(85, 170, 0);");
+    bottom_grip->setCursor(QCursor(Qt::SizeVerCursor));
+}
+
+void EdgeWidget::left(QWidget *form)
+{
+    left_grip = new CustomGrip(form);
+    left_grip->setObjectName("left");
+    left_grip->setGeometry(QRect(0, 10, 10, 480));
+    left_grip->setMinimumSize(QSize(10, 0));
+    left_grip->setCursor(QCursor(Qt::SizeHorCursor));
+    left_grip->setStyleSheet("background-color: rgb(255, 121, 198);");
+}
+
+void EdgeWidget::right(QWidget *form)
+{
+    right_grip = new CustomGrip(form);
+    right_grip->setObjectName("right");
+    right_grip->setGeometry(QRect(0, 0, 10, 500));
+    right_grip->setMinimumSize(QSize(10, 0));
+    right_grip->setCursor(QCursor(Qt::SizeHorCursor));
+    right_grip->setStyleSheet("background-color: rgb(255, 0, 127);");
+}
+
+EdgeGrips::EdgeGrips(QWidget *parent, EdgePosition edgePosition, bool showColor) : QWidget(parent), m_targetWidget(parent)
 {
     if (m_targetWidget)
     {
-        m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
-        m_targetWidget->installEventFilter(this);
-    }
-}
-
-void FramelessWindowHelper::setResizable(bool resizable)
-{
-    m_resizable = resizable;
-}
-
-void FramelessWindowHelper::setMovable(bool movable)
-{
-    m_movable = movable;
-}
-
-void FramelessWindowHelper::setBorderWidth(int width)
-{
-    m_borderWidth = width;
-}
-
-void FramelessWindowHelper::setTitleBarHeight(int height)
-{
-    m_titleBarHeight = height;
-}
-
-bool FramelessWindowHelper::eventFilter(QObject *watched, QEvent *event)
-{
-    if (watched == m_targetWidget)
-    {
-        switch (event->type())
+        m_edgeWidget = new EdgeWidget();
+        switch (edgePosition)
         {
-        case QEvent::MouseButtonPress:
-            handleMousePress(static_cast<QMouseEvent *>(event));
+        case Top:
+            m_edgeWidget->top(this);
+            this->setGeometry(QRect(0, 5, parentWidget()->width(), 10));
+            this->setMaximumHeight(10);
+
+            if (showColor)
+                m_edgeWidget->top_grip->setStyleSheet("background-color: transparent");
             break;
-        case QEvent::MouseButtonRelease:
-            handleMouseRelease(static_cast<QMouseEvent *>(event));
+        case Bottom:
+            m_edgeWidget->bottom(this);
+            this->setGeometry(QRect(10, parentWidget()->height() - 10, parentWidget()->width(), 10));
+            this->setMaximumHeight(10);
+
+            if (showColor)
+                m_edgeWidget->bottom_grip->setStyleSheet("background-color: transparent");
             break;
-        case QEvent::MouseMove:
-            handleMouseMove(static_cast<QMouseEvent *>(event));
+        case Left:
+            m_edgeWidget->left(this);
+            this->setGeometry(QRect(0, 10, 10, parentWidget()->height() - 10));
+            this->setMaximumWidth(10);
+
+            if (showColor)
+                m_edgeWidget->left_grip->setStyleSheet("background-color: transparent");
             break;
-        case QEvent::Leave:
-            if (!m_isPressed)
-            {
-                m_targetWidget->unsetCursor();
-            }
+        case Right:
+            m_edgeWidget->right(this);
+            this->setGeometry(QRect(parentWidget()->width() - 10, 10, 10, parentWidget()->height()));
+            this->setMaximumWidth(10);
+
+
+            if (showColor)
+                m_edgeWidget->right_grip->setStyleSheet("background-color: transparent");
+            break;
+        case TopLeft:
+            m_edgeWidget->top_left(this);
+            grip = new QSizeGrip(m_edgeWidget->top_left_grip);
+            grip->setFixedSize(m_edgeWidget->top_left_grip->size());
+            this->setGeometry(QRect(5, 5, 15, 15));
+            if (showColor)
+                m_edgeWidget->top_left_grip->setStyleSheet("background-color: transparent");
+            break;
+        case TopRight:
+            m_edgeWidget->top_right(this);
+            grip = new QSizeGrip(m_edgeWidget->top_right_grip);
+            grip->setFixedSize(m_edgeWidget->top_right_grip->size());
+            this->setGeometry(QRect(parentWidget()->width() - 20, 5, 15, 15));
+            if (showColor)
+                m_edgeWidget->top_right_grip->setStyleSheet("background-color: transparent");
+            break;
+        case BottomLeft:
+            m_edgeWidget->bottom_left(this);
+            grip = new QSizeGrip(m_edgeWidget->bottom_left_grip);
+            grip->setFixedSize(m_edgeWidget->bottom_left_grip->size());
+            this->setGeometry(QRect(5, parentWidget()->height() - 20, 15, 15));
+            if (showColor)
+                m_edgeWidget->bottom_left_grip->setStyleSheet("background-color: transparent");
+            break;
+        case BottomRight:
+            m_edgeWidget->bottom_right(this);
+            grip = new QSizeGrip(m_edgeWidget->bottom_right_grip);
+            grip->setFixedSize(m_edgeWidget->bottom_right_grip->size());
+            this->setGeometry(QRect(parentWidget()->width() - 20, parentWidget()->height() - 20, 15, 15));
+            if (showColor)
+                m_edgeWidget->bottom_right_grip->setStyleSheet("background-color: transparent");
             break;
         default:
             break;
         }
     }
-
-    return QObject::eventFilter(watched, event);
 }
 
-int FramelessWindowHelper::calculateMousePosition(const QPoint &pos)
+void EdgeGrips::resizeEvent(QResizeEvent *event)
 {
-    int edgePosition = None;
-    QRect rect = m_targetWidget->rect();
-
-    if (pos.x() <= m_borderWidth)
+    if (m_edgeWidget->top_grip)
     {
-        edgePosition |= Left;
+        m_edgeWidget->top_grip->setGeometry(0, 0, width(), 10);
     }
-    if (pos.x() >= rect.width() - m_borderWidth)
+    else if (m_edgeWidget->bottom_grip)
     {
-        edgePosition |= Right;
+        m_edgeWidget->bottom_grip->setGeometry(0, 0, width(), 10);
     }
-    if (pos.y() <= m_borderWidth)
+    else if (m_edgeWidget->left_grip)
     {
-        edgePosition |= Top;
+        m_edgeWidget->left_grip->setGeometry(0, 0, 10, height() - 20);
     }
-    if (pos.y() >= rect.height() - m_borderWidth)
+    else if (m_edgeWidget->right_grip)
     {
-        edgePosition |= Bottom;
+        m_edgeWidget->right_grip->setGeometry(0, 0, 10, height() - 20);
     }
-
-    return edgePosition;
-}
-
-void FramelessWindowHelper::handleMousePress(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton)
+    else if (m_edgeWidget->top_right_grip)
     {
-        m_isPressed = true;
-        m_startPos = event->globalPos();
-        m_startGeometry = m_targetWidget->geometry();
-
-        // 计算鼠标在窗口边缘的位置
-        m_edgePosition = calculateMousePosition(event->pos());
-
-        // 如果在标题栏区域且可移动，则设置边缘为None
-        if (m_movable && event->pos().y() < m_titleBarHeight && m_edgePosition == None)
-        {
-            m_edgePosition = None;
-        }
+        m_edgeWidget->top_right_grip->setGeometry(width() - 15, 0, 15, 15);
+    }
+    else if (m_edgeWidget->bottom_left_grip)
+    {
+        m_edgeWidget->bottom_left_grip->setGeometry(0, height() - 15, 15, 15);
+    }
+    else if (m_edgeWidget->bottom_right_grip)
+    {
+        m_edgeWidget->bottom_right_grip->setGeometry(width() - 15, height() - 15, 15, 15);
     }
 }
 
-void FramelessWindowHelper::handleMouseMove(QMouseEvent *event)
+FramelessWindowHelper::FramelessWindowHelper(QWidget *parent) : QObject(parent),
+                                                                m_targetWidget(parent)
+
 {
-    if (!m_isPressed)
+    if (m_targetWidget)
     {
-        // 更新鼠标光标形状
-        updateCursorShape(event->pos());
-        return;
-    }
-
-    if (!m_resizable && !m_movable)
-    {
-        return;
-    }
-
-    QPoint delta = event->globalPos() - m_startPos;
-
-    if (m_edgePosition == None && m_movable)
-    {
-        // 移动窗口
-        m_targetWidget->move(m_startGeometry.topLeft() + delta);
-    }
-    else if (m_resizable)
-    {
-        // 调整窗口大小
-        QRect newGeometry = m_startGeometry;
-
-        if (m_edgePosition & Top)
-        {
-            newGeometry.setTop(newGeometry.top() + delta.y());
-            if (newGeometry.height() < m_targetWidget->minimumHeight())
-            {
-                newGeometry.setTop(newGeometry.bottom() - m_targetWidget->minimumHeight());
-            }
-        }
-
-        if (m_edgePosition & Bottom)
-        {
-            newGeometry.setBottom(newGeometry.bottom() + delta.y());
-            if (newGeometry.height() < m_targetWidget->minimumHeight())
-            {
-                newGeometry.setBottom(newGeometry.top() + m_targetWidget->minimumHeight());
-            }
-        }
-
-        if (m_edgePosition & Left)
-        {
-            newGeometry.setLeft(newGeometry.left() + delta.x());
-            if (newGeometry.width() < m_targetWidget->minimumWidth())
-            {
-                newGeometry.setLeft(newGeometry.right() - m_targetWidget->minimumWidth());
-            }
-        }
-
-        if (m_edgePosition & Right)
-        {
-            newGeometry.setRight(newGeometry.right() + delta.x());
-            if (newGeometry.width() < m_targetWidget->minimumWidth())
-            {
-                newGeometry.setRight(newGeometry.left() + m_targetWidget->minimumWidth());
-            }
-        }
-
-        m_targetWidget->setGeometry(newGeometry);
+        m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
     }
 }
 
-void FramelessWindowHelper::handleMouseRelease(QMouseEvent *event)
+void FramelessWindowHelper::setResizable(bool resizable)
 {
-    if (event->button() == Qt::LeftButton)
+
+    if (m_targetWidget && resizable)
     {
-        m_isPressed = false;
-        m_edgePosition = None;
+        bool showColor = false;
+        top_left_grip = new EdgeGrips(m_targetWidget, TopLeft, showColor);
+        top_right_grip = new EdgeGrips(m_targetWidget, TopRight, showColor);
+        bottom_left_grip = new EdgeGrips(m_targetWidget, BottomLeft, showColor);
+        bottom_right_grip = new EdgeGrips(m_targetWidget, BottomRight, showColor);
+        top_grip = new EdgeGrips(m_targetWidget, Top, showColor);
+        bottom_grip = new EdgeGrips(m_targetWidget, Bottom, showColor);
+        left_grip = new EdgeGrips(m_targetWidget, Left, showColor);
+        right_grip = new EdgeGrips(m_targetWidget, Right, showColor);
     }
 }
 
-void FramelessWindowHelper::updateCursorShape(const QPoint &pos)
+void FramelessWindowHelper::_addEdgeWidgets()
 {
-    if (!m_resizable)
-    {
-        m_targetWidget->unsetCursor();
-        return;
-    }
-
-    int edgePosition = calculateMousePosition(pos);
-
-    switch (edgePosition)
-    {
-    case Top:
-    case Bottom:
-        m_targetWidget->setCursor(Qt::SizeVerCursor);
-        break;
-    case Left:
-    case Right:
-        m_targetWidget->setCursor(Qt::SizeHorCursor);
-        break;
-    case TopLeft:
-    case BottomRight:
-        m_targetWidget->setCursor(Qt::SizeFDiagCursor);
-        break;
-    case TopRight:
-    case BottomLeft:
-        m_targetWidget->setCursor(Qt::SizeBDiagCursor);
-        break;
-    default:
-        m_targetWidget->unsetCursor();
-        break;
-    }
 }
 
 #endif
