@@ -4,22 +4,26 @@
 #ifndef _INCLUDE_UI_WINDOW_H_
 #define _INCLUDE_UI_WINDOW_H_
 
+#include "FramelessWindowHelper.h"
+#include <QDebug>
 #include <QApplication>
 #include <QMainWindow>
 #include<QWidget>
+#include <QResizeEvent>
 #include <QVBoxLayout>
 #include <QPushButton>
 namespace beiklive {
 class Ui_Window : public QMainWindow {
 public:
     Ui_Window();
-#if BEIKLIVE_FRAMELESS
     void setFrameless();
-#endif
     // Add member functions here
 
+protected:
+    void resizeEvent(QResizeEvent *event);
 private:
     // Add member variables here
+    FramelessWindowHelper *m_helper;
 };
 
 } // namespace beiklive

@@ -11,7 +11,6 @@
 2. 实现窗口边缘的可拖动
 */
 
-#if BEIKLIVE_FRAMELESS
 #include <QObject>
 #include <QWidget>
 #include <QFrame>
@@ -30,15 +29,15 @@ class FramelessWindowHelper;
 // 边缘位置枚举
 enum EdgePosition
 {
-    None = 0,
-    Top = 1,
-    Bottom = 2,
-    Left = 4,
-    Right = 8,
-    TopLeft = Top | Left,
-    TopRight = Top | Right,
-    BottomLeft = Bottom | Left,
-    BottomRight = Bottom | Right
+    None,
+    Top,
+    Bottom,
+    Left,
+    Right,
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight
 };
 
 
@@ -83,12 +82,11 @@ class EdgeGrips : public QWidget
 {
 public:
     EdgeGrips(QWidget *parent = nullptr, EdgePosition edgePosition = None, bool showColor = false);
+    void setGeo(int x, int y, int w, int h);
     ~EdgeGrips() = default;
 
-protected:
-    void resizeEvent(QResizeEvent *event) override;
-
 private:
+    QWidget* m_window;
     QWidget *m_targetWidget;
     EdgeWidget *m_edgeWidget;
     bool m_showColor;
@@ -101,10 +99,10 @@ class FramelessWindowHelper : public QObject
 public:
     explicit FramelessWindowHelper(QWidget *parent = nullptr);
     void setResizable(bool resizable);
+    void resizeGrips();
 
 private:
     void _addEdgeWidgets();
-
 private:
     QWidget *m_targetWidget; // 目标窗口
     bool m_resizable;        // 是否可调整大小
@@ -129,5 +127,4 @@ private:
     EdgeGrips *left_grip;
     EdgeGrips *right_grip;
 };
-#endif
 #endif // _INCLUDE_WINDOW_FRAMELESS_H_

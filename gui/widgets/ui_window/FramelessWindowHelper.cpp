@@ -1,7 +1,6 @@
 
 #include "FramelessWindowHelper.h"
 
-#if BEIKLIVE_FRAMELESS
 #include <QMouseEvent>
 #include <QApplication>
 #include <QCursor>
@@ -15,7 +14,7 @@ CustomGrip::CustomGrip(QWidget *parent) : QFrame(parent)
 void CustomGrip::mouseMoveEvent(QMouseEvent *event)
 {
     // Your resize logic here
-    QFrame::mouseMoveEvent(event); // Call base class implementation
+    // QFrame::mouseMoveEvent(event); // Call base class implementation
     QString name = this->objectName();
     QPoint delta = event->pos();
     if (name == "top_grip")
@@ -112,7 +111,7 @@ void EdgeWidget::top(QWidget *form)
     top_grip = new CustomGrip(form);
     top_grip->setObjectName("top_grip");
     top_grip->setGeometry(QRect(0, 0, 500, 10));
-    top_grip->setStyleSheet("background-color: rgb(85, 255, 255);");
+    top_grip->setStyleSheet("background-color: rgb(154, 31, 202);");
     top_grip->setCursor(QCursor(Qt::SizeVerCursor));
 }
 
@@ -121,14 +120,14 @@ void EdgeWidget::bottom(QWidget *form)
     bottom_grip = new CustomGrip(form);
     bottom_grip->setObjectName("bottom_grip");
     bottom_grip->setGeometry(QRect(0, 0, 500, 10));
-    bottom_grip->setStyleSheet("background-color: rgb(85, 170, 0);");
+    bottom_grip->setStyleSheet("background-color: rgb(192, 222, 58);");
     bottom_grip->setCursor(QCursor(Qt::SizeVerCursor));
 }
 
 void EdgeWidget::left(QWidget *form)
 {
     left_grip = new CustomGrip(form);
-    left_grip->setObjectName("left");
+    left_grip->setObjectName("left_grip");
     left_grip->setGeometry(QRect(0, 10, 10, 480));
     left_grip->setMinimumSize(QSize(10, 0));
     left_grip->setCursor(QCursor(Qt::SizeHorCursor));
@@ -138,7 +137,7 @@ void EdgeWidget::left(QWidget *form)
 void EdgeWidget::right(QWidget *form)
 {
     right_grip = new CustomGrip(form);
-    right_grip->setObjectName("right");
+    right_grip->setObjectName("right_grip");
     right_grip->setGeometry(QRect(0, 0, 10, 500));
     right_grip->setMinimumSize(QSize(10, 0));
     right_grip->setCursor(QCursor(Qt::SizeHorCursor));
@@ -153,67 +152,66 @@ EdgeGrips::EdgeGrips(QWidget *parent, EdgePosition edgePosition, bool showColor)
         switch (edgePosition)
         {
         case Top:
-            m_edgeWidget->top(this);
-            this->setGeometry(QRect(0, 5, parentWidget()->width(), 10));
-            this->setMaximumHeight(10);
+            m_edgeWidget->top(m_targetWidget);
+            m_edgeWidget->top_grip->setGeometry(QRect(0, 5, m_targetWidget->width(), 10));
+            m_edgeWidget->top_grip->setMaximumHeight(10);
 
             if (showColor)
                 m_edgeWidget->top_grip->setStyleSheet("background-color: transparent");
             break;
         case Bottom:
-            m_edgeWidget->bottom(this);
-            this->setGeometry(QRect(10, parentWidget()->height() - 10, parentWidget()->width(), 10));
-            this->setMaximumHeight(10);
+            m_edgeWidget->bottom(m_targetWidget);
+            m_edgeWidget->bottom_grip->setGeometry(QRect(0, m_targetWidget->height() - 10, m_targetWidget->width(), 10));
+            m_edgeWidget->bottom_grip->setMaximumHeight(10);
 
             if (showColor)
                 m_edgeWidget->bottom_grip->setStyleSheet("background-color: transparent");
             break;
         case Left:
-            m_edgeWidget->left(this);
-            this->setGeometry(QRect(0, 10, 10, parentWidget()->height() - 10));
-            this->setMaximumWidth(10);
+            m_edgeWidget->left(m_targetWidget);
+            m_edgeWidget->left_grip->setGeometry(QRect(0, 5, 10, m_targetWidget->height()-10));
+            m_edgeWidget->left_grip->setMaximumWidth(10);
 
             if (showColor)
                 m_edgeWidget->left_grip->setStyleSheet("background-color: transparent");
             break;
         case Right:
-            m_edgeWidget->right(this);
-            this->setGeometry(QRect(parentWidget()->width() - 10, 10, 10, parentWidget()->height()));
-            this->setMaximumWidth(10);
-
+            m_edgeWidget->right(m_targetWidget);
+            m_edgeWidget->right_grip->setGeometry(QRect(m_targetWidget->width() - 10, 5, 10, m_targetWidget->height()-10));
+            m_edgeWidget->right_grip->setMaximumWidth(10);
 
             if (showColor)
                 m_edgeWidget->right_grip->setStyleSheet("background-color: transparent");
             break;
         case TopLeft:
-            m_edgeWidget->top_left(this);
+            m_edgeWidget->top_left(m_targetWidget);
             grip = new QSizeGrip(m_edgeWidget->top_left_grip);
             grip->setFixedSize(m_edgeWidget->top_left_grip->size());
-            this->setGeometry(QRect(5, 5, 15, 15));
+            m_edgeWidget->top_left_grip->setGeometry(QRect(5, 5, 15, 15));
             if (showColor)
                 m_edgeWidget->top_left_grip->setStyleSheet("background-color: transparent");
             break;
         case TopRight:
-            m_edgeWidget->top_right(this);
+            m_edgeWidget->top_right(m_targetWidget);
             grip = new QSizeGrip(m_edgeWidget->top_right_grip);
             grip->setFixedSize(m_edgeWidget->top_right_grip->size());
-            this->setGeometry(QRect(parentWidget()->width() - 20, 5, 15, 15));
+            m_edgeWidget->top_right_grip->setGeometry(QRect(m_targetWidget->width() - 20, 5, 15, 15));
             if (showColor)
                 m_edgeWidget->top_right_grip->setStyleSheet("background-color: transparent");
             break;
         case BottomLeft:
-            m_edgeWidget->bottom_left(this);
+            m_edgeWidget->bottom_left(m_targetWidget);
             grip = new QSizeGrip(m_edgeWidget->bottom_left_grip);
             grip->setFixedSize(m_edgeWidget->bottom_left_grip->size());
-            this->setGeometry(QRect(5, parentWidget()->height() - 20, 15, 15));
+            m_edgeWidget->bottom_left_grip->setGeometry(QRect(5, m_targetWidget->height() - 20, 15, 15));
             if (showColor)
                 m_edgeWidget->bottom_left_grip->setStyleSheet("background-color: transparent");
             break;
         case BottomRight:
-            m_edgeWidget->bottom_right(this);
+            m_edgeWidget->bottom_right(m_targetWidget);
             grip = new QSizeGrip(m_edgeWidget->bottom_right_grip);
             grip->setFixedSize(m_edgeWidget->bottom_right_grip->size());
-            this->setGeometry(QRect(parentWidget()->width() - 20, parentWidget()->height() - 20, 15, 15));
+            m_edgeWidget->bottom_right_grip->setGeometry(QRect(m_targetWidget->width() - 20, m_targetWidget->height() - 20, 15, 15));
             if (showColor)
                 m_edgeWidget->bottom_right_grip->setStyleSheet("background-color: transparent");
             break;
@@ -223,37 +221,41 @@ EdgeGrips::EdgeGrips(QWidget *parent, EdgePosition edgePosition, bool showColor)
     }
 }
 
-void EdgeGrips::resizeEvent(QResizeEvent *event)
+void EdgeGrips::setGeo(int x, int y, int w, int h)
 {
+    if(m_edgeWidget == nullptr)
+        return;
+
     if (m_edgeWidget->top_grip)
     {
-        m_edgeWidget->top_grip->setGeometry(0, 0, width(), 10);
+        m_edgeWidget->top_grip->setGeometry(x, y, w, h);
     }
     else if (m_edgeWidget->bottom_grip)
     {
-        m_edgeWidget->bottom_grip->setGeometry(0, 0, width(), 10);
+        m_edgeWidget->bottom_grip->setGeometry(x, y, w, h);
     }
     else if (m_edgeWidget->left_grip)
     {
-        m_edgeWidget->left_grip->setGeometry(0, 0, 10, height() - 20);
+        m_edgeWidget->left_grip->setGeometry(x, y, w, h);
     }
     else if (m_edgeWidget->right_grip)
     {
-        m_edgeWidget->right_grip->setGeometry(0, 0, 10, height() - 20);
+        m_edgeWidget->right_grip->setGeometry(x, y, w, h);
     }
     else if (m_edgeWidget->top_right_grip)
     {
-        m_edgeWidget->top_right_grip->setGeometry(width() - 15, 0, 15, 15);
+        m_edgeWidget->top_right_grip->setGeometry(x, y, w, h);
     }
     else if (m_edgeWidget->bottom_left_grip)
     {
-        m_edgeWidget->bottom_left_grip->setGeometry(0, height() - 15, 15, 15);
+        m_edgeWidget->bottom_left_grip->setGeometry(x, y, w, h);
     }
     else if (m_edgeWidget->bottom_right_grip)
     {
-        m_edgeWidget->bottom_right_grip->setGeometry(width() - 15, height() - 15, 15, 15);
+        m_edgeWidget->bottom_right_grip->setGeometry(x, y, w, h);
     }
 }
+
 
 FramelessWindowHelper::FramelessWindowHelper(QWidget *parent) : QObject(parent),
                                                                 m_targetWidget(parent)
@@ -261,7 +263,7 @@ FramelessWindowHelper::FramelessWindowHelper(QWidget *parent) : QObject(parent),
 {
     if (m_targetWidget)
     {
-        m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
+        // m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
     }
 }
 
@@ -270,20 +272,36 @@ void FramelessWindowHelper::setResizable(bool resizable)
 
     if (m_targetWidget && resizable)
     {
-        bool showColor = false;
-        top_left_grip = new EdgeGrips(m_targetWidget, TopLeft, showColor);
-        top_right_grip = new EdgeGrips(m_targetWidget, TopRight, showColor);
-        bottom_left_grip = new EdgeGrips(m_targetWidget, BottomLeft, showColor);
-        bottom_right_grip = new EdgeGrips(m_targetWidget, BottomRight, showColor);
-        top_grip = new EdgeGrips(m_targetWidget, Top, showColor);
-        bottom_grip = new EdgeGrips(m_targetWidget, Bottom, showColor);
-        left_grip = new EdgeGrips(m_targetWidget, Left, showColor);
-        right_grip = new EdgeGrips(m_targetWidget, Right, showColor);
+        m_targetWidget->setMinimumWidth(100);
+        m_targetWidget->setMinimumHeight(100);
+        _addEdgeWidgets();
     }
 }
 
 void FramelessWindowHelper::_addEdgeWidgets()
 {
+    bool showColor = false;
+    top_grip = new EdgeGrips(m_targetWidget, Top, showColor);
+    bottom_grip = new EdgeGrips(m_targetWidget, Bottom, showColor);
+    left_grip = new EdgeGrips(m_targetWidget, Left, showColor);
+    right_grip = new EdgeGrips(m_targetWidget, Right, showColor);
+    top_left_grip = new EdgeGrips(m_targetWidget, TopLeft, showColor);
+    top_right_grip = new EdgeGrips(m_targetWidget, TopRight, showColor);
+    bottom_left_grip = new EdgeGrips(m_targetWidget, BottomLeft, showColor);
+    bottom_right_grip = new EdgeGrips(m_targetWidget, BottomRight, showColor);
 }
 
-#endif
+void FramelessWindowHelper::resizeGrips()
+{
+    if (m_targetWidget)
+    {
+        left_grip->setGeo(5, 5, 10, m_targetWidget->height()-10);
+        right_grip->setGeo(m_targetWidget->width() - 15, 5, 10, m_targetWidget->height()-10);
+        top_grip->setGeo(5, 5, m_targetWidget->width() - 10, 10);
+        bottom_grip->setGeo(5, m_targetWidget->height() - 15, m_targetWidget->width() - 10, 10);
+        top_right_grip->setGeo(m_targetWidget->width() - 20, 5, 15, 15);
+        top_left_grip->setGeo(5, 5, 15, 15);
+        bottom_left_grip->setGeo(5, m_targetWidget->height() - 20, 15, 15);
+        bottom_right_grip->setGeo(m_targetWidget->width() - 20, m_targetWidget->height() - 20, 15, 15);
+    }
+}

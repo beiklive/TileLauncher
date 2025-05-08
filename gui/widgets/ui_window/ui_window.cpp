@@ -1,5 +1,4 @@
 #include "ui_window.h"
-#include "FramelessWindowHelper.h"
 beiklive::Ui_Window::Ui_Window()
 {
     resize(800, 600);
@@ -9,11 +8,16 @@ beiklive::Ui_Window::Ui_Window()
     #endif
 
 }
-#if BEIKLIVE_FRAMELESS
 void beiklive::Ui_Window::setFrameless()
 {
-    FramelessWindowHelper helper(this);
-    helper.setResizable(true);
+    m_helper = new FramelessWindowHelper(this);
+    m_helper->setResizable(true);
 
 }
-#endif
+void beiklive::Ui_Window::resizeEvent(QResizeEvent *event)
+{
+    if(m_helper)
+    {
+        m_helper->resizeGrips();
+    }
+}
