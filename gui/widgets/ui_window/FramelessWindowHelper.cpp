@@ -144,7 +144,7 @@ void EdgeWidget::right(QWidget *form)
     right_grip->setStyleSheet("background-color: rgb(255, 0, 127);");
 }
 
-EdgeGrips::EdgeGrips(QWidget *parent, EdgePosition edgePosition, bool showColor) : QWidget(parent), m_targetWidget(parent)
+EdgeGrips::EdgeGrips(QWidget *parent, EdgePosition edgePosition, bool showColor) : m_targetWidget(parent)
 {
     if (m_targetWidget)
     {
@@ -263,10 +263,7 @@ FramelessWindowHelper::FramelessWindowHelper(QWidget *parent) : QObject(parent),
 {
     if (m_targetWidget)
     {
-        if(m_useCustomTitleBar)
-        {
             m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
-        }
     }
 }
 
@@ -303,7 +300,7 @@ void FramelessWindowHelper::resizeGrips()
         top_grip->setGeo(5, 5, m_targetWidget->width() - 10, 10);
         bottom_grip->setGeo(5, m_targetWidget->height() - 15, m_targetWidget->width() - 10, 10);
         top_right_grip->setGeo(m_targetWidget->width() - 20, 5, 15, 15);
-        top_left_grip->setGeo(5, 5, 15, 15);
+        // top_left_grip->setGeo(5, 5, 15, 15);
         bottom_left_grip->setGeo(5, m_targetWidget->height() - 20, 15, 15);
         bottom_right_grip->setGeo(m_targetWidget->width() - 20, m_targetWidget->height() - 20, 15, 15);
     }

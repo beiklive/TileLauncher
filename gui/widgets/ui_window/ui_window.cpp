@@ -3,6 +3,11 @@ beiklive::Ui_Window::Ui_Window()
 {
     resize(800, 600);
     functionsSetup();
+
+
+
+
+
 }
 
 
@@ -28,4 +33,9 @@ void beiklive::Ui_Window::resizeEvent(QResizeEvent *event)
     {
         m_helper->resizeGrips();
     }
+}
+
+void beiklive::Ui_Window::mouseMoveEvent(QMouseEvent *event)
+{
+    
 }

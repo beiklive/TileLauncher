@@ -74,7 +74,7 @@ public:
     CustomGrip *right_grip;
 };
 
-class EdgeGrips : public QWidget
+class EdgeGrips
 {
 public:
     EdgeGrips(QWidget *parent = nullptr, EdgePosition edgePosition = None, bool showColor = false);
@@ -103,7 +103,6 @@ private:
 private:
     QWidget *m_targetWidget; // 目标窗口
     bool m_resizable;        // 是否可调整大小
-    bool m_useCustomTitleBar{false}; // 是否使用自定义标题栏
     int m_titleBarHeight;    // 标题栏高度
 
 

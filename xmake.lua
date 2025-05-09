@@ -15,7 +15,9 @@ target("TileLauncher")
         os.cp("$(projectdir)/gui/config", "$(projectdir)/output")
     end)
 
-    add_defines("BEIKLIVE_FRAMELESS=1")
+    if is_plat("windows") then
+        add_ldflags("/SUBSYSTEM:CONSOLE")
+    end
 
     add_packages("nlohmann_json")  -- 链接到目标
     add_packages("spdlog")  -- 链接到目标
