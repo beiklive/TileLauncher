@@ -1,0 +1,8 @@
+{
+    "system" : {
+        "log_level" : "info"
+    },
+    "window" : {
+        "custom_title_bar" : true
+    }
+}
