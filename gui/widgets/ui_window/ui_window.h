@@ -20,7 +20,6 @@ public:
     Ui_Window();
 
     void functionsSetup();
-    void setFrameless();
     // Add member functions here
 
 protected:
