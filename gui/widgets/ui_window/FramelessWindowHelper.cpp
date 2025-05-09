@@ -267,7 +267,7 @@ FramelessWindowHelper::FramelessWindowHelper(QWidget *parent) : QObject(parent),
             m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
             // 设置背景透明
             m_targetWidget->setAttribute(Qt::WA_TranslucentBackground);
-    }
+        }
 }
 
 void FramelessWindowHelper::setResizable(bool resizable)

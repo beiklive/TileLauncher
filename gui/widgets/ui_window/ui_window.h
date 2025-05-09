@@ -7,30 +7,75 @@
 #include "global.hpp"
 #include "FramelessWindowHelper.h"
 #include <QDebug>
+#include <QPainter>
+
+#include <QGraphicsEffect>
+#include <QGraphicsItem>
+
 #include <QApplication>
 #include <QMainWindow>
-#include<QWidget>
+#include <QWidget>
+
 #include <QResizeEvent>
 #include <QMouseEvent>
+#include <QPaintEvent>
+
+#include <QSpacerItem>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+
 #include <QPushButton>
+#include <QLabel>
+#include <QStyle>
+
 namespace beiklive {
+
+
+
+class TitleBar : public QWidget
+{
+public:
+    TitleBar(QWidget* parent = nullptr);
+protected:
+    void mousePressEvent(QMouseEvent* event) override;
+
+    void mouseMoveEvent(QMouseEvent* event) override;
+
+private:
+    QWidget* m_parentWidget;
+    QPoint m_dragPosition;
+};
+
+
+
+
+
+
+
+
+
 class Ui_Window : public QWidget {
 public:
     Ui_Window();
 
-    void functionsSetup();
-    void styleSetup();
-
+    void addTitleBarToWidget(QWidget* widget, const QString& title = "");
     // Add member functions here
-    void addCloseButton();
+    QWidget *getWindow() const;
+    void hideTitleBar();
+
 protected:
     void resizeEvent(QResizeEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void paintEvent(QPaintEvent *event);
+private:
+    void functionsSetup();
+    void styleSetup();
 private:
     // Add member variables here
     FramelessWindowHelper *m_helper;
     QWidget *m_window;
+    TitleBar *titleBar;
+    QVBoxLayout *windowlayout;
 };
 
 } // namespace beiklive

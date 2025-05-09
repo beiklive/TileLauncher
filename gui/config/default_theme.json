@@ -1,10 +1,10 @@
 {
     "theme_name" : "Default",
     "window" : {
-        "bg_color" : "#2d1b1a",
+        "bg_color" : "#1f1f1f",
         "border_radius" : 0,
         "border_width" : 2,
-        "border_color" : "#2d1b1a",
+        "border_color" : "#181818",
         "text_color" : "#f6feff",
         "text_font" : "Segoe UI"
     }

@@ -1,12 +1,12 @@
 #include <QApplication>
 #include <QWidget>
 #include <fstream>
-#include "ui_window/ui_window.h"
+#include "ui/App_MainWindow.h"
 #include "global.hpp"
 
 using namespace beiklive;
-nlohmann::json globalSettings; // 实际定义
-nlohmann::json globalTheme;    // 实际定义
+nlohmann::json globalSettings; 
+nlohmann::json globalTheme;
 
 void init()
 {
@@ -52,7 +52,12 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     init();
 
-    Ui_Window w;
+    App_MainWindow w;
+    w.move(0, 0);
     w.show();
+
+    App_MainWindow w2;
+    w2.hideTitleBar();
+    w2.show();
     return a.exec();
 }
