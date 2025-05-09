@@ -4,12 +4,8 @@
 #ifndef _INCLUDE_WINDOW_FRAMELESS_H_
 #define _INCLUDE_WINDOW_FRAMELESS_H_
 
-/*
-无边框窗口辅助类
-功能：
-1. 给窗口添加标题栏以及控制按钮
-2. 实现窗口边缘的可拖动
-*/
+
+#include "global.hpp"
 
 #include <QObject>
 #include <QWidget>
@@ -22,9 +18,10 @@
 #include <QMouseEvent>
 #include <QResizeEvent>
 
-class EdgeWidget;
-class EdgeGrips;
-class FramelessWindowHelper;
+class CustomGrip;  // 边缘拖动控件
+class EdgeWidget;  // 边缘拖动控件生成器
+class EdgeGrips;   
+class FramelessWindowHelper; // 无边框窗口辅助类
 
 // 边缘位置枚举
 enum EdgePosition
@@ -39,7 +36,6 @@ enum EdgePosition
     BottomLeft,
     BottomRight
 };
-
 
 class CustomGrip : public QFrame {
     Q_OBJECT
@@ -99,6 +95,7 @@ class FramelessWindowHelper : public QObject
 public:
     explicit FramelessWindowHelper(QWidget *parent = nullptr);
     void setResizable(bool resizable);
+
     void resizeGrips();
 
 private:
@@ -106,15 +103,9 @@ private:
 private:
     QWidget *m_targetWidget; // 目标窗口
     bool m_resizable;        // 是否可调整大小
-    bool m_movable;          // 是否可移动
-    int m_borderWidth;       // 边框宽度
+    bool m_useCustomTitleBar{false}; // 是否使用自定义标题栏
     int m_titleBarHeight;    // 标题栏高度
 
-    bool m_isPressed;      // 鼠标是否按下
-    QPoint m_startPos;     // 鼠标按下时的位置
-    QRect m_startGeometry; // 窗口开始时的几何形状
-
-    int m_edgePosition; // 当前边缘位置
 
 
 

@@ -1,8 +1,10 @@
 {
-    "system" : {
-        "log_level" : "info"
+    "log" : {
+        "log_level" : "debug",
+        "log_file" : "log/tilelauncher.log"
     },
     "window" : {
-        "custom_title_bar" : true
+        "custom_title_bar" : true,
+        "shadow_width" : 5
     }
 }

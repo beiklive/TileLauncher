@@ -263,13 +263,16 @@ FramelessWindowHelper::FramelessWindowHelper(QWidget *parent) : QObject(parent),
 {
     if (m_targetWidget)
     {
-        // m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
+        if(m_useCustomTitleBar)
+        {
+            m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
+        }
     }
 }
 
 void FramelessWindowHelper::setResizable(bool resizable)
 {
-
+    m_resizable = resizable;
     if (m_targetWidget && resizable)
     {
         m_targetWidget->setMinimumWidth(100);
@@ -293,7 +296,7 @@ void FramelessWindowHelper::_addEdgeWidgets()
 
 void FramelessWindowHelper::resizeGrips()
 {
-    if (m_targetWidget)
+    if (m_targetWidget && m_resizable)
     {
         left_grip->setGeo(5, 5, 10, m_targetWidget->height()-10);
         right_grip->setGeo(m_targetWidget->width() - 15, 5, 10, m_targetWidget->height()-10);

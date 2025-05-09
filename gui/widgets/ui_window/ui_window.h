@@ -4,6 +4,7 @@
 #ifndef _INCLUDE_UI_WINDOW_H_
 #define _INCLUDE_UI_WINDOW_H_
 
+#include "global.hpp"
 #include "FramelessWindowHelper.h"
 #include <QDebug>
 #include <QApplication>
@@ -16,6 +17,9 @@ namespace beiklive {
 class Ui_Window : public QMainWindow {
 public:
     Ui_Window();
+
+    void functionsSetup();
+
     void setFrameless();
     // Add member functions here
 

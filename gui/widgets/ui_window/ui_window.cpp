@@ -2,11 +2,18 @@
 beiklive::Ui_Window::Ui_Window()
 {
     resize(800, 600);
+    functionsSetup();
+}
 
-    #if BEIKLIVE_FRAMELESS
-    setFrameless();
-    #endif
 
+void beiklive::Ui_Window::functionsSetup()
+{
+
+
+    if (globalConfig["window"]["custom_title_bar"])
+    {
+        setFrameless();
+    }
 }
 void beiklive::Ui_Window::setFrameless()
 {
@@ -16,7 +23,8 @@ void beiklive::Ui_Window::setFrameless()
 }
 void beiklive::Ui_Window::resizeEvent(QResizeEvent *event)
 {
-    if(m_helper)
+
+    if(globalConfig["window"]["custom_title_bar"] && m_helper)
     {
         m_helper->resizeGrips();
     }
