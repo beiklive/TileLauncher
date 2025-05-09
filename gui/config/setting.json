@@ -5,6 +5,7 @@
     },
     "window" : {
         "custom_title_bar" : true,
-        "shadow_width" : 5
+        "hide_border_color" : true,
+        "theme" : "default_theme.json"
     }
 }

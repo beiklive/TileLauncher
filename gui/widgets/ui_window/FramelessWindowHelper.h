@@ -17,6 +17,7 @@
 #include <QSizeGrip>
 #include <QMouseEvent>
 #include <QResizeEvent>
+#include <QVBoxLayout>
 
 class CustomGrip;  // 边缘拖动控件
 class EdgeWidget;  // 边缘拖动控件生成器

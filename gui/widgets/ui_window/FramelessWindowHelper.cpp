@@ -263,7 +263,10 @@ FramelessWindowHelper::FramelessWindowHelper(QWidget *parent) : QObject(parent),
 {
     if (m_targetWidget)
     {
+            // 设置无边框        
             m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
+            // 设置背景透明
+            m_targetWidget->setAttribute(Qt::WA_TranslucentBackground);
     }
 }
 
@@ -280,15 +283,15 @@ void FramelessWindowHelper::setResizable(bool resizable)
 
 void FramelessWindowHelper::_addEdgeWidgets()
 {
-    bool showColor = false;
-    top_grip = new EdgeGrips(m_targetWidget, Top, showColor);
-    bottom_grip = new EdgeGrips(m_targetWidget, Bottom, showColor);
-    left_grip = new EdgeGrips(m_targetWidget, Left, showColor);
-    right_grip = new EdgeGrips(m_targetWidget, Right, showColor);
-    top_left_grip = new EdgeGrips(m_targetWidget, TopLeft, showColor);
-    top_right_grip = new EdgeGrips(m_targetWidget, TopRight, showColor);
-    bottom_left_grip = new EdgeGrips(m_targetWidget, BottomLeft, showColor);
-    bottom_right_grip = new EdgeGrips(m_targetWidget, BottomRight, showColor);
+    bool hideColor = globalSettings["window"]["hide_border_color"];
+    top_grip = new EdgeGrips(m_targetWidget, Top, hideColor);
+    bottom_grip = new EdgeGrips(m_targetWidget, Bottom, hideColor);
+    left_grip = new EdgeGrips(m_targetWidget, Left, hideColor);
+    right_grip = new EdgeGrips(m_targetWidget, Right, hideColor);
+    top_left_grip = new EdgeGrips(m_targetWidget, TopLeft, hideColor);
+    top_right_grip = new EdgeGrips(m_targetWidget, TopRight, hideColor);
+    bottom_left_grip = new EdgeGrips(m_targetWidget, BottomLeft, hideColor);
+    bottom_right_grip = new EdgeGrips(m_targetWidget, BottomRight, hideColor);
 }
 
 void FramelessWindowHelper::resizeGrips()

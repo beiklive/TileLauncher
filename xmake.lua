@@ -4,18 +4,18 @@ add_requires("spdlog")
 add_requires("nlohmann_json")  -- 自动下载并集成
 target("TileLauncher")
     add_rules("qt.widgetapp")
-    set_languages("c99", "c++17")
+    set_languages("c99", "c++20")
     
     set_targetdir("$(projectdir)/output/")
     set_installdir("$(projectdir)/output")
     after_build(function (target)
         print("Target dir: " .. target:targetdir())
         -- 将生成的文件拷贝到指定目录
-        -- os.cp("$(targetdir)/TileLauncher", "$(projectdir)/output/bin")
         os.cp("$(projectdir)/gui/config", "$(projectdir)/output")
     end)
 
     if is_plat("windows") then
+        -- 打印输出到控制台
         add_ldflags("/SUBSYSTEM:CONSOLE")
     end
 

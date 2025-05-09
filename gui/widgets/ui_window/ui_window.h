@@ -15,19 +15,22 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 namespace beiklive {
-class Ui_Window : public QMainWindow {
+class Ui_Window : public QWidget {
 public:
     Ui_Window();
 
     void functionsSetup();
-    // Add member functions here
+    void styleSetup();
 
+    // Add member functions here
+    void addCloseButton();
 protected:
     void resizeEvent(QResizeEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 private:
     // Add member variables here
     FramelessWindowHelper *m_helper;
+    QWidget *m_window;
 };
 
 } // namespace beiklive

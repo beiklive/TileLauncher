@@ -7,7 +7,8 @@
 #include "logger.h"
 
 #include <nlohmann/json.hpp>
-extern nlohmann::json globalConfig;
+extern nlohmann::json globalSettings;
+extern nlohmann::json globalTheme;
 
 
 #endif // _INCLUDE_GLOBAL_H_
