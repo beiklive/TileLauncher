@@ -27,6 +27,7 @@
 
 #include <QPushButton>
 #include <QLabel>
+#include <QTextEdit>
 #include <QStyle>
 #include <QIcon>
 

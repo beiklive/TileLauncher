@@ -2,10 +2,10 @@
 #include <QWidget>
 #include <fstream>
 #include "ui/App_MainWindow.h"
-#include "global.hpp"
 
+#include "global.hpp"
 using namespace beiklive;
-nlohmann::json globalSettings; 
+nlohmann::json globalSettings;
 nlohmann::json globalTheme;
 
 void init()
@@ -26,12 +26,11 @@ void init()
     spdlog::info("Log level set to [{}]", globalSettings["log"]["log_level"].get<std::string>());
     //==============================================================
 
-
     //==============================================================
     // 主题文件初始化
     auto theme_name = globalSettings["window"]["theme"].get<std::string>();
     std::string theme_file = "config/" + theme_name;
-    std::ifstream theme_stream(theme_file.c_str()); 
+    std::ifstream theme_stream(theme_file.c_str());
     if (!theme_stream.is_open())
     {
         spdlog::error("Failed to open theme file.");
@@ -42,8 +41,6 @@ void init()
     spdlog::debug("theme loaded. \n{}", globalTheme.dump(4));
     //==============================================================
 
-
-
     return;
 }
 
@@ -53,8 +50,7 @@ int main(int argc, char *argv[])
     init();
 
     App_MainWindow w;
-    w.hideTitleBar();
+    
     w.show();
-
     return a.exec();
 }

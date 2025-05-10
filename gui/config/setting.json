@@ -4,8 +4,16 @@
         "log_file" : "log/tilelauncher.log"
     },
     "window" : {
-        "custom_title_bar" : true,
+        "custom_window" : true,
         "hide_border_color" : true,
+        "custom_title_bar" : true,
         "theme" : "default_theme.json"
+    },
+    "button" : {
+        "button_size" : 32
+    },
+    "sidebar" : {
+        "sidebar_width" : 40,
+        "sidebar_expand_width" : 100
     }
 }

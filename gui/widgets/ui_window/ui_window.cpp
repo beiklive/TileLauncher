@@ -100,7 +100,7 @@ void beiklive::Ui_Window::functionsSetup()
     m_window->setObjectName("app_ui_window");
     windowlayout = new QVBoxLayout();
     windowlayout->setSpacing(0);
-    if (globalSettings["window"]["custom_title_bar"])
+    if (globalSettings["window"]["custom_window"])
     {
         addTitleBarToWidget(this, "我的窗口标题");
         m_helper = new FramelessWindowHelper(this);
@@ -131,12 +131,8 @@ void beiklive::Ui_Window::styleSetup()
         border-radius: {}px;
         border: {}px solid {};
     }}
-    QWidget {{
-        color: {};
-        font: "{}";
-    }}
     )",
-                                         bg_color, radius, border_width, border_color, text_color, text_font);
+                                         bg_color, radius, border_width, border_color);
     spdlog::debug("Stylesheet: {}", styleSheet);
     m_window->setStyleSheet(styleSheet.c_str());
 
@@ -162,7 +158,7 @@ QWidget *beiklive::Ui_Window::getWindow() const
 
 void beiklive::Ui_Window::resizeEvent(QResizeEvent *event)
 {
-    if (globalSettings["window"]["custom_title_bar"] && m_helper)
+    if (globalSettings["window"]["custom_window"] && m_helper)
     {
         m_helper->resizeGrips();
     }

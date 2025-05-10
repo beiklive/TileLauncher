@@ -1,5 +1,5 @@
 add_rules("mode.debug", "mode.release")
-set_defaultmode("debug")
+set_defaultmode("release")
 add_requires("spdlog")
 add_requires("nlohmann_json")  -- 自动下载并集成
 target("TileLauncher")
@@ -32,3 +32,5 @@ target("TileLauncher")
     -- 添加带有 Q_OBJECT 宏的文件（这些是专门给 Qt 的 moc 工具处理的）
     add_files("gui/widgets/ui_window/FramelessWindowHelper.h")
     add_files("gui/widgets/ui_window/ui_window.h")
+    add_files("gui/widgets/ui_sidebar/ui_sidebar.h")
+    add_files("gui/widgets/ui_button/ui_button.h")
