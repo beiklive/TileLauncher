@@ -53,11 +53,8 @@ int main(int argc, char *argv[])
     init();
 
     App_MainWindow w;
-    w.move(0, 0);
+    w.hideTitleBar();
     w.show();
 
-    App_MainWindow w2;
-    w2.hideTitleBar();
-    w2.show();
     return a.exec();
 }

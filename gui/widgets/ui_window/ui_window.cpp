@@ -30,19 +30,19 @@ void beiklive::Ui_Window::addTitleBarToWidget(QWidget *widget, const QString &ti
     // 按钮
     QPushButton *minimizeButton = new QPushButton(titleBar);
     minimizeButton->setObjectName("minimizeButton");
-    minimizeButton->setIcon(widget->style()->standardIcon(QStyle::SP_TitleBarMinButton));
+    minimizeButton->setIcon(QIcon("assets/icons/icon_minimize.svg"));
     minimizeButton->setFixedSize(22, 22);
     minimizeButton->setFlat(true);
 
     QPushButton *maximizeButton = new QPushButton(titleBar);
     maximizeButton->setObjectName("maximizeButton");
-    maximizeButton->setIcon(widget->style()->standardIcon(QStyle::SP_TitleBarMaxButton));
+    maximizeButton->setIcon(QIcon("assets/icons/icon_maximize.svg"));
     maximizeButton->setFixedSize(22, 22);
     maximizeButton->setFlat(true);
 
     QPushButton *closeButton = new QPushButton(titleBar);
     closeButton->setObjectName("closeButton");
-    closeButton->setIcon(widget->style()->standardIcon(QStyle::SP_TitleBarCloseButton));
+    closeButton->setIcon(QIcon("assets/icons/icon_close.svg"));
     closeButton->setFixedSize(22, 22);
     closeButton->setFlat(true);
 
@@ -59,20 +59,20 @@ void beiklive::Ui_Window::addTitleBarToWidget(QWidget *widget, const QString &ti
     QObject::connect(minimizeButton, &QPushButton::clicked, widget, &QWidget::showMinimized);
     QObject::connect(closeButton, &QPushButton::clicked, widget, &QWidget::close);
 
-    QObject::connect(maximizeButton, &QPushButton::clicked, [widget, maximizeButton]()
+    QObject::connect(maximizeButton, &QPushButton::clicked, [widget, this, maximizeButton]()
                      {
         if (widget->isMaximized()) {
             widget->showNormal();
-            maximizeButton->setIcon(widget->style()->standardIcon(QStyle::SP_TitleBarMaxButton));
+            windowlayout->setContentsMargins(10, 10, 10, 10);
         } else {
             widget->showMaximized();
-            maximizeButton->setIcon(widget->style()->standardIcon(QStyle::SP_TitleBarNormalButton));
+            windowlayout->setContentsMargins(0, 0, 0, 0);
         } });
 
     // 设置样式（可选）
     titleBar->setStyleSheet(R"(
         #titleBar {
-            background-color: #333;
+            background-color: #181818;
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
         }
@@ -82,6 +82,7 @@ void beiklive::Ui_Window::addTitleBarToWidget(QWidget *widget, const QString &ti
         }
         QPushButton {
             background: transparent;
+            color: white;
         }
         QPushButton:hover {
             background: #555;
@@ -112,6 +113,7 @@ void beiklive::Ui_Window::functionsSetup()
     }
     windowlayout->addWidget(m_window);
     this->setLayout(windowlayout);
+
 }
 
 void beiklive::Ui_Window::styleSetup()
@@ -137,6 +139,15 @@ void beiklive::Ui_Window::styleSetup()
                                          bg_color, radius, border_width, border_color, text_color, text_font);
     spdlog::debug("Stylesheet: {}", styleSheet);
     m_window->setStyleSheet(styleSheet.c_str());
+
+
+    // add shadow effect
+    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(m_window);
+    shadow->setBlurRadius(20);
+    shadow->setXOffset(0);
+    shadow->setYOffset(0);
+    shadow->setColor(QColor(0, 0, 0, 160));
+    m_window->setGraphicsEffect(shadow);
 }
 
 void beiklive::Ui_Window::hideTitleBar()

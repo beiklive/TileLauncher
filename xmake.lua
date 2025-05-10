@@ -9,9 +9,11 @@ target("TileLauncher")
     set_targetdir("$(projectdir)/output/")
     set_installdir("$(projectdir)/output")
     after_build(function (target)
-        print("Target dir: " .. target:targetdir())
         -- 将生成的文件拷贝到指定目录
         os.cp("$(projectdir)/gui/config", "$(projectdir)/output")
+        print(">> Copy config files to " .. target:targetdir())
+        os.cp("$(projectdir)/gui/assets", "$(projectdir)/output")
+        print(">> Copy assets files to " .. target:targetdir())
     end)
 
     if is_plat("windows") then

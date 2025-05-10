@@ -10,6 +10,7 @@
 #include <QPainter>
 
 #include <QGraphicsEffect>
+#include <QGraphicsDropShadowEffect>
 #include <QGraphicsItem>
 
 #include <QApplication>
@@ -27,6 +28,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QStyle>
+#include <QIcon>
 
 namespace beiklive {
 
