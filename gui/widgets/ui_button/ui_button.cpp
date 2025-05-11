@@ -71,7 +71,7 @@ void beiklive::Ui_Button::hideText(bool hide)
     
 }
 
-void beiklive::Ui_Button::enterEvent(QEvent *)
+void beiklive::Ui_Button::enterEvent(EnterEventType  *)
 {
     spdlog::info("enterEvent");
     this->setStyleSheet(R"(
@@ -81,7 +81,7 @@ void beiklive::Ui_Button::enterEvent(QEvent *)
     )");
 }
 
-void beiklive::Ui_Button::leaveEvent(QEvent *)
+void beiklive::Ui_Button::leaveEvent(LeaveEventType  *)
 {
     spdlog::info("leaveEvent");
     this->setStyleSheet(R"(

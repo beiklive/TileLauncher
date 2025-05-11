@@ -14,6 +14,17 @@
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QEvent>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QEnterEvent>
+#include <QLeaveEvent>
+using EnterEventType = QEnterEvent;
+using LeaveEventType = QLeaveEvent;
+#else
+using EnterEventType = QEvent;
+using LeaveEventType = QEvent;
+#endif
+
+
 namespace beiklive {
 
 class Ui_Button : public beiklive::BaseWidget {
@@ -28,8 +39,8 @@ public:
     
 protected:
     void mousePressEvent(QMouseEvent *) override { emit clicked(); }
-    void enterEvent(QEvent  *) override;
-    void leaveEvent(QEvent  *) override;
+    void enterEvent(EnterEventType   *) override;
+    void leaveEvent(LeaveEventType  *) override;
 signals:
     void clicked();   
     
