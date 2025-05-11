@@ -81,7 +81,7 @@ void beiklive::Ui_Button::enterEvent(EnterEventType  *)
     )");
 }
 
-void beiklive::Ui_Button::leaveEvent(LeaveEventType  *)
+void beiklive::Ui_Button::leaveEvent(QEvent  *)
 {
     spdlog::info("leaveEvent");
     this->setStyleSheet(R"(

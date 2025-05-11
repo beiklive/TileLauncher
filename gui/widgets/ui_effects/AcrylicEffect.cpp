@@ -3,7 +3,6 @@
 #ifdef Q_OS_WIN
 #include <windows.h>
 #include <dwmapi.h>
-#endif
 
 AcrylicEffect::AcrylicEffect(QWidget* widget) : m_widget(widget) {}
 
@@ -67,4 +66,5 @@ void AcrylicEffect::setAcrylicEffect() {
         FreeLibrary(hModule);
     }
 }
+#endif
 #endif

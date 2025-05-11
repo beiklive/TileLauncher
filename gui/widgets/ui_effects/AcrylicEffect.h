@@ -2,6 +2,7 @@
 #define ACRYLICEFFECT_H
 
 #include <QWidget>
+#ifdef Q_OS_WIN
 
 class AcrylicEffect {
 public:
@@ -12,5 +13,6 @@ private:
     QWidget* m_widget;
     void setAcrylicEffect();
 };
+#endif
 
 #endif // ACRYLICEFFECT_H

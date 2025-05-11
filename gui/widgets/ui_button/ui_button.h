@@ -16,12 +16,12 @@
 #include <QEvent>
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QEnterEvent>
-#include <QLeaveEvent>
+// #include <QLeaveEvent>
 using EnterEventType = QEnterEvent;
-using LeaveEventType = QLeaveEvent;
+// using LeaveEventType = QLeaveEvent;
 #else
 using EnterEventType = QEvent;
-using LeaveEventType = QEvent;
+// using LeaveEventType = QEvent;
 #endif
 
 
@@ -40,7 +40,7 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *) override { emit clicked(); }
     void enterEvent(EnterEventType   *) override;
-    void leaveEvent(LeaveEventType  *) override;
+    void leaveEvent(QEvent  *) override;
 signals:
     void clicked();   
     

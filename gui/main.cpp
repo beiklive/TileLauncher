@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QGuiApplication>
 #include <QScreen>
-#include <QWindow >
 #include <QWidget>
 #include <fstream>
 #include "ui/App_MainWindow.h"
