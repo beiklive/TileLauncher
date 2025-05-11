@@ -12,7 +12,7 @@ namespace beiklive {
 
 class BaseWidget : public QWidget {
 public:
-    BaseWidget();
+    BaseWidget(QWidget *parent = nullptr);
     ~BaseWidget() = default;
     // Add member functions here
     void setupStlye();

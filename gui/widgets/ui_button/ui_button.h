@@ -1,38 +1,47 @@
-#ifndef WIN10MENUBUTTON_H
-#define WIN10MENUBUTTON_H
+// Copyright (c) 2025. All rights reserved.
+// Author: beiklive
+// Date: 2025-05-11
+#ifndef _INCLUDE_UI_BUTTON_H_
+#define _INCLUDE_UI_BUTTON_H_
 
-#include <QPushButton>
-#include <QPropertyAnimation>
+#include "global.hpp"
 
-class Win10MenuButton : public QPushButton
-{
+#include <QWidget>
+#include <QLabel>
+
+#include <QIcon>
+#include <QPixmap>
+#include <QHBoxLayout>
+#include <QMouseEvent>
+#include <QEvent>
+namespace beiklive {
+
+class Ui_Button : public beiklive::BaseWidget {
     Q_OBJECT
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
-    
 public:
-    explicit Win10MenuButton(QWidget *parent = nullptr);
-    
-    void setActive(bool active);
-    void setExpanded(bool expanded);
-    
-    QColor backgroundColor() const;
-    void setBackgroundColor(const QColor &color);
+    Ui_Button();
+    Ui_Button(const QString &text, const QIcon &icon);
+    ~Ui_Button() = default;
+    // Add member functions here
+
+    void hideText(bool hide);
     
 protected:
-    void enterEvent(QEvent *event) override;
-    void leaveEvent(QEvent *event) override;
-    void paintEvent(QPaintEvent *event) override;
+    void mousePressEvent(QMouseEvent *) override { emit clicked(); }
+    void enterEvent(QEvent  *) override;
+    void leaveEvent(QEvent  *) override;
+signals:
+    void clicked();   
     
 private:
-    QColor m_normalColor = Qt::transparent;
-    QColor m_hoverColor = QColor(240, 240, 240);
-    QColor m_activeColor = QColor(230, 230, 230);
-    QColor m_currentColor = m_normalColor;
-    
-    bool m_isActive = false;
-    bool m_isExpanded = false;
-    
-    QPropertyAnimation *m_colorAnimation;
+    void setIcon(const QIcon &icon);
+    void setText(const QString &text);
+    // Add member variables here
+    QLabel *iconLabel;
+    QLabel *textLabel;
+    QHBoxLayout *layout;
 };
 
-#endif // WIN10MENUBUTTON_H
+} // namespace beiklive
+
+#endif // _INCLUDE_UI_BUTTON_H_

@@ -10,11 +10,12 @@
 #include <string>
 #include <stdexcept>
 
+
+
 namespace beiklive {
 
     void set_log_level(const std::string &level_str);
     
-
 } // namespace beiklive
 
 #endif // _INCLUDE_LOGGER_H_

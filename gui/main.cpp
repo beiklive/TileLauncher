@@ -1,4 +1,7 @@
 #include <QApplication>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QWindow >
 #include <QWidget>
 #include <fstream>
 #include "ui/App_MainWindow.h"
@@ -7,6 +10,7 @@
 using namespace beiklive;
 nlohmann::json globalSettings;
 nlohmann::json globalTheme;
+
 
 void init()
 {
@@ -41,16 +45,35 @@ void init()
     spdlog::debug("theme loaded. \n{}", globalTheme.dump(4));
     //==============================================================
 
+  // 遍历所有屏幕并打印信息
+    for (const QScreen* screen : QGuiApplication::screens()) {
+        spdlog::debug(
+            "Screen: {}, Geometry: (x={}, y={}, w={}, h={}), DPI: {:.1f}",
+            screen->name().toStdString(),  // QString → std::string
+            screen->geometry().x(),
+            screen->geometry().y(),
+            screen->geometry().width(),
+            screen->geometry().height(),
+            screen->logicalDotsPerInch()
+        );
+    }
+
     return;
 }
 
 int main(int argc, char *argv[])
 {
+    // 启用Qt的高DPI支持（推荐）
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication a(argc, argv);
     init();
-
     App_MainWindow w;
     
     w.show();
+
+
+
+
     return a.exec();
 }

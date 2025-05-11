@@ -1,103 +1,92 @@
-
 #include "ui_button.h"
-#include <QPainter>
-#include <QStyleOption>
 
-Win10MenuButton::Win10MenuButton(QWidget *parent)
-    : QPushButton(parent)
+beiklive::Ui_Button::Ui_Button()
 {
-    setCursor(Qt::PointingHandCursor);
-    setFlat(true);
-    setStyleSheet("text-align: left; padding-left: 15px; border: none;");
-    
-    m_colorAnimation = new QPropertyAnimation(this, "backgroundColor");
-    m_colorAnimation->setDuration(150);
-    m_colorAnimation->setEasingCurve(QEasingCurve::OutQuad);
+    setProperty("style", "ui_button");
+    this->setStyleSheet(R"(
+        QWidget[style="ui_button"] {
+            background-color: rgba(24, 24, 24, 0);
+        }
+    )");
 }
 
-void Win10MenuButton::setActive(bool active)
+beiklive::Ui_Button::Ui_Button(const QString &text, const QIcon &icon)
 {
-    m_isActive = active;
-    if (active) {
-        m_colorAnimation->stop();
-        setBackgroundColor(m_activeColor);
-    } else {
-        setBackgroundColor(m_normalColor);
-    }
-    update();
-}
-
-void Win10MenuButton::setExpanded(bool expanded)
-{
-    m_isExpanded = expanded;
-    if (expanded) {
-        setText(this->toolTip());
-    } else {
+    layout = new QHBoxLayout(this);
+    if(nullptr != text)
+    {
+        setText(text);
+    }else
+    {
         setText("");
     }
-    update();
+
+    if(!icon.isNull())
+    {
+        setIcon(icon);
+    }else
+    {
+        setIcon(QIcon("assets/icons/default.svg"));
+    }
+    layout->addWidget(iconLabel);
+    layout->addStretch();
+    layout->addWidget(textLabel);
+    layout->addStretch();
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
+    setLayout(layout);
+    hideText(true);
 }
 
-QColor Win10MenuButton::backgroundColor() const
+void beiklive::Ui_Button::setIcon(const QIcon &icon)
 {
-    return m_currentColor;
+    iconLabel = new QLabel(this);
+    int size = globalSettings["button"]["icon_size"].get<int>();
+    iconLabel->setPixmap(icon.pixmap(size, size));
+    iconLabel->setAlignment(Qt::AlignCenter);
+    iconLabel->setStyleSheet("background: red;");  // 方法1
+    iconLabel->setFixedWidth(globalSettings["button"]["icon_size"].get<int>());  // 方法2
+    iconLabel->setFixedHeight(globalSettings["button"]["icon_size"].get<int>());  // 方法2
 }
 
-void Win10MenuButton::setBackgroundColor(const QColor &color)
+void beiklive::Ui_Button::setText(const QString &text)
 {
-    m_currentColor = color;
-    update();
+    textLabel = new QLabel(this);
+    textLabel->setText(text);
+    textLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    textLabel->setStyleSheet("background: blue;color: white;");  // 方法1
 }
 
-void Win10MenuButton::enterEvent(QEvent *event)
+void beiklive::Ui_Button::hideText(bool hide)
 {
-    Q_UNUSED(event);
-    if (!m_isActive) {
-        m_colorAnimation->stop();
-        m_colorAnimation->setStartValue(m_currentColor);
-        m_colorAnimation->setEndValue(m_hoverColor);
-        m_colorAnimation->start();
+    if (textLabel) {
+        if (hide)
+        {
+            textLabel->setFixedHeight(0);
+        }else
+        {
+            textLabel->setFixedHeight(globalSettings["button"]["button_size"].get<int>());
+        }
     }
+    
 }
 
-void Win10MenuButton::leaveEvent(QEvent *event)
+void beiklive::Ui_Button::enterEvent(QEvent *)
 {
-    Q_UNUSED(event);
-    if (!m_isActive) {
-        m_colorAnimation->stop();
-        m_colorAnimation->setStartValue(m_currentColor);
-        m_colorAnimation->setEndValue(m_normalColor);
-        m_colorAnimation->start();
-    }
+    spdlog::info("enterEvent");
+    this->setStyleSheet(R"(
+        QWidget[style="ui_button"] {
+            background-color: rgba(24, 24, 24, 128);
+        }
+    )");
 }
 
-void Win10MenuButton::paintEvent(QPaintEvent *event)
+void beiklive::Ui_Button::leaveEvent(QEvent *)
 {
-    Q_UNUSED(event);
-    
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    
-    // 绘制背景
-    painter.fillRect(rect(), m_currentColor);
-    
-    // 绘制图标
-    if (!icon().isNull()) {
-        QRect iconRect(10, (height() - 24) / 2, 24, 24);
-        icon().paint(&painter, iconRect);
-    }
-    
-    // 绘制文本（展开状态下）
-    if (m_isExpanded && !text().isEmpty()) {
-        QRect textRect(45, 0, width() - 50, height());
-        painter.setPen(palette().windowText().color());
-        painter.drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, text());
-    }
-    
-    // 绘制选中状态指示器
-    if (m_isActive) {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QColor(0, 120, 215)); // Win10主题色
-        painter.drawRect(0, 0, 3, height());
-    }
+    spdlog::info("leaveEvent");
+    this->setStyleSheet(R"(
+        QWidget[style="ui_button"] {
+            background-color: rgba(24, 24, 24, 0);
+        }
+    )");
 }

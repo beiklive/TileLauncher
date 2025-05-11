@@ -1,13 +1,17 @@
 #include "baseWidget.h"
 
-beiklive::BaseWidget::BaseWidget()
+beiklive::BaseWidget::BaseWidget(QWidget *parent) : QWidget(parent)
 {
+    setProperty("style", QVariant("BaseWidget"));
     setupStlye();
 }
 
 void beiklive::BaseWidget::setupStlye()
 {
-    std::string styleSheet = std::format(R"(
+    setStyleSheet(R"(
+        QWidget[style="BaseWidget"] 
+        {
         background-color: transparent;
-    )");
+    }
+        )");
 }

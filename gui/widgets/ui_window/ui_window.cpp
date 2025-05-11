@@ -1,7 +1,7 @@
 #include "ui_window.h"
 #include <format>
 #include <string>
-beiklive::Ui_Window::Ui_Window()
+beiklive::Ui_Window::Ui_Window(QWidget *parent) : QWidget(parent)
 {
     this->resize(800, 600);
     functionsSetup();
@@ -15,7 +15,7 @@ void beiklive::Ui_Window::addTitleBarToWidget(QWidget *widget, const QString &ti
     titleBar = new TitleBar(widget);
     titleBar->setObjectName("titleBar");
     titleBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    titleBar->setFixedHeight(30);
+    titleBar->setFixedHeight(globalSettings["window"]["title_bar_height"].get<int>());
 
     // 标题栏布局
     QHBoxLayout *titleLayout = new QHBoxLayout(titleBar);
@@ -80,17 +80,15 @@ void beiklive::Ui_Window::addTitleBarToWidget(QWidget *widget, const QString &ti
             color: white;
             font-weight: bold;
         }
-        QPushButton {
+        #closeButton, #minimizeButton, #maximizeButton {
             background: transparent;
             color: white;
         }
-        QPushButton:hover {
+        #closeButton:hover, #minimizeButton:hover, #maximizeButton:hover {
             background: #555;
             border-radius: 3px;
         }
-        #closeButton:hover {
-            background: #E81123;
-        }
+            
     )");
 }
 
@@ -131,19 +129,23 @@ void beiklive::Ui_Window::styleSetup()
         border-radius: {}px;
         border: {}px solid {};
     }}
+    QWidget {{
+        color: {};
+        font-family: {};
+    }}
     )",
-                                         bg_color, radius, border_width, border_color);
+                                         bg_color, radius, border_width, border_color, text_color, text_font);
     spdlog::debug("Stylesheet: {}", styleSheet);
     m_window->setStyleSheet(styleSheet.c_str());
 
 
     // add shadow effect
-    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(m_window);
+    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
     shadow->setBlurRadius(20);
     shadow->setXOffset(0);
     shadow->setYOffset(0);
     shadow->setColor(QColor(0, 0, 0, 160));
-    m_window->setGraphicsEffect(shadow);
+    this->setGraphicsEffect(shadow);
 }
 
 void beiklive::Ui_Window::hideTitleBar()

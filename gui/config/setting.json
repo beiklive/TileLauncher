@@ -7,10 +7,12 @@
         "custom_window" : true,
         "hide_border_color" : true,
         "custom_title_bar" : true,
+        "title_bar_height" : 30,
         "theme" : "default_theme.json"
     },
     "button" : {
-        "button_size" : 32
+        "button_size" : 32,
+        "icon_size" : 24
     },
     "sidebar" : {
         "sidebar_width" : 40,

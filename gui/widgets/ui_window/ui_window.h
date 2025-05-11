@@ -59,7 +59,7 @@ private:
 
 class Ui_Window : public QWidget {
 public:
-    Ui_Window();
+    Ui_Window(QWidget *parent = nullptr);
 
     void addTitleBarToWidget(QWidget* widget, const QString& title = "");
     // Add member functions here

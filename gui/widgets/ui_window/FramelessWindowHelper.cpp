@@ -266,7 +266,10 @@ FramelessWindowHelper::FramelessWindowHelper(QWidget *parent) : QObject(parent),
             // 设置无边框        
             m_targetWidget->setWindowFlags(m_targetWidget->windowFlags() | Qt::FramelessWindowHint);
             // 设置背景透明
+            // m_targetWidget->setAttribute(Qt::WA_TranslucentBackground);
             m_targetWidget->setAttribute(Qt::WA_TranslucentBackground);
+            m_targetWidget->setAttribute(Qt::WA_NoSystemBackground);
+            // m_targetWidget->setStyleSheet("background: transparent;");
         }
 }
 

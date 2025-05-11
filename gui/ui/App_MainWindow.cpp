@@ -1,37 +1,78 @@
 #include "App_MainWindow.h"
 
-App_MainWindow::App_MainWindow(QWidget *parent)
+App_MainWindow::App_MainWindow(QWidget *parent) : beiklive::Ui_Window(parent)
 {
     // 是否显示自定义标题栏
     if (!globalSettings["window"]["custom_title_bar"])
     {
         hideTitleBar();
     }
-    QWidget *centralWidget = getWindow();
+    centralWidget = getWindow();
 
     // 亚克力背景效果 有bug，暂时不用
     // AcrylicEffect* effect = new AcrylicEffect(centralWidget);
     // effect->apply();
 
-        // 创建侧边栏
-    SideBar *sidebar = new SideBar();
-    // 添加功能按钮
+    // 创建侧边栏
+    sidebar = new SideBar(centralWidget);
+    // // 添加功能按钮
     sidebar->addButton("Home", QIcon("assets/icons/home.svg"), nullptr, nullptr);
     sidebar->addButton("Settings", QIcon("assets/icons/setting.svg"), nullptr, nullptr);
     sidebar->addButton("Help", QIcon("assets/icons/info.svg"), nullptr, nullptr);
-    
+
     // 主内容区域
-    QPushButton *textEdit = new QPushButton("Hello World!");
 
-    QHBoxLayout *layout = new QHBoxLayout(centralWidget);
-    layout->addWidget(sidebar);
-    layout->addWidget(textEdit);
-    layout->setContentsMargins(0, 0, 0, 0);
-    centralWidget->setLayout(layout);
+    mainWindow = new beiklive::BaseWidget(centralWidget);
+    mainWindow->setStyleSheet("background: rgba(193, 132, 1, 0.5); border: 2px solid red;");
+    m_mainwindow_xpos = globalSettings["sidebar"]["sidebar_width"];
+    m_mainwindow_ypos = globalSettings["window"]["title_bar_height"];
+        // QGraphicsView *view = new QGraphicsView(mainWindow);
+        // mainWindow->setStyleSheet("background: transparent; border: none;");
+        // view->setStyleSheet("background: transparent;");
+        // QVBoxLayout *vLayout = new QVBoxLayout(mainWindow);
+        // vLayout->addWidget(view);
+        // mainWindow->setLayout(vLayout);
 
+        // QGraphicsScene  *scene = new QGraphicsScene();
+        // view->setScene(scene);
 
+        // scene->setSceneRect(0, 0, 800, 600);
+        // scene->setBackgroundBrush(Qt::transparent);
+        // const int tileSize = 100;
+        // const int spacing = 50;
+        // QList<QColor> colors = {
+        //     QColor(0, 120, 215),  // 蓝色
+        //     QColor(255, 140, 0),  // 橙色
+        //     QColor(16, 124, 16),  // 绿色
+        //     QColor(216, 0, 115)   // 粉色
+        // };
+        // int id = 0;
+        // for (int row = 0; row < 4; ++row) {
+        //     for (int col = 0; col < 4; ++col) {
+        //         int x = col * (tileSize + spacing) + 50;
+        //         int y = row * (tileSize + spacing) + 50;
+        //         QColor color = colors[(row + col) % colors.size()];
+        //         LiveTile* tile = new LiveTile(x, y, tileSize, color, id);
+        //         scene->addItem(tile);
+        //         id++;
+        //     }
+        // }
+        flushlayout();
+}
 
+void App_MainWindow::resizeEvent(QResizeEvent *event)
+{
+    beiklive::Ui_Window::resizeEvent(event);
+    flushlayout();
+}
 
-
-
+void App_MainWindow::flushlayout()
+{
+    
+    mainWindow->setGeometry(centralWidget->geometry().x() + m_mainwindow_xpos, 0, centralWidget->width() - m_mainwindow_xpos-10, centralWidget->height());
+    sidebar->setGeometry(0,0,  sidebar->curWidth(), centralWidget->height());
+    //spdlog打印centralWidget信息
+    spdlog::debug("centralWidget {} {} {} {}", centralWidget->geometry().x(), centralWidget->geometry().y(), centralWidget->geometry().width(), centralWidget->geometry().height());
+    spdlog::debug("mainWindow {} {} {} {}", mainWindow->geometry().x(), mainWindow->geometry().y(), mainWindow->geometry().width(), mainWindow->geometry().height());
+    spdlog::debug("sidebar {} {} {} {}", sidebar->geometry().x(), sidebar->geometry().y(), sidebar->geometry().width(), sidebar->geometry().height());
 }

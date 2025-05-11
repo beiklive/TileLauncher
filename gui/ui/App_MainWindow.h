@@ -8,8 +8,9 @@
 #include "ui_window/ui_window.h"
 #include "ui_sidebar/ui_sidebar.h"
 #include "ui_button/ui_button.h"
+#include "ui_tile_button/LiveTile.h"
 #include "ui_effects/AcrylicEffect.h"
-
+#include "ui_base_widget/baseWidget.h"
 #include <QMainWindow>
 #include <QResizeEvent>
 class App_MainWindow :  public beiklive::Ui_Window {
@@ -20,11 +21,17 @@ public:
     // Add member functions here
 
 protected:
-    // void resizeEvent(QResizeEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 
 private:
+    void flushlayout();
     // Add member variables here
+    SideBar *sidebar;
+    beiklive::BaseWidget* mainWindow;
+    QWidget *centralWidget;
+    int m_mainwindow_xpos;
+    int m_mainwindow_ypos;
 };
 
 
