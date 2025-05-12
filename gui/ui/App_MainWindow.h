@@ -30,6 +30,7 @@ private:
     SideBar *sidebar;
     beiklive::BaseWidget* mainWindow;
     QWidget *centralWidget;
+    int m_mainwindow_xpos;
 };
 
 
