@@ -27,7 +27,7 @@ protected:
 private:
     void flushlayout();
     // Add member variables here
-    SideBar *sidebar;
+    beiklive::ui_sidebar *sidebar;
     beiklive::BaseWidget* mainWindow;
     QWidget *centralWidget;
     int m_mainwindow_xpos;

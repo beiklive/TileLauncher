@@ -37,5 +37,5 @@ target("TileLauncher")
     add_files("gui/widgets/ui_tile_button/GraphicsMenuItem.h")
     add_files("gui/widgets/ui_tile_button/LiveTile.h")
 
-    add_files("gui/widgets/ui_sidebar/ui_sidebar.h")
     add_files("gui/widgets/ui_button/ui_button.h")
+    add_files("gui/widgets/ui_sidebar/ui_sidebar.h")

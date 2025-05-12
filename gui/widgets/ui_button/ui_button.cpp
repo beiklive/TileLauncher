@@ -51,10 +51,16 @@ void beiklive::Ui_Button::setIcon(const QIcon &icon)
 
 void beiklive::Ui_Button::setText(const QString &text)
 {
+    _text = text;
     textLabel = new QLabel(this);
     textLabel->setText(text);
     textLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     textLabel->setStyleSheet("background: blue;color: white;");  // 方法1
+}
+
+const QString beiklive::Ui_Button::getText() const
+{
+    return _text;
 }
 
 void beiklive::Ui_Button::hideText(bool hide)
@@ -73,7 +79,7 @@ void beiklive::Ui_Button::hideText(bool hide)
 
 void beiklive::Ui_Button::enterEvent(EnterEventType  *)
 {
-    spdlog::info("enterEvent");
+    spdlog::debug("enterbtn {}", getText().toStdString());
     this->setStyleSheet(R"(
         QWidget[style="ui_button"] {
             background-color: rgba(24, 24, 24, 128);
@@ -83,7 +89,7 @@ void beiklive::Ui_Button::enterEvent(EnterEventType  *)
 
 void beiklive::Ui_Button::leaveEvent(QEvent  *)
 {
-    spdlog::info("leaveEvent");
+    spdlog::debug("leavebtn {}", getText().toStdString());
     this->setStyleSheet(R"(
         QWidget[style="ui_button"] {
             background-color: rgba(24, 24, 24, 0);

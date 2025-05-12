@@ -1,111 +1,166 @@
 #include "ui_sidebar.h"
-#include <QPainter>
-#include <QStyleOption>
 
-SideBar::SideBar(QWidget *parent) :
-    QWidget(parent),
-    m_isExpanded(false)
+namespace beiklive {
+
+/**
+ * @brief 构造函数
+ * @param parent 父控件
+ */
+ui_sidebar::ui_sidebar(QWidget *parent) 
+    : BaseWidget(parent),
+      m_isExpanded(false),
+      m_toggleButton(nullptr),
+      m_buttonContainer(nullptr),
+      m_mainLayout(nullptr),
+      m_buttonLayout(nullptr),
+      m_animation(nullptr)
 {
-    m_normalWidth = globalSettings["sidebar"]["sidebar_width"].get<int>();
-    m_expandedWidth = globalSettings["sidebar"]["sidebar_expand_width"].get<int>();
-    this->setGeometry(this->x(), this->y(), m_normalWidth, this->height());
-    this->setMaximumWidth(m_expandedWidth);
-    this->setMinimumWidth(m_normalWidth);
-    this->setProperty("style", QVariant("app_sidebar"));
-    this->setStyleSheet("QWidget[style='app_sidebar'] {background-color: red;border : 5px solid white;}");
+    // 从配置加载侧边栏尺寸
+    try {
+        m_normalWidth = globalSettings["sidebar"]["sidebar_width"].get<int>();
+        m_expandedWidth = globalSettings["sidebar"]["sidebar_expand_width"].get<int>();
+    } catch (const std::exception &e) {
+        spdlog::error("加载侧边栏尺寸失败: {}", e.what());
+        m_normalWidth = 40;   // 默认收起宽度
+        m_expandedWidth = 100; // 默认展开宽度
+    }
 
-
-
-
+    setGeometry(x(), y(), m_normalWidth, height());
+    setProperty("style", QVariant("app_sidebar"));
+    
     setupUi();
-
-
-
-
 }
 
-int SideBar::curWidth() const
+/**
+ * @brief 获取当前宽度（根据展开状态）
+ * @return 当前宽度(像素)
+ */
+int ui_sidebar::curWidth() const
 {
     return m_isExpanded ? m_expandedWidth : m_normalWidth;
 }
 
-void SideBar::addButton(const QString &text, const QIcon &icon, const QObject *receiver, const char *slot)
+/**
+ * @brief 添加按钮到侧边栏
+ */
+void ui_sidebar::addButton(const QString &text, const QIcon &icon, 
+                       const QObject *receiver, const char *slot)
 {
-    beiklive::Ui_Button *button = new beiklive::Ui_Button(text, icon);
+    if (!m_buttonLayout) {
+        spdlog::warn("按钮布局未初始化，无法添加按钮");
+        return;
+    }
 
-    int btnsize = globalSettings["button"]["button_size"].get<int>();
-    button->setFixedHeight(btnsize);
+    Ui_Button *button = new Ui_Button(text, icon);
     
+    try {
+        int btnSize = globalSettings["button"]["button_size"].get<int>();
+        button->setFixedHeight(btnSize);
+    } catch (const std::exception &e) {
+        spdlog::warn("加载按钮尺寸失败: {}, 使用默认尺寸40", e.what());
+        button->setFixedHeight(40);
+    }
+    
+    // 连接信号槽（如果提供了接收者和槽函数）
     if (receiver && slot) {
         connect(button, SIGNAL(clicked()), receiver, slot);
     }
     
-    m_button_layout->addWidget(button);
+    m_buttonLayout->addWidget(button);
     m_buttons.append(button);
+    spdlog::debug("已添加按钮: {}", text.toStdString());
 }
-void SideBar::resizeEvent(QResizeEvent *event)
-{
-    // QWidget::resizeEvent(event);
-}
-void SideBar::toggleSidebar()
+
+/**
+ * @brief 切换侧边栏展开/收起状态
+ */
+void ui_sidebar::toggleSidebar()
 {
     m_isExpanded = !m_isExpanded;
-    int targetWidth = m_isExpanded ? m_expandedWidth : m_normalWidth;
-    this->raise();
-    m_animation->stop();
-    m_animation->setStartValue(QRect(this->x(), this->y(), !m_isExpanded ? m_expandedWidth : m_normalWidth, this->height()));
-    m_animation->setEndValue(QRect(this->x(), this->y(), targetWidth, this->height()));
+    const int targetWidth = curWidth();
+    
+    raise();  // 确保侧边栏在最上层
+    
+    // 停止正在进行的动画
+    if (m_animation->state() == QPropertyAnimation::Running) {
+        m_animation->stop();
+    }
+    
+    // 设置动画参数
+    m_animation->setStartValue(geometry());
+    m_animation->setEndValue(QRect(x(), y(), targetWidth, height()));
     m_animation->start();
-    if(m_isExpanded) {
+    
+    // 展开时立即更新按钮样式
+    if (m_isExpanded) {
         updateButtonStyles();
     }
-    spdlog::debug("toggleSidebar: width:{} -> {}", this->width(), targetWidth);
+    
+    spdlog::debug("切换侧边栏状态: {} -> 宽度:{}", 
+                 m_isExpanded ? "展开" : "收起", targetWidth);
 }
 
-void SideBar::setupUi()
+/**
+ * @brief 初始化UI组件
+ */
+void ui_sidebar::setupUi()
 {
-    m_toggleButton = new beiklive::Ui_Button("展开", QIcon("assets/icons/expands.svg"));
+    // 初始化切换按钮
+    m_toggleButton = new Ui_Button(tr("展开"), QIcon("assets/icons/expands.svg"));
+    
+    try {
+        int btnSize = globalSettings["button"]["button_size"].get<int>();
+        m_toggleButton->setFixedHeight(btnSize);
+    } catch (const std::exception &e) {
+        spdlog::warn("加载按钮尺寸失败: {}, 使用默认尺寸40", e.what());
+        m_toggleButton->setFixedHeight(40);
+    }
+    
+    connect(m_toggleButton, SIGNAL(clicked()), this, SLOT(toggleSidebar()));
     m_buttons.append(m_toggleButton);
 
-    int btnsize = globalSettings["button"]["button_size"].get<int>();
-    m_toggleButton->setFixedHeight(btnsize);
-    connect(m_toggleButton, SIGNAL(clicked()), this, SLOT(toggleSidebar()));
+    // 主布局设置
+    m_mainLayout = new QVBoxLayout(this);
+    m_mainLayout->setContentsMargins(0, 0, 0, 0);  // 无外边距
+    m_mainLayout->setSpacing(0);                   // 无组件间距
 
-    m_main_layout = new QVBoxLayout(this);
-    m_main_layout->setContentsMargins(0, 0, 0, 0);
-    m_main_layout->setSpacing(0);
+    // 按钮容器布局
+    m_buttonLayout = new QVBoxLayout();
+    m_buttonLayout->setContentsMargins(0, 0, 0, 0);
+    m_buttonLayout->setSpacing(0);
+    
+    m_buttonContainer = new BaseWidget();
+    m_buttonContainer->setLayout(m_buttonLayout);
 
-    m_button_layout = new QVBoxLayout();
-    m_button_layout->setContentsMargins(0, 0, 0, 0);
-    m_button_layout->setSpacing(0);
-    m_buttonContainer = new beiklive::BaseWidget();
-    // m_buttonContainer->setStyleSheet(R"(
-    //     background-color: black;
-    // )");
-    m_buttonContainer->setLayout(m_button_layout);
+    // 组装布局结构
+    m_mainLayout->addWidget(m_toggleButton);  // 顶部添加切换按钮
+    m_mainLayout->addStretch();               // 添加伸缩空间
+    m_mainLayout->addWidget(m_buttonContainer); // 底部添加按钮容器
 
-
-    m_main_layout->addWidget(m_toggleButton);
-    m_main_layout->addStretch();
-    m_main_layout->addWidget(m_buttonContainer);
-
-    this->setLayout(m_main_layout);
-
+    // 动画效果设置
     m_animation = new QPropertyAnimation(this, "geometry");
-    m_animation->setDuration(200);
-    m_animation->setEasingCurve(QEasingCurve::InOutQuad);
-    QObject::connect(m_animation, &QPropertyAnimation::finished, [this]() {
-        if(!m_isExpanded) {
-            updateButtonStyles();
+    m_animation->setDuration(200);  // 200毫秒动画时长
+    m_animation->setEasingCurve(QEasingCurve::InOutQuad);  // 平滑曲线
+    
+    // 动画结束回调
+    connect(m_animation, &QPropertyAnimation::finished, this, [this]() {
+        if (!m_isExpanded) {
+            updateButtonStyles();  // 收起时更新按钮样式
         }
-        spdlog::debug("toggleSidebar finished: width:{}", this->width());
-
+        spdlog::debug("侧边栏动画完成，当前宽度: {}", width());
     });
 }
 
-void SideBar::updateButtonStyles()
+/**
+ * @brief 根据展开状态更新按钮样式
+ */
+void ui_sidebar::updateButtonStyles()
 {
-    for (auto button : m_buttons) {
-        button->hideText(!m_isExpanded);
+    for (auto button : qAsConst(m_buttons)) {
+        if (button) {
+            button->hideText(!m_isExpanded);  // 收起时隐藏文字
+        }
     }
 }
+
+} // namespace beiklive

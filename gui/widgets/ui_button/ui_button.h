@@ -47,9 +47,11 @@ signals:
 private:
     void setIcon(const QIcon &icon);
     void setText(const QString &text);
+    const QString getText() const;
     // Add member variables here
     QLabel *iconLabel;
     QLabel *textLabel;
+    QString _text;
     QHBoxLayout *layout;
 };
 

@@ -13,17 +13,22 @@ App_MainWindow::App_MainWindow(QWidget *parent) : beiklive::Ui_Window(parent)
     // AcrylicEffect* effect = new AcrylicEffect(centralWidget);
     // effect->apply();
 
-    // 创建侧边栏
-    sidebar = new SideBar(centralWidget);
-    // // 添加功能按钮
-    sidebar->addButton("Home", QIcon("assets/icons/home.svg"), nullptr, nullptr);
-    sidebar->addButton("Settings", QIcon("assets/icons/setting.svg"), nullptr, nullptr);
-    sidebar->addButton("Help", QIcon("assets/icons/info.svg"), nullptr, nullptr);
-
     // 主内容区域
 
     mainWindow = new beiklive::BaseWidget(centralWidget);
-    mainWindow->setStyleSheet("background: rgba(193, 132, 1, 0.5); border: 2px solid red;");
+    mainWindow->setStyleSheet("background: rgba(193, 132, 1, 1); border: 2px solid red;");
+
+
+    // 创建侧边栏
+    sidebar = new beiklive::ui_sidebar(centralWidget);
+    sidebar->setStyleSheet("background: rgb(22, 255, 53); border: 2px solid red;");
+    // sidebar->setStyleSheet("QWidget[style='app_sidebar'] {background: yellow; border : 5px solid white;}");
+
+    // // 添加功能按钮
+    sidebar->addButton("主页", QIcon("assets/icons/home.svg"), nullptr, nullptr);
+    sidebar->addButton("设置", QIcon("assets/icons/setting.svg"), nullptr, nullptr);
+    sidebar->addButton("帮助", QIcon("assets/icons/info.svg"), nullptr, nullptr);
+
 
     // 主内容区的偏移值
     m_mainwindow_xpos = globalSettings["sidebar"]["sidebar_width"].get<int>();
@@ -39,7 +44,8 @@ void App_MainWindow::resizeEvent(QResizeEvent *event)
 void App_MainWindow::flushlayout()
 {
     
-    mainWindow->setGeometry(centralWidget->geometry().x() + m_mainwindow_xpos, 0, centralWidget->width() - m_mainwindow_xpos-10, centralWidget->height());
+    mainWindow->setGeometry(m_mainwindow_xpos, 0, centralWidget->width() - m_mainwindow_xpos, centralWidget->height());
+    // sidebar->setGeometry(0,0,  40, centralWidget->height());
     sidebar->setGeometry(0,0,  sidebar->curWidth(), centralWidget->height());
     //spdlog打印centralWidget信息
     spdlog::debug("centralWidget {} {} {} {}", centralWidget->geometry().x(), centralWidget->geometry().y(), centralWidget->geometry().width(), centralWidget->geometry().height());
