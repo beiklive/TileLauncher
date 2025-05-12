@@ -24,8 +24,6 @@ App_MainWindow::App_MainWindow(QWidget *parent) : beiklive::Ui_Window(parent)
 
     mainWindow = new beiklive::BaseWidget(centralWidget);
     mainWindow->setStyleSheet("background: rgba(193, 132, 1, 0.5); border: 2px solid red;");
-    m_mainwindow_xpos = globalSettings["sidebar"]["sidebar_width"];
-    m_mainwindow_ypos = globalSettings["window"]["title_bar_height"];
         // QGraphicsView *view = new QGraphicsView(mainWindow);
         // mainWindow->setStyleSheet("background: transparent; border: none;");
         // view->setStyleSheet("background: transparent;");

@@ -13,7 +13,7 @@
 #include <QFrame>
 #include <QVector>
 #include <QResizeEvent>
-class SideBar : public beiklive::BaseWidget
+class SideBar : public QWidget
 {
     Q_OBJECT
 public:

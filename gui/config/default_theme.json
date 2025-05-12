@@ -5,7 +5,6 @@
         "border_radius" : 5,
         "border_width" : 1,
         "border_color" : "#bdbdbd",
-        "text_color" : "#f6feff",
-        "text_font" : "Microsoft YaHei"
+        "text_color" : "#f6feff"
     }
 }

@@ -3,7 +3,7 @@
 #include <QStyleOption>
 
 SideBar::SideBar(QWidget *parent) :
-    beiklive::BaseWidget(parent),
+    QWidget(parent),
     m_isExpanded(false)
 {
     m_normalWidth = globalSettings["sidebar"]["sidebar_width"].get<int>();
@@ -14,7 +14,14 @@ SideBar::SideBar(QWidget *parent) :
     this->setProperty("style", QVariant("app_sidebar"));
     this->setStyleSheet("QWidget[style='app_sidebar'] {background-color: red;border : 5px solid white;}");
 
+
+
+
     setupUi();
+
+
+
+
 }
 
 int SideBar::curWidth() const

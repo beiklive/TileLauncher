@@ -95,7 +95,7 @@ void beiklive::Ui_Window::addTitleBarToWidget(QWidget *widget, const QString &ti
 void beiklive::Ui_Window::functionsSetup()
 {
     m_window = new QWidget(this);
-    m_window->setObjectName("app_ui_window");
+    m_window->setProperty("style", QVariant("app_ui_window"));
     windowlayout = new QVBoxLayout();
     windowlayout->setSpacing(0);
     if (globalSettings["window"]["custom_window"])
@@ -121,20 +121,18 @@ void beiklive::Ui_Window::styleSetup()
     int border_width = globalTheme["window"]["border_width"].get<int>();
     auto border_color = globalTheme["window"]["border_color"].get<std::string>();
     auto text_color = globalTheme["window"]["text_color"].get<std::string>();
-    auto text_font = globalTheme["window"]["text_font"].get<std::string>();
 
     std::string styleSheet = std::format(R"(
-    #app_ui_window {{
+    QWidget[style="app_ui_window"]  {{
         background-color: {};
         border-radius: {}px;
         border: {}px solid {};
     }}
     QWidget {{
         color: {};
-        font-family: {};
     }}
     )",
-                                         bg_color, radius, border_width, border_color, text_color, text_font);
+                                         bg_color, radius, border_width, border_color, text_color);
     spdlog::debug("Stylesheet: {}", styleSheet);
     m_window->setStyleSheet(styleSheet.c_str());
 
