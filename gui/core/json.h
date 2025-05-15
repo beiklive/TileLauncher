@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+
 /**
  * 将字符串解析为 QColor，支持以下格式：
  * 1. 十六进制: "#RGB", "#RRGGBB", "#AARRGGBB"

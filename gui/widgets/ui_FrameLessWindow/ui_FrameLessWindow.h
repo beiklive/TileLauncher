@@ -8,7 +8,7 @@
 
 #include <QWidget>
 #include <QPoint>
-
+#include <QRadialGradient>
 #include <QMouseEvent>
 
 namespace beiklive {
@@ -26,11 +26,19 @@ protected:
 
 
 private:
+    void SetupUi();
+    void SetupStyle(); 
     // Add member variables here
     void updateCursorShape(const QPoint &pos);
 
 
-    bool isMousePressed = false;
+    QWidget *m_centralWidget = nullptr;
+    QPoint m_mousePos;
+    bool m_mousePressed;
+    QPoint m_dragPosition;
+    bool m_resizing;
+    QPoint m_resizeStartPos;
+    QRect m_resizeStartGeometry;
 };
 
 } // namespace beiklive

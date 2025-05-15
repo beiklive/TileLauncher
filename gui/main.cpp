@@ -3,7 +3,7 @@
 #include <QScreen>
 #include <QWidget>
 #include <fstream>
-#include "ui/App_MainWindow.h"
+#include "widgets/ui_FrameLessWindow/ui_FrameLessWindow.h"
 
 #include "global.hpp"
 using namespace beiklive;
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication a(argc, argv);
     init();
-    App_MainWindow w;
+    Ui_FrameLessWindow w;
     
     w.show();
 

@@ -6,8 +6,9 @@
 
 #include "logger.h"
 #include "json.h"
-#include "ui_base_widget/baseWidget.h"
 #include <QVariant>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 extern nlohmann::json globalSettings;
 extern nlohmann::json globalTheme;
 
