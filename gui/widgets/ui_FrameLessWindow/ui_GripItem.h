@@ -16,7 +16,7 @@ public:
     // Add member functions here
     void setGeo(int x, int y, int w, int h);
 protected:
-    void MouseMoveEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
     void InitUI();

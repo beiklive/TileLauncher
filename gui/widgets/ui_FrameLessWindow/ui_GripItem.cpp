@@ -12,8 +12,9 @@ void beiklive::Ui_GripItem::setGeo(int x, int y, int w, int h)
     setGeometry(x, y, w, h);
 }
 
-void beiklive::Ui_GripItem::MouseMoveEvent(QMouseEvent *event)
+void beiklive::Ui_GripItem::mouseMoveEvent(QMouseEvent *event)
 {
+    spdlog::debug("{} mouseMoveEvent", int(m_parts));
     QPoint delta = event->pos();
     int height = 0;
     int width = 0;

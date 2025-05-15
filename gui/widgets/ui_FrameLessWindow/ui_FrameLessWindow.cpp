@@ -56,12 +56,12 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     if (custom_window)
     {
         initGrip();
-        // mainLayout->setContentsMargins(5, 5, 5, 5);
+        mainLayout->setContentsMargins(10, 10, 10, 10);
     }
     else
     {
+        mainLayout->setContentsMargins(0, 0, 0, 0);
     }
-    mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(0);
     mainLayout->addWidget(m_centralWidget);
     m_centralWidget->setMouseTracking(true);
