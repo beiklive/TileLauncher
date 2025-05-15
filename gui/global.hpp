@@ -5,8 +5,8 @@
 #define _INCLUDE_GLOBAL_H_
 
 #include "logger.h"
+#include "json.h"
 #include "ui_base_widget/baseWidget.h"
-#include <nlohmann/json.hpp>
 #include <QVariant>
 extern nlohmann::json globalSettings;
 extern nlohmann::json globalTheme;
