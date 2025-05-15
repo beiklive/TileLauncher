@@ -3,7 +3,15 @@
 
 beiklive::Ui_FrameLessWindow::Ui_FrameLessWindow(QWidget *parent) : QWidget(parent)
 {
-    
+        // 初始化拖动状态，可根据需求修改
+    m_enableResize[0] = true; // 左边
+    m_enableResize[1] = true; // 上边
+    m_enableResize[2] = true; // 右边
+    m_enableResize[3] = true; // 下边
+    m_enableCorner[0] = true; // 左上角
+    m_enableCorner[1] = true; // 右上角
+    m_enableCorner[2] = true; // 左下角
+    m_enableCorner[3] = true; // 右下角
     
     
     // 设置无边框窗口
@@ -31,27 +39,34 @@ beiklive::Ui_FrameLessWindow::Ui_FrameLessWindow(QWidget *parent) : QWidget(pare
 
 void beiklive::Ui_FrameLessWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!m_mousePressed)
+    if (m_dragging)
     {
-        updateCursorShape(event->pos());
-        return;
+        QPoint newPos = event->globalPos() - m_startPos;
+        move(newPos);
     }
 
+    QWidget::mouseMoveEvent(event);
 }
 
 void beiklive::Ui_FrameLessWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        m_mousePressed = true;
-        m_dragPosition = event->globalPos() - frameGeometry().topLeft();
+        m_startPos = event->globalPos() - frameGeometry().topLeft();
+        m_dragging = true;
     }
+
+    QWidget::mousePressEvent(event);
 }
 
 void beiklive::Ui_FrameLessWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-    m_mousePressed = false;
-    m_resizing = false;
+    if (event->button() == Qt::LeftButton)
+    {
+        m_dragging = false;
+    }
+
+    QWidget::mouseReleaseEvent(event);
 }
 
 void beiklive::Ui_FrameLessWindow::SetupUi()

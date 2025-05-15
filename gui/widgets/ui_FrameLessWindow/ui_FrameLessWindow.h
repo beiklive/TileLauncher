@@ -33,12 +33,10 @@ private:
 
 
     QWidget *m_centralWidget = nullptr;
-    QPoint m_mousePos;
-    bool m_mousePressed;
-    QPoint m_dragPosition;
-    bool m_resizing;
-    QPoint m_resizeStartPos;
-    QRect m_resizeStartGeometry;
+    bool m_dragging{false};
+    QPoint m_startPos;
+    bool m_enableResize[4]; // 四个边的拖动状态，索引0-3分别对应左、上、右、下
+    bool m_enableCorner[4]; // 四个角的拖动状态，索引0-3分别对应左上、右上、左下、右下
 };
 
 } // namespace beiklive

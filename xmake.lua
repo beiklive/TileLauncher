@@ -2,6 +2,11 @@ add_rules("mode.debug", "mode.release")
 set_defaultmode("release")
 add_requires("spdlog")
 add_requires("nlohmann_json")  -- 自动下载并集成
+
+
+
+
+
 target("TileLauncher")
     add_rules("qt.widgetapp")
     set_languages("c99", "c++20")
@@ -15,6 +20,13 @@ target("TileLauncher")
         print(">> Copy config files to " .. target:targetdir())
         os.cp("$(projectdir)/gui/assets", "$(projectdir)/output")
         print(">> Copy assets files to " .. target:targetdir())
+    end)
+
+    before_run(function (target)
+        os.cp("$(projectdir)/gui/config", "$(projectdir)/output")
+        print(">> Copy config files")
+        os.cp("$(projectdir)/gui/assets", "$(projectdir)/output")
+        print(">> Copy assets files")
     end)
 
     if is_plat("windows") then

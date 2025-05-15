@@ -4,8 +4,8 @@
         "log_file" : "log/tilelauncher.log"
     },
     "window" : {
-        "window_width" : 1280,
-        "window_height" : 720,
+        "window_width" : 800,
+        "window_height" : 600,
         "window_x" : 0,
         "window_y" : 0,
         "window_title" : "Tile Launcher",
