@@ -9,8 +9,24 @@
 #include <QVariant>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QMouseEvent>
+#include <QResizeEvent>
+
+#include <QWidget>
+
 extern nlohmann::json globalSettings;
 extern nlohmann::json globalTheme;
+
+
+
+// 定义窗口四个角和四个边的枚举
+enum WindowParts {
+    NONE      = 0,       // 0000 (无)
+    TOP       = 1,  // 0001 (上边)
+    BOTTOM    = 2,  // 0010 (下边)
+    LEFT      = 4,  // 0100 (左边)
+    RIGHT     = 8,  // 1000 (右边)
+};
 
 
 #endif // _INCLUDE_GLOBAL_H_

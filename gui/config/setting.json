@@ -6,8 +6,8 @@
     "window" : {
         "window_width" : 800,
         "window_height" : 600,
-        "window_x" : 0,
-        "window_y" : 0,
+        "window_x" : 400,
+        "window_y" : 200,
         "window_title" : "Tile Launcher",
         "min_window_width" : 320,
         "min_window_height" : 240,

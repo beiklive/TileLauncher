@@ -4,12 +4,14 @@
 #ifndef _INCLUDE_UI_FRAMELESSWINDOW_H_
 #define _INCLUDE_UI_FRAMELESSWINDOW_H_
 
-#include <global.hpp>
+#include "global.hpp"
+#include "ui_GripItem.h"
 
 #include <QWidget>
 #include <QPoint>
 #include <QRadialGradient>
 #include <QMouseEvent>
+#include <QGraphicsDropShadowEffect>
 
 namespace beiklive {
 
@@ -24,19 +26,28 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
 
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     void SetupUi();
     void SetupStyle(); 
+
+    void initGrip();
+    void updateGrip();
     // Add member variables here
-    void updateCursorShape(const QPoint &pos);
 
-
+    bool custom_window;
     QWidget *m_centralWidget = nullptr;
-    bool m_dragging{false};
-    QPoint m_startPos;
-    bool m_enableResize[4]; // 四个边的拖动状态，索引0-3分别对应左、上、右、下
-    bool m_enableCorner[4]; // 四个角的拖动状态，索引0-3分别对应左上、右上、左下、右下
+
+    Ui_GripItem *m_top_grop = nullptr;
+    Ui_GripItem *m_bottom_grop = nullptr;
+    Ui_GripItem *m_left_grop = nullptr;
+    Ui_GripItem *m_right_grop = nullptr;
+    Ui_GripItem *m_topleft_grop = nullptr;
+    Ui_GripItem *m_topright_grop = nullptr;
+    Ui_GripItem *m_bottomleft_grop = nullptr;
+    Ui_GripItem *m_bottomright_grop = nullptr;
+
 };
 
 } // namespace beiklive
