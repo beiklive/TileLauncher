@@ -15,7 +15,6 @@ void beiklive::Ui_GripItem::setGeo(int x, int y, int w, int h)
 
 void beiklive::Ui_GripItem::mouseMoveEvent(QMouseEvent *event)
 {
-    spdlog::debug("{} mouseMoveEvent", int(m_parts));
     QPoint delta = event->pos();
     int height = 0;
     int width = 0;
@@ -61,7 +60,7 @@ void beiklive::Ui_GripItem::InitUI()
         /* code */
         setGeometry(QRect(0, 5, m_parent->width(), 10));
         setMaximumHeight(10);
-        setStyleSheet("background-color: rgb(154, 31, 202);");
+        setStyleSheet("background-color: rgb(31, 119, 202);");
         setCursor(QCursor(Qt::SizeVerCursor));
     }
     break;
@@ -79,7 +78,7 @@ void beiklive::Ui_GripItem::InitUI()
         /* code */
         setGeometry(QRect(0, 5, 10, m_parent->height() - 10));
         setMaximumWidth(10);
-        setStyleSheet("background-color: rgb(154, 31, 202);");
+        setStyleSheet("background-color: rgb(202, 31, 31);");
         setCursor(QCursor(Qt::SizeHorCursor));
         break;
     }
@@ -88,7 +87,7 @@ void beiklive::Ui_GripItem::InitUI()
         /* code */
         setGeometry(QRect(m_parent->width() - 10, 5, 10, m_parent->height() - 10));
         setMaximumWidth(10);
-        setStyleSheet("background-color: rgb(154, 31, 202);");
+        setStyleSheet("background-color: rgb(156, 202, 31);");
         setCursor(QCursor(Qt::SizeHorCursor));
         break;
     }

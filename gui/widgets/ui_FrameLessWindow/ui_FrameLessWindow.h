@@ -25,7 +25,7 @@ namespace beiklive
         Ui_FrameLessWindow(QWidget *parent = nullptr);
         ~Ui_FrameLessWindow() = default;
 
-        QWidget *centralWidget() const;
+        QWidget *get_centralWidget();
         // Add member functions here
     protected:
         void mouseMoveEvent(QMouseEvent *event) override;

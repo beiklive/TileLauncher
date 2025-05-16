@@ -1,5 +1,4 @@
 #include "ui_FrameLessWindow.h"
-#include "ui_frameLessWindow.h"
 
 beiklive::Ui_FrameLessWindow::Ui_FrameLessWindow(QWidget *parent) : QWidget(parent)
 {
@@ -24,7 +23,7 @@ beiklive::Ui_FrameLessWindow::Ui_FrameLessWindow(QWidget *parent) : QWidget(pare
     SetupUi();
 }
 
-QWidget *beiklive::Ui_FrameLessWindow::centralWidget() const
+QWidget *beiklive::Ui_FrameLessWindow::get_centralWidget()
 {
     return m_centralWidget;
 }
@@ -59,7 +58,7 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
 {
     // 创建主布局
     m_centralWidget = new QWidget(this);
-    m_centralWidget->setProperty("styleclass", "centralWidget");
+    THEME_NAME(m_centralWidget, "centralWidget")
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     
@@ -70,19 +69,19 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
         if(globalSettings["window"]["custom_title_bar"])
         {
             titleBar = new QWidget(m_centralWidget);
-            titleBar->setProperty("styleclass", "titleBar");
+            THEME_NAME(titleBar, "titleBar")
             QHBoxLayout *titleLayout = new QHBoxLayout(titleBar);
             titleLayout->setContentsMargins(5, 0, 5, 0);
             titleLayout->setSpacing(0);
             
             QLabel *m_titleLabel = new QLabel(titleBar);
             m_titleLabel->setText(globalSettings["window"]["title"].get<std::string>().c_str());
-            m_titleLabel->setProperty("styleclass", "titleLabel");
+            THEME_NAME(m_titleLabel, "titleLabel")
             titleLayout->addWidget(m_titleLabel);
             titleLayout->addStretch();
 
             QPushButton *m_closeButton = new QPushButton(titleBar);
-            m_closeButton->setProperty("styleclass", "windowButton");
+            THEME_NAME(m_closeButton, "windowButton")
             // 设置图标
             m_closeButton->setIcon(QIcon(ICON_WINDOW_CLOSE));
             titleLayout->addWidget(m_closeButton);
@@ -108,12 +107,12 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     setGraphicsEffect(shadow);
 
 
-    spdlog::info("窗口大小 {} {}", width(), height());
-    spdlog::info("主视图大小 {} {}, pos {} {}", 
+    spdlog::debug("窗口大小 {} {}", width(), height());
+    spdlog::debug("主视图大小 {} {}, pos {} {}", 
         m_centralWidget->width(), m_centralWidget->height(),
         m_centralWidget->x(), m_centralWidget->y());
     if(titleBar){
-        spdlog::info("标题栏大小 {} {}, pos {} {}", 
+        spdlog::debug("标题栏大小 {} {}, pos {} {}", 
             titleBar->width(), titleBar->height(),
             titleBar->x(), titleBar->y());
     }

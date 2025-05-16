@@ -27,8 +27,11 @@ enum WindowParts {
     LEFT      = 4,  // 0100 (左边)
     RIGHT     = 8,  // 1000 (右边)
 };
+#define THEME_NAME(obj, name) obj->setProperty("styleclass", name);
 
 
+
+#define ICON_DEFAULT "assets/icons/default.svg"
 #define ICON_WINDOW_CLOSE "assets/icons/icon_close.svg"
 
 #endif // _INCLUDE_GLOBAL_H_

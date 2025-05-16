@@ -3,7 +3,7 @@
 #include <QScreen>
 #include <QWidget>
 #include <fstream>
-#include "widgets/ui_FrameLessWindow/ui_FrameLessWindow.h"
+#include "ui/App_mainWindow.h"
 
 #include "global.hpp"
 using namespace beiklive;
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
             spdlog::error("读取主题文件{}失败", theme_name);
         }
 
-    Ui_FrameLessWindow w;
+    App_MainWindow w;
     
     w.show();
 

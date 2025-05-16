@@ -9,7 +9,6 @@
         "window_height" : 600,
         "window_x" : 400,
         "window_y" : 200,
-        "window_title" : "Tile Launcher",
         "min_window_width" : 320,
         "min_window_height" : 240,
         "custom_window" : true,
@@ -23,7 +22,8 @@
         "icon_size" : 24
     },
     "sidebar" : {
-        "sidebar_width" : 60,
-        "sidebar_expand_width" : 130
+        "sidebar_normal_width" : 60,
+        "sidebar_expand_width" : 130,
+        "icon_size" : 24
     }
 }
