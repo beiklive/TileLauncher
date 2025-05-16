@@ -20,6 +20,8 @@ target("TileLauncher")
         print(">> Copy config files to " .. target:targetdir())
         os.cp("$(projectdir)/gui/assets", "$(projectdir)/output")
         print(">> Copy assets files to " .. target:targetdir())
+        os.cp("$(projectdir)/gui/theme", "$(projectdir)/output")
+        print(">> Copy theme files to " .. target:targetdir())
     end)
 
     before_run(function (target)
@@ -27,6 +29,8 @@ target("TileLauncher")
         print(">> Copy config files")
         os.cp("$(projectdir)/gui/assets", "$(projectdir)/output")
         print(">> Copy assets files")
+        os.cp("$(projectdir)/gui/theme", "$(projectdir)/output")
+        print(">> Copy theme files")
     end)
 
     if is_plat("windows") then

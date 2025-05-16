@@ -1,0 +1,24 @@
+[styleclass="centralWidget"]{
+    background-color: #F0F0F0;
+    border: 1px solid #D3D3D3;
+    border-radius: 5px;
+    color: #D3D3D3;
+}
+
+[styleclass="titleBar"]{
+    background-color: transparent;
+}
+[styleclass="titleBar"] QLabel{
+    color: black;
+}
+
+
+[styleclass="windowButton"]
+{
+    max-width: 25px;
+    min-width: 25px;
+    max-height: 25px;
+    min-height: 25px;
+    border-radius: 2px;
+    background-color: #b6b6b6;
+}

@@ -1,4 +1,5 @@
 #include "ui_FrameLessWindow.h"
+#include "ui_frameLessWindow.h"
 
 beiklive::Ui_FrameLessWindow::Ui_FrameLessWindow(QWidget *parent) : QWidget(parent)
 {
@@ -21,7 +22,11 @@ beiklive::Ui_FrameLessWindow::Ui_FrameLessWindow(QWidget *parent) : QWidget(pare
     setMouseTracking(true);
 
     SetupUi();
-    SetupStyle();
+}
+
+QWidget *beiklive::Ui_FrameLessWindow::centralWidget() const
+{
+    return m_centralWidget;
 }
 
 void beiklive::Ui_FrameLessWindow::mouseMoveEvent(QMouseEvent *event)
@@ -45,18 +50,45 @@ void beiklive::Ui_FrameLessWindow::mouseReleaseEvent(QMouseEvent *event)
 void beiklive::Ui_FrameLessWindow::resizeEvent(QResizeEvent *event)
 {
     updateGrip();
+
+    if(titleBar){
+        titleBar->setGeometry(0, 0, m_centralWidget->width(), 30);
+    }
 }
 void beiklive::Ui_FrameLessWindow::SetupUi()
 {
     // 创建主布局
     m_centralWidget = new QWidget(this);
     m_centralWidget->setProperty("styleclass", "centralWidget");
-    QHBoxLayout *mainLayout = new QHBoxLayout(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
+    
     if (custom_window)
     {
         initGrip();
         mainLayout->setContentsMargins(10, 10, 10, 10);
+        if(globalSettings["window"]["custom_title_bar"])
+        {
+            titleBar = new QWidget(m_centralWidget);
+            titleBar->setProperty("styleclass", "titleBar");
+            QHBoxLayout *titleLayout = new QHBoxLayout(titleBar);
+            titleLayout->setContentsMargins(5, 0, 5, 0);
+            titleLayout->setSpacing(0);
+            
+            QLabel *m_titleLabel = new QLabel(titleBar);
+            m_titleLabel->setText(globalSettings["window"]["title"].get<std::string>().c_str());
+            m_titleLabel->setProperty("styleclass", "titleLabel");
+            titleLayout->addWidget(m_titleLabel);
+            titleLayout->addStretch();
+
+            QPushButton *m_closeButton = new QPushButton(titleBar);
+            m_closeButton->setProperty("styleclass", "windowButton");
+            // 设置图标
+            m_closeButton->setIcon(QIcon(ICON_WINDOW_CLOSE));
+            titleLayout->addWidget(m_closeButton);
+            connect(m_closeButton, &QPushButton::clicked, this, &QWidget::close);
+            
+        }
     }
     else
     {
@@ -67,8 +99,8 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     m_centralWidget->setMouseTracking(true);
 
 
-    // add shadow effect
-    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+    // 添加阴影
+    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(m_centralWidget);
     shadow->setBlurRadius(20);
     shadow->setXOffset(0);
     shadow->setYOffset(0);
@@ -76,17 +108,20 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     setGraphicsEffect(shadow);
 
 
-
-
+    spdlog::info("窗口大小 {} {}", width(), height());
+    spdlog::info("主视图大小 {} {}, pos {} {}", 
+        m_centralWidget->width(), m_centralWidget->height(),
+        m_centralWidget->x(), m_centralWidget->y());
+    if(titleBar){
+        spdlog::info("标题栏大小 {} {}, pos {} {}", 
+            titleBar->width(), titleBar->height(),
+            titleBar->x(), titleBar->y());
+    }
 
 
 }
 
-void beiklive::Ui_FrameLessWindow::SetupStyle()
-{
-    std::string style_str = WidgetThemeSet("centralWidget");
-    m_centralWidget->setStyleSheet(style_str.c_str());
-}
+
 
 void beiklive::Ui_FrameLessWindow::initGrip()
 {
@@ -116,3 +151,4 @@ void beiklive::Ui_FrameLessWindow::updateGrip()
         m_bottomright_grop->setGeo(width() - 20, height() - 20, 15, 15);
     }
 }
+

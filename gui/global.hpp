@@ -6,8 +6,8 @@
 
 #include "logger.h"
 #include "json.h"
-#include "theme.h"
 
+#include <QFile>
 #include <QVariant>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -15,8 +15,7 @@
 #include <QResizeEvent>
 
 #include <QWidget>
-
-
+#include <QLabel>
 
 
 
@@ -29,5 +28,7 @@ enum WindowParts {
     RIGHT     = 8,  // 1000 (右边)
 };
 
+
+#define ICON_WINDOW_CLOSE "assets/icons/icon_close.svg"
 
 #endif // _INCLUDE_GLOBAL_H_

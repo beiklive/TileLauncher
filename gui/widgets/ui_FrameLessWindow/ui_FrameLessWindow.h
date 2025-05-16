@@ -8,47 +8,52 @@
 #include "ui_GripItem.h"
 
 #include <QWidget>
+#include <QPushButton>
 #include <QPoint>
 #include <QRadialGradient>
 #include <QMouseEvent>
 #include <QGraphicsDropShadowEffect>
 
-namespace beiklive {
+namespace beiklive
+{
 
-class Ui_FrameLessWindow : public QWidget {
-public:
-    Ui_FrameLessWindow(QWidget *parent = nullptr);
-    ~Ui_FrameLessWindow() = default;
 
-    // Add member functions here
-protected:
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
+    class Ui_FrameLessWindow : public QWidget
+    {
+        Q_OBJECT
+    public:
+        Ui_FrameLessWindow(QWidget *parent = nullptr);
+        ~Ui_FrameLessWindow() = default;
 
-    void resizeEvent(QResizeEvent *event) override;
+        QWidget *centralWidget() const;
+        // Add member functions here
+    protected:
+        void mouseMoveEvent(QMouseEvent *event) override;
+        void mousePressEvent(QMouseEvent *event) override;
+        void mouseReleaseEvent(QMouseEvent *event) override;
 
-private:
-    void SetupUi();
-    void SetupStyle(); 
+        void resizeEvent(QResizeEvent *event) override;
 
-    void initGrip();
-    void updateGrip();
-    // Add member variables here
+    private:
+        void SetupUi();
 
-    bool custom_window;
-    QWidget *m_centralWidget = nullptr;
+        void initGrip();
+        void updateGrip();
+        // Add member variables here
 
-    Ui_GripItem *m_top_grop = nullptr;
-    Ui_GripItem *m_bottom_grop = nullptr;
-    Ui_GripItem *m_left_grop = nullptr;
-    Ui_GripItem *m_right_grop = nullptr;
-    Ui_GripItem *m_topleft_grop = nullptr;
-    Ui_GripItem *m_topright_grop = nullptr;
-    Ui_GripItem *m_bottomleft_grop = nullptr;
-    Ui_GripItem *m_bottomright_grop = nullptr;
+        bool custom_window;
+        QWidget *titleBar = nullptr;
+        QWidget *m_centralWidget = nullptr;
 
-};
+        Ui_GripItem *m_top_grop = nullptr;
+        Ui_GripItem *m_bottom_grop = nullptr;
+        Ui_GripItem *m_left_grop = nullptr;
+        Ui_GripItem *m_right_grop = nullptr;
+        Ui_GripItem *m_topleft_grop = nullptr;
+        Ui_GripItem *m_topright_grop = nullptr;
+        Ui_GripItem *m_bottomleft_grop = nullptr;
+        Ui_GripItem *m_bottomright_grop = nullptr;
+    };
 
 } // namespace beiklive
 

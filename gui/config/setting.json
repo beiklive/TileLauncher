@@ -4,6 +4,7 @@
         "log_file" : "log/tilelauncher.log"
     },
     "window" : {
+        "title" : "Tile Launcher",
         "window_width" : 800,
         "window_height" : 600,
         "window_x" : 400,
@@ -15,7 +16,7 @@
         "hide_border_color" : true,
         "custom_title_bar" : true,
         "title_bar_height" : 30,
-        "theme" : "default_theme.json"
+        "theme" : "default_theme.qss"
     },
     "button" : {
         "button_size" : 32,
