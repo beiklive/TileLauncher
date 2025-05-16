@@ -74,6 +74,15 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     shadow->setYOffset(0);
     shadow->setColor(QColor(0, 0, 0, 160));
     setGraphicsEffect(shadow);
+
+
+#ifdef Q_OS_WIN
+    AcrylicEffect *acrylic = new AcrylicEffect(this);
+    acrylic->apply();
+#endif
+
+
+
 }
 
 void beiklive::Ui_FrameLessWindow::SetupStyle()
