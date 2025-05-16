@@ -22,7 +22,7 @@
         "icon_size" : 24
     },
     "sidebar" : {
-        "sidebar_normal_width" : 60,
+        "sidebar_normal_width" : 40,
         "sidebar_expand_width" : 130,
         "icon_size" : 24
     }

@@ -10,12 +10,13 @@ beiklive::App_MainWindow::App_MainWindow(QWidget *parent)
 
 void beiklive::App_MainWindow::resizeEvent(QResizeEvent *event)
 {
-    if(m_sidebar) {
+    Ui_FrameLessWindow::resizeEvent(event);
+    if(m_sidebar != nullptr) {
         m_sidebar->setGeometry(
-            0, 
-            0, 
+            10, 
+            10, 
             m_sidebar->width(), 
-            height()
+            height() - 20
         );
     }
 }

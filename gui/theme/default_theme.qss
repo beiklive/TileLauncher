@@ -28,20 +28,29 @@
     background-color: #8c8c8c;
 }
 
+[styleclass="Sidebar"]
+{
+    background-color: #b86464;
+}
+
 [styleclass="sidebarButton"]
 {
-    background-color: #ff8c8c8c;
+    background-color: #ad8c8c8c;
     border: 1px solid #8f8f8f;
-    max-height: 30px;
-    min-height: 30px;
+    max-height: 40px;
+    min-height: 40px;
 }
 
 [styleclass="sidebarButton"]:hover
 {
-    background-color: #7e8c8c8c;
+    background-color: #438c8c8c;
 }
 
 [styleclass="sidebarButton"]:pressed
 {
-    background-color: #c88c8c8c;
+    background-color: #708c8c8c;
 }
+
+/* [styleclass="sidebarButton"] QLabel{
+    min-width: 60px;
+} */

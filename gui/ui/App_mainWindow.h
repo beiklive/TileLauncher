@@ -26,8 +26,8 @@ private:
     int m_sidebarWidth;
     // Add member variables here
     Ui_FrameLessWindow *ui;
-    QWidget *m_centralWidget;
-    Ui_Sidebar* m_sidebar;
+    QWidget *m_centralWidget{nullptr};
+    Ui_Sidebar* m_sidebar{nullptr};
 };
 
 } // namespace beiklive

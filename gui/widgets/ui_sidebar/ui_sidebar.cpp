@@ -3,6 +3,8 @@
 beiklive::Ui_Sidebar::Ui_Sidebar(QWidget *parent):
     QWidget(parent)
 {
+    THEME_NAME(this, "Sidebar")
+
     // 侧边栏展开后宽度
     m_expand_width = globalSettings["sidebar"]["sidebar_expand_width"].get<int>();
     // 侧边栏正常宽度
@@ -10,7 +12,7 @@ beiklive::Ui_Sidebar::Ui_Sidebar(QWidget *parent):
 
     m_is_expand = false;
     _init_ui();
-
+    resize(m_normal_width, height());
 }
 
 
@@ -27,16 +29,23 @@ void beiklive::Ui_Sidebar::_startAnimation()
     animation->setEndValue(endGeometry);
 
     // 可选：设置缓动曲线
-    animation->setEasingCurve(QEasingCurve::OutBounce);
+    animation->setEasingCurve(QEasingCurve::InOutQuart);
 
     // 启动动画
     animation->start();
+    if (!m_is_expand) {
+        for (auto btn : m_buttons) {
+            btn->hide_text(m_is_expand);
+        }
+    }
 }
 
 void beiklive::Ui_Sidebar::_onAnimationFinished()
 {
-    for (auto btn : m_buttons) {
-        btn->hide_text(m_is_expand);
+    if (m_is_expand) {
+        for (auto btn : m_buttons) {
+            btn->hide_text(m_is_expand);
+        }
     }
     m_is_expand =!m_is_expand;
 }
@@ -52,9 +61,11 @@ void beiklive::Ui_Sidebar::_init_ui()
     m_layout->addWidget(expand_btn);
     m_layout->addStretch();
 
-    m_button_layout = new QVBoxLayout(this);
+    QWidget* btnBox = new QWidget(this);
+    m_button_layout = new QVBoxLayout(btnBox);
     m_button_layout->setContentsMargins(0, 0, 0, 0);
     m_button_layout->setSpacing(0);
+    btnBox->setLayout(m_button_layout);
 
     Ui_Sidebar_Button *home_btn = new Ui_Sidebar_Button(this, "assets/icons/home.svg", "主页");
     Ui_Sidebar_Button *setting_btn = new Ui_Sidebar_Button(this, "assets/icons/setting.svg", "设置");
@@ -66,11 +77,11 @@ void beiklive::Ui_Sidebar::_init_ui()
     m_button_layout->addWidget(home_btn);
     m_button_layout->addWidget(setting_btn);
     m_button_layout->addWidget(info_btn);
-    m_layout->addLayout(m_button_layout);
+    m_layout->addWidget(btnBox);
 
     // 初始化动画
     animation = new QPropertyAnimation(this, "geometry");
-    animation->setDuration(200); // 动画持续时间，单位毫秒
+    animation->setDuration(500); // 动画持续时间，单位毫秒
     // 连接按钮点击信号到启动动画的槽
     connect(expand_btn, &QPushButton::clicked, this, &Ui_Sidebar::_startAnimation);
     // 连接动画完成信号到回调槽

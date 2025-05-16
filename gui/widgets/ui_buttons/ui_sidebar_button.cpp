@@ -17,11 +17,11 @@ void beiklive::Ui_Sidebar_Button::hide_text(bool hide)
     m_hide_text = hide;
     if (hide)
     {
-        m_text_label->hide();
+        m_text_label->setFixedHeight(0);
     }
     else
     {
-        m_text_label->show();
+        m_text_label->setFixedHeight(height()-10);
     }
 }
 
