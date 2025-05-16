@@ -1,11 +1,10 @@
 {
     "theme_name" : "Default",
-    "window" : {
-        "bg_color" : "rgb(31, 31, 31)",
-        "border_radius" : 5,
-        "border_width" : 1,
-        "border_color" : "#bdbdbd",
-        "text_color" : "#f6feff"
+    "centralWidget" : {
+        "background-color" : "rgb(255, 255, 255)",
+        "color" : "white",
+        "border" : "1px solid white",
+        "border-radius" : 3
     },
     "siderbar" : {
         "bg_color" : "rgba(22, 255, 53, 255)",

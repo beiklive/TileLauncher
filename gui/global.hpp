@@ -6,6 +6,8 @@
 
 #include "logger.h"
 #include "json.h"
+#include "theme.h"
+
 #include <QVariant>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -14,8 +16,7 @@
 
 #include <QWidget>
 
-extern nlohmann::json globalSettings;
-extern nlohmann::json globalTheme;
+
 
 
 

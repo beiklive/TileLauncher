@@ -12,7 +12,7 @@
         "min_window_width" : 320,
         "min_window_height" : 240,
         "custom_window" : true,
-        "hide_border_color" : false,
+        "hide_border_color" : true,
         "custom_title_bar" : true,
         "title_bar_height" : 30,
         "theme" : "default_theme.json"

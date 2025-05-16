@@ -6,7 +6,6 @@
 
 #include "global.hpp"
 #include "ui_GripItem.h"
-#include "widgets/ui_effects/AcrylicEffect.h"
 
 #include <QWidget>
 #include <QPoint>

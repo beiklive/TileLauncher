@@ -76,10 +76,7 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     setGraphicsEffect(shadow);
 
 
-#ifdef Q_OS_WIN
-    AcrylicEffect *acrylic = new AcrylicEffect(this);
-    acrylic->apply();
-#endif
+
 
 
 
@@ -87,14 +84,7 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
 
 void beiklive::Ui_FrameLessWindow::SetupStyle()
 {
-    std::string style_str = R"(
-        [styleclass="centralWidget"] {
-            background-color: rgb(255, 255, 255);
-            border: 1px solid rgb(200, 200, 200);
-            border-radius: 5px;
-        }
-    )";
-
+    std::string style_str = WidgetThemeSet("centralWidget");
     m_centralWidget->setStyleSheet(style_str.c_str());
 }
 
