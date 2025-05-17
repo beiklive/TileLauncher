@@ -5,7 +5,7 @@ QWidget{
 }
 
 [styleclass="centralWidget"]{
-    background-color: #ff222222;
+    background-color: #88222222;
     border: 1px solid #1f1f1f;
     border-radius: 5px;
 }
@@ -29,7 +29,7 @@ QWidget{
 
 [styleclass="Sidebar"]
 {
-    background-color: #b4181818;
+    background-color: #72181818;
     border-radius: 5px;
 }
 
