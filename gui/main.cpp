@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
     App_MainWindow w;
     
-    w.show();
+    w.animaShow();
 
 
 

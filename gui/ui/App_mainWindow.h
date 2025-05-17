@@ -9,7 +9,10 @@
 #include "widgets/ui_sidebar/ui_sidebar.h"
 #include "widgets/ui_title_bar/ui_title_bar.h"
 
-
+#include <QSystemTrayIcon>
+#include <QMenu>
+#include <QGuiApplication>
+#include <QScreen>
 namespace beiklive {
 
 class App_MainWindow : public Ui_FrameLessWindow {
@@ -18,22 +21,30 @@ public:
     App_MainWindow(QWidget *parent = nullptr);
     ~App_MainWindow() = default;
 
+    void menuMode(bool enable);
+    void animaShow();
     // Add member functions here
 protected:
     void resizeEvent(QResizeEvent *event) override;
-    // void mousePressEvent(QMouseEvent *event) override;
-    // void mouseMoveEvent(QMouseEvent *event) override;
-    // void mouseReleaseEvent(QMouseEvent *event) override;
-
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 public slots:
     void window_maximize();
     void window_restore();
-
+    void _onAnimationFinished();
 
 private:
     void _setupUI();
-    int m_margin;
+    void moveWindowToBottomLeft(QWidget* window);
+    void createTrayIcon();
+
     // Add member variables here
+    Qt::WindowFlags m_windowFlags;
+    QSystemTrayIcon *trayIcon;
+    QPropertyAnimation *animation;
+    int m_app_margin{10};
+    int m_margin;
     Ui_FrameLessWindow *ui;
     QWidget *m_centralWidget{nullptr};
     Ui_Sidebar* m_sidebar{nullptr};

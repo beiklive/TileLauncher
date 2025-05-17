@@ -32,6 +32,7 @@ enum WindowParts {
 
 
 #define ICON_DEFAULT "assets/icons/default.svg"
+#define ICON_LOGO "assets/icons/logo.svg"
 #define ICON_WINDOW_CLOSE "assets/icons/icon_close.svg"
 #define ICON_WINDOW_MINIMIZE "assets/icons/icon_minimize.svg"
 #define ICON_WINDOW_MAXIMIZE "assets/icons/icon_maximize.svg"

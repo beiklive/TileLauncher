@@ -27,6 +27,19 @@ namespace beiklive
 
         QWidget *get_centralWidget();
         void hideGrips(bool hide);
+        int getMargin();
+        void setMargin(int margin);
+        void setMargin(int margin_top, int margin_bottom, int margin_left, int margin_right);
+        void hideGrip(
+            bool top, 
+            bool bottom, 
+            bool left, 
+            bool right, 
+            bool topleft, 
+            bool topright, 
+            bool bottomleft, 
+            bool bottomright
+        );
         // Add member functions here
     protected:
         void resizeEvent(QResizeEvent *event) override;
@@ -37,7 +50,7 @@ namespace beiklive
         void initGrip();
         void updateGrip();
         // Add member variables here
-
+        int m_margin{0};
         bool custom_window;
         QWidget *titleBar = nullptr;
         QWidget *m_centralWidget = nullptr;

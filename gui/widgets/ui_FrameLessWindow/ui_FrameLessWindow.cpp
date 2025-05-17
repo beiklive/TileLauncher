@@ -2,11 +2,12 @@
 
 beiklive::Ui_FrameLessWindow::Ui_FrameLessWindow(QWidget *parent) : QWidget(parent)
 {
+    // THEME_NAME(this, "FrameLessWindow")
     custom_window = globalSettings["window"]["custom_window"];
     if (custom_window)
     {
         // 设置无边框窗口
-        setWindowFlags(Qt::FramelessWindowHint);
+        setWindowFlags(this->windowFlags() |Qt::FramelessWindowHint);
         setAttribute(Qt::WA_TranslucentBackground);
     }
     setMinimumSize(
@@ -51,7 +52,49 @@ void beiklive::Ui_FrameLessWindow::hideGrips(bool hide)
     }
 }
 
+int beiklive::Ui_FrameLessWindow::getMargin()
+{
+    return m_margin;
+}
 
+void beiklive::Ui_FrameLessWindow::setMargin(int margin)
+{
+    m_margin = margin;
+    this->layout()->setContentsMargins(m_margin, m_margin, m_margin, m_margin);
+}
+
+void beiklive::Ui_FrameLessWindow::setMargin(int margin_top, int margin_bottom, int margin_left, int margin_right)
+{
+    this->layout()->setContentsMargins(margin_left, margin_top, margin_right, margin_bottom);
+}
+
+void beiklive::Ui_FrameLessWindow::hideGrip(bool top, bool bottom, bool left, bool right, bool topleft, bool topright, bool bottomleft, bool bottomright)
+{
+    if(top){
+        m_top_grop->hide();
+    }
+    if(bottom){
+        m_bottom_grop->hide();
+    }
+    if(left){
+        m_left_grop->hide();
+    }
+    if(right){
+        m_right_grop->hide();
+    }
+    if(topleft){
+        m_topleft_grop->hide();
+    }
+    if(topright){
+        m_topright_grop->hide();
+    }
+    if(bottomleft){
+        m_bottomleft_grop->hide();
+    }
+    if(bottomright){
+        m_bottomright_grop->hide();
+    }
+}
 
 void beiklive::Ui_FrameLessWindow::resizeEvent(QResizeEvent *event)
 {

@@ -4,6 +4,13 @@ QWidget{
     color: #D3D3D3;
 }
 
+/* [styleclass="FrameLessWindow"]{
+    background-color: transparent;
+    border: 1px solid #1f1f1f;
+    border-radius: 5px;
+} */
+
+
 [styleclass="centralWidget"]{
     background-color: #ff222222;
     border: 1px solid #1f1f1f;
