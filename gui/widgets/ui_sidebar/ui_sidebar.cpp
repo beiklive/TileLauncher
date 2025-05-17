@@ -9,43 +9,42 @@ beiklive::Ui_Sidebar::Ui_Sidebar(QWidget *parent):
     m_expand_width = globalSettings["sidebar"]["sidebar_expand_width"].get<int>();
     // 侧边栏正常宽度
     m_normal_width = globalSettings["sidebar"]["sidebar_normal_width"].get<int>();
-
+    // 侧边栏是否展开
     m_is_expand = false;
+    // 内边距
+    m_margin = globalSettings["sidebar"]["margin"].get<int>();
+    setMinimumSize(m_normal_width, 0);
+    setMaximumSize(m_normal_width, 16777215);
+
     _init_ui();
-    resize(m_normal_width, height());
 }
 
 
 void beiklive::Ui_Sidebar::_startAnimation()
 {
+
     animation->stop();
+
+
     // 设置动画的起始和结束几何属性
     int target_width = m_is_expand? m_normal_width : m_expand_width;
-    QRect startGeometry = geometry();
-    QRect endGeometry = QRect(startGeometry.x(), startGeometry.y(),
-                               target_width, startGeometry.height());
+    int startWidth = width();
+    int endWidth = target_width;
 
-    animation->setStartValue(startGeometry);
-    animation->setEndValue(endGeometry);
+    animation->setStartValue(startWidth);
+    animation->setEndValue(endWidth);
 
-    // 可选：设置缓动曲线
     animation->setEasingCurve(QEasingCurve::InOutQuart);
 
     // 启动动画
     animation->start();
-    if (!m_is_expand) {
-        for (auto btn : m_buttons) {
-            btn->hide_text(m_is_expand);
-        }
-    }
 }
 
 void beiklive::Ui_Sidebar::_onAnimationFinished()
 {
-    if (m_is_expand) {
-        for (auto btn : m_buttons) {
-            btn->hide_text(m_is_expand);
-        }
+    
+    for (auto btn : m_buttons) {
+        btn->hide_text(m_is_expand);
     }
     m_is_expand =!m_is_expand;
 }
@@ -53,7 +52,7 @@ void beiklive::Ui_Sidebar::_onAnimationFinished()
 void beiklive::Ui_Sidebar::_init_ui()
 {
     m_layout = new QVBoxLayout(this);
-    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setContentsMargins(m_margin, m_margin, m_margin, m_margin);
     m_layout->setSpacing(0);
 
     Ui_Sidebar_Button *expand_btn = new Ui_Sidebar_Button(this, "assets/icons/expands.svg", "展开");
@@ -79,12 +78,12 @@ void beiklive::Ui_Sidebar::_init_ui()
     m_button_layout->addWidget(info_btn);
     m_layout->addWidget(btnBox);
 
-    // 初始化动画
-    animation = new QPropertyAnimation(this, "geometry");
-    animation->setDuration(500); // 动画持续时间，单位毫秒
+
     // 连接按钮点击信号到启动动画的槽
     connect(expand_btn, &QPushButton::clicked, this, &Ui_Sidebar::_startAnimation);
+    // 初始化动画
+    animation = new QPropertyAnimation(this, "minimumWidth");
+    animation->setDuration(500); // 动画持续时间，单位毫秒
     // 连接动画完成信号到回调槽
     connect(animation, &QPropertyAnimation::finished, this, &Ui_Sidebar::_onAnimationFinished);
-
 }

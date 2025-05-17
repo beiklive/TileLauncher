@@ -23,11 +23,12 @@ protected:
 
 private:
     void _setupUI();
-    int m_sidebarWidth;
+    int m_margin;
     // Add member variables here
     Ui_FrameLessWindow *ui;
     QWidget *m_centralWidget{nullptr};
     Ui_Sidebar* m_sidebar{nullptr};
+    QWidget *m_bodywidget{nullptr};
 };
 
 } // namespace beiklive

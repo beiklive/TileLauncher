@@ -32,6 +32,7 @@ private:
     int m_width;
     int m_expand_width;
     int m_normal_width;
+    int m_margin;
     bool m_is_expand;
     QVBoxLayout *m_layout;
     QVBoxLayout *m_button_layout;

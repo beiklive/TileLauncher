@@ -5,8 +5,10 @@
 #define _INCLUDE_UI_SIDEBAR_BUTTON_H_
 
 #include "global.hpp"
-#include <QLabel>
 #include <QPushButton>
+#include <QPixmap>
+#include <QEnterEvent>
+#include <QEvent>
 namespace beiklive {
 
 class Ui_Sidebar_Button : public QPushButton {
@@ -20,16 +22,29 @@ public:
     void set_icon(std::string icon_path);
     void set_text(std::string text);
 
+protected:
+    void paintEvent(QPaintEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+    // void mouseReleaseEvent(QMouseEvent *event);
+    // void mousePressEvent(QMouseEvent *event);
+
 private:
     void _setup_ui();
     void _init_icon(std::string icon_path);
     void _init_text(std::string text);
-
+    void iconPaint(QPainter* qp, const QString& imagePath, const QRect& rect, const QColor& color);
     // Add member variables here
-    QLabel *m_icon_label;
-    QLabel *m_text_label;
+    std::string m_icon_path{ICON_DEFAULT};
+    std::string m_text{};
 
+    bool m_is_hover{false};
     bool m_hide_text{true};
+    int m_expand_width;
+    int m_normal_width;
+    int m_icon_width{0};
+    QColor m_set_icon_color{QColor(255, 255, 255)};
+    QColor m_set_text_color{QColor(255, 255, 255)};
 
 };
 

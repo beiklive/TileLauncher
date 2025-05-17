@@ -1,15 +1,20 @@
-[styleclass="centralWidget"]{
-    background-color: #F0F0F0;
-    border: 1px solid #D3D3D3;
-    border-radius: 5px;
+QWidget{
+    font-family: "Segoe UI";
+    font-size: 14px;
     color: #D3D3D3;
+}
+
+[styleclass="centralWidget"]{
+    background-color: #ff222222;
+    border: 1px solid #1f1f1f;
+    border-radius: 5px;
 }
 
 [styleclass="titleBar"]{
     background-color: #68333333;
 }
 [styleclass="titleBar"] QLabel{
-    color: black;
+    color: white;
 }
 
 
@@ -30,27 +35,16 @@
 
 [styleclass="Sidebar"]
 {
-    background-color: #b86464;
+    background-color: #b4181818;
+    border-radius: 5px;
 }
 
 [styleclass="sidebarButton"]
 {
-    background-color: #ad8c8c8c;
-    border: 1px solid #8f8f8f;
-    max-height: 40px;
-    min-height: 40px;
+    max-height: 50px;
+    min-height: 50px;
+    border-radius: 3px;
+
 }
 
-[styleclass="sidebarButton"]:hover
-{
-    background-color: #438c8c8c;
-}
 
-[styleclass="sidebarButton"]:pressed
-{
-    background-color: #708c8c8c;
-}
-
-/* [styleclass="sidebarButton"] QLabel{
-    min-width: 60px;
-} */
