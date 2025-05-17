@@ -4,7 +4,6 @@
         "log_file" : "log/tilelauncher.log"
     },
     "window" : {
-        "title" : "Tile Launcher",
         "window_width" : 800,
         "window_height" : 600,
         "window_x" : 400,
@@ -14,13 +13,16 @@
         "margin" : 3,
         "custom_window" : true,
         "hide_border_color" : true,
-        "custom_title_bar" : false,
-        "title_bar_height" : 30,
         "theme" : "default_theme.qss"
     },
-    "button" : {
+    "titlebar" : {
+        "title" : "Tile Launcher",
+        "custom_title_bar" : true,
+        "margin" : 1,
+        "title_bar_height" : 35,
         "button_size" : 32,
-        "icon_size" : 24
+        "icon_size" : 16,
+        "icon_color" : "#FFFFFF"
     },
     "sidebar" : {
         "sidebar_normal_width" : 50,

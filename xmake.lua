@@ -38,8 +38,8 @@ target("TileLauncher")
         add_ldflags("/SUBSYSTEM:CONSOLE")
     end
 
-    add_packages("nlohmann_json")  -- 链接到目标
-    add_packages("spdlog")  -- 链接到目标
+    add_packages("nlohmann_json")
+    add_packages("spdlog") 
 
     add_includedirs("gui/")
     add_includedirs("gui/widgets/")
@@ -49,6 +49,8 @@ target("TileLauncher")
     -- 添加带有 Q_OBJECT 宏的文件（这些是专门给 Qt 的 moc 工具处理的）
     add_files(
         "gui/widgets/ui_FrameLessWindow/ui_FrameLessWindow.h",
-        "gui/widgets/ui_buttons/ui_sidebar_button.h"
+        "gui/widgets/ui_buttons/ui_sidebar_button.h",
+        "gui/widgets/ui_buttons/ui_title_button.h",
+        "gui/widgets/ui_title_bar/ui_title_bar.h"
     )
 

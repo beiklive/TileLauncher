@@ -33,5 +33,8 @@ enum WindowParts {
 
 #define ICON_DEFAULT "assets/icons/default.svg"
 #define ICON_WINDOW_CLOSE "assets/icons/icon_close.svg"
+#define ICON_WINDOW_MINIMIZE "assets/icons/icon_minimize.svg"
+#define ICON_WINDOW_MAXIMIZE "assets/icons/icon_maximize.svg"
+#define ICON_WINDOW_RESTORE "assets/icons/icon_restore.svg"
 
 #endif // _INCLUDE_GLOBAL_H_

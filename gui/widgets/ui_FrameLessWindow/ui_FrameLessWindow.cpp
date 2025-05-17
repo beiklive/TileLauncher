@@ -28,23 +28,30 @@ QWidget *beiklive::Ui_FrameLessWindow::get_centralWidget()
     return m_centralWidget;
 }
 
-void beiklive::Ui_FrameLessWindow::mouseMoveEvent(QMouseEvent *event)
+void beiklive::Ui_FrameLessWindow::hideGrips(bool hide)
 {
-
-    QWidget::mouseMoveEvent(event);
+    if(hide){
+        m_top_grop->hide();
+        m_bottom_grop->hide();
+        m_left_grop->hide();
+        m_right_grop->hide();
+        m_topleft_grop->hide();
+        m_topright_grop->hide();
+        m_bottomleft_grop->hide();
+        m_bottomright_grop->hide();
+    }else{
+        m_top_grop->show();
+        m_bottom_grop->show();
+        m_left_grop->show();
+        m_right_grop->show();
+        m_topleft_grop->show();
+        m_topright_grop->show();
+        m_bottomleft_grop->show();
+        m_bottomright_grop->show();
+    }
 }
 
-void beiklive::Ui_FrameLessWindow::mousePressEvent(QMouseEvent *event)
-{
 
-    QWidget::mousePressEvent(event);
-}
-
-void beiklive::Ui_FrameLessWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-
-    QWidget::mouseReleaseEvent(event);
-}
 
 void beiklive::Ui_FrameLessWindow::resizeEvent(QResizeEvent *event)
 {
@@ -53,6 +60,8 @@ void beiklive::Ui_FrameLessWindow::resizeEvent(QResizeEvent *event)
     if(titleBar){
         titleBar->setGeometry(0, 0, m_centralWidget->width(), 30);
     }
+
+
 }
 void beiklive::Ui_FrameLessWindow::SetupUi()
 {
@@ -66,28 +75,6 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     {
         initGrip();
         mainLayout->setContentsMargins(10, 10, 10, 10);
-        if(globalSettings["window"]["custom_title_bar"])
-        {
-            titleBar = new QWidget(m_centralWidget);
-            THEME_NAME(titleBar, "titleBar")
-            QHBoxLayout *titleLayout = new QHBoxLayout(titleBar);
-            titleLayout->setContentsMargins(5, 0, 5, 0);
-            titleLayout->setSpacing(0);
-            
-            QLabel *m_titleLabel = new QLabel(titleBar);
-            m_titleLabel->setText(globalSettings["window"]["title"].get<std::string>().c_str());
-            THEME_NAME(m_titleLabel, "titleLabel")
-            titleLayout->addWidget(m_titleLabel);
-            titleLayout->addStretch();
-
-            QPushButton *m_closeButton = new QPushButton(titleBar);
-            THEME_NAME(m_closeButton, "windowButton")
-            // 设置图标
-            m_closeButton->setIcon(QIcon(ICON_WINDOW_CLOSE));
-            titleLayout->addWidget(m_closeButton);
-            connect(m_closeButton, &QPushButton::clicked, this, &QWidget::close);
-            
-        }
     }
     else
     {
@@ -98,13 +85,7 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     m_centralWidget->setMouseTracking(true);
 
 
-    // 添加阴影
-    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(m_centralWidget);
-    shadow->setBlurRadius(20);
-    shadow->setXOffset(0);
-    shadow->setYOffset(0);
-    shadow->setColor(QColor(0, 0, 0, 160));
-    setGraphicsEffect(shadow);
+
 
 
     spdlog::debug("窗口大小 {} {}", width(), height());

@@ -26,12 +26,9 @@ namespace beiklive
         ~Ui_FrameLessWindow() = default;
 
         QWidget *get_centralWidget();
+        void hideGrips(bool hide);
         // Add member functions here
     protected:
-        void mouseMoveEvent(QMouseEvent *event) override;
-        void mousePressEvent(QMouseEvent *event) override;
-        void mouseReleaseEvent(QMouseEvent *event) override;
-
         void resizeEvent(QResizeEvent *event) override;
 
     private:
