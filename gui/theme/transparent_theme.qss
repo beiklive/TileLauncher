@@ -1,0 +1,61 @@
+QWidget{
+    font-family: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', sans-serif;
+    font-size: 14px;
+    color: #D3D3D3;
+}
+
+[styleclass="centralWidget"]{
+    background-color: #88222222;
+    border: 1px solid #1f1f1f;
+    border-radius: 5px;
+}
+
+
+
+[styleclass="windowButton"]
+{
+    max-width: 25px;
+    min-width: 25px;
+    max-height: 25px;
+    min-height: 25px;
+    border-radius: 2px;
+    background-color: transparent;
+}
+
+[styleclass="windowButton"]:hover
+{
+    background-color: #8c8c8c;
+}
+
+[styleclass="Sidebar"]
+{
+    background-color: #72181818;
+    border-radius: 5px;
+}
+
+[styleclass="sidebarButton"]
+{
+    max-height: 50px;
+    min-height: 50px;
+    border-radius: 3px;
+
+}
+
+[styleclass="TitleBar"]
+{
+    background-color: #b47492a4;
+    border: 1px solid #d40000;
+    border-radius: 5px;
+}
+
+
+[styleclass="TitleButton"]
+{
+    max-height: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    min-width: 30px;
+    border-radius: 3px;
+}
+
+
