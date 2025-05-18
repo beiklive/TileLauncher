@@ -49,8 +49,10 @@ target("TileLauncher")
     -- 添加带有 Q_OBJECT 宏的文件（这些是专门给 Qt 的 moc 工具处理的）
     add_files(
         "gui/widgets/ui_FrameLessWindow/ui_FrameLessWindow.h",
+        "gui/ui/App_mainWindow.h",
         "gui/widgets/ui_buttons/ui_sidebar_button.h",
         "gui/widgets/ui_buttons/ui_title_button.h",
-        "gui/widgets/ui_title_bar/ui_title_bar.h"
+        "gui/widgets/ui_title_bar/ui_title_bar.h",
+        "gui/widgets/ui_sidebar/ui_sidebar.h"
     )
 

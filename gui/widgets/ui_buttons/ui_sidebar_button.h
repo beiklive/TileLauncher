@@ -27,7 +27,10 @@ protected:
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
     // void mouseReleaseEvent(QMouseEvent *event);
-    // void mousePressEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+
+signals:
+    void clickedAtPosition(const QPoint &pos);  // 发射点击位置
 
 private:
     void _setup_ui();

@@ -9,16 +9,17 @@
 
 #include <QPropertyAnimation>
 #include <QVector>
+#include <functional>
 namespace beiklive {
 
 class Ui_Sidebar : public QWidget {
-    // Q_OBJECT
+    Q_OBJECT
 public:
     Ui_Sidebar(QWidget *parent = nullptr);
     ~Ui_Sidebar()=default;
     // Add member functions here
 
-    
+    Ui_Sidebar_Button * addButton(std::string name, std::string icon_path, std::function<void()> onClick = nullptr); // 添加按钮到侧边栏
 private:
     void _startAnimation(); // 启动动画的函数
     void _onAnimationFinished(); // 动画完成时的回调槽

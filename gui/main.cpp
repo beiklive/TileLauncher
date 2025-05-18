@@ -9,7 +9,6 @@
 using namespace beiklive;
 nlohmann::json globalSettings;
 
-
 void init()
 {
     //==============================================================

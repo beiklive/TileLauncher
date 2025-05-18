@@ -10,13 +10,13 @@
         "window_y" : 200,
         "min_window_width" : 320,
         "min_window_height" : 240,
-        "margin" : 3,
+        "margin" : 0,
         "custom_window" : true,
         "hide_border_color" : true,
         "theme" : "default_theme.qss"
     },
     "titlebar" : {
-        "title" : "Tile Launcher",
+        "title" : " ",
         "custom_title_bar" : true,
         "margin" : 1,
         "title_bar_height" : 35,

@@ -26,7 +26,7 @@ void beiklive::App_MainWindow::menuMode(bool enable)
             true,
             false,
             true,
-            false
+            true
         );
         moveWindowToBottomLeft(this);
         m_windowFlags = this->windowFlags();
@@ -38,7 +38,7 @@ void beiklive::App_MainWindow::menuMode(bool enable)
 void beiklive::App_MainWindow::animaShow()
 {
     spdlog::debug("animaShow");
-    this->setWindowFlags( m_windowFlags);
+    // this->setWindowFlags( m_windowFlags);
     show();
     QPoint geo = geometry().topLeft();
     animation->setStartValue(QPoint(geo.x(), geo.y()+geometry().height()));
@@ -46,7 +46,6 @@ void beiklive::App_MainWindow::animaShow()
     animation->start();
 
 }
-
 
 void beiklive::App_MainWindow::resizeEvent(QResizeEvent *event)
 {
@@ -76,7 +75,7 @@ void beiklive::App_MainWindow::window_maximize()
         shadow->setBlurRadius(20);
         setGraphicsEffect(shadow);
         hideGrips(true);
-        spdlog::info("maximize");
+        spdlog::info("窗口最大化");
     }
     
 }
@@ -89,7 +88,7 @@ void beiklive::App_MainWindow::window_restore()
         shadow->setBlurRadius(20);
         setGraphicsEffect(shadow);
         hideGrips(false);
-        spdlog::info("restore");
+        spdlog::info("窗口恢复");
     }
     // resize(width()+1, height()+1);
 }
@@ -97,16 +96,17 @@ void beiklive::App_MainWindow::_onAnimationFinished()
 {
     // this->setWindowFlags( m_windowFlags |Qt::Popup);
 }
+
+
 void beiklive::App_MainWindow::_setupUI()
 {
     m_centralWidget = this->get_centralWidget();
-    QHBoxLayout *layout = new QHBoxLayout();
+    layout = new QHBoxLayout();
     layout->setContentsMargins(m_margin, m_margin, m_margin, m_margin);
     m_centralWidget->setLayout(layout);
 
-    
-    m_sidebar = new Ui_Sidebar(m_centralWidget);
-    layout->addWidget(m_sidebar);
+    _initSidebar();
+
     m_bodywidget = new QWidget(m_centralWidget);
     
     if (globalSettings["titlebar"]["custom_title_bar"])
@@ -142,6 +142,29 @@ void beiklive::App_MainWindow::_setupUI()
 
 }
 
+void beiklive::App_MainWindow::_initSidebar()
+{
+    m_sidebar = new Ui_Sidebar(m_centralWidget);
+    layout->addWidget(m_sidebar);
+
+    beiklive::Ui_Sidebar_Button *btn = m_sidebar->addButton("亮色主题", "assets/icons/sun.svg");
+    btn->setProperty("theme", "light");
+    connect(btn, &beiklive::Ui_Sidebar_Button::clickedAtPosition, this, [this, btn](const QPoint &pos) {
+        QPoint globalPos = btn->mapTo(this, pos);
+        drawBackground(btn, globalPos);
+    });
+
+    m_sidebar->addButton("主页", "assets/icons/home.svg", [this]() {
+        spdlog::info("主页");
+    });
+    m_sidebar->addButton("设置", "assets/icons/setting.svg",  [this]() {
+        spdlog::info("设置");
+    });
+    m_sidebar->addButton("关于", "assets/icons/info.svg",  [this]() {
+        spdlog::info("关于");
+    });
+}
+
 void beiklive::App_MainWindow::moveWindowToBottomLeft(QWidget *window)
 {
     QScreen* screen = QGuiApplication::primaryScreen();
@@ -170,3 +193,35 @@ void beiklive::App_MainWindow::createTrayIcon()
     trayIcon->setContextMenu(trayMenu);
     trayIcon->show();
 }
+
+void beiklive::App_MainWindow::drawBackground(beiklive::Ui_Sidebar_Button *btn, const QPoint &center)
+{
+    beiklive::Ui_Sidebar_Button *sender = qobject_cast<beiklive::Ui_Sidebar_Button*>(QObject::sender());
+    if (sender != nullptr)
+    {
+        QVariant theme_name = sender->property("theme");
+        std::string theme_name_str = theme_name.toString().toStdString();
+        bool is_light{false};
+        if (theme_name_str == "light")
+        {
+            sender->setProperty("theme", "dark");
+            sender->set_icon("assets/icons/moon.svg");
+            sender->set_text("暗黑主题");
+            is_light = false;
+        }else if (theme_name_str == "dark")
+        {
+            sender->setProperty("theme", "light");
+            sender->set_icon("assets/icons/sun.svg");
+            sender->set_text("亮色主题");
+            is_light = true;
+        }
+        spdlog::info("theme changed to {}", sender->property("theme").toString().toStdString());
+
+
+        // m_centralWidget->startAnimation(center, width()+height(), is_light);
+
+
+
+    }
+}
+

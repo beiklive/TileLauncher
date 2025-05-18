@@ -69,7 +69,11 @@ void beiklive::Ui_Sidebar_Button::leaveEvent(QEvent *event)
     m_is_hover = false;
     update();
 }
-
+void beiklive::Ui_Sidebar_Button::mousePressEvent(QMouseEvent *event)
+{
+    emit clickedAtPosition(event->pos());  // 传递点击坐标（相对按钮）
+    QPushButton::mousePressEvent(event);
+}
 void beiklive::Ui_Sidebar_Button::iconPaint(QPainter *qp, const QString &imagePath, const QRect &rect, const QColor &color)
 {
     // 加载图标
@@ -99,10 +103,12 @@ void beiklive::Ui_Sidebar_Button::_setup_ui()
 void beiklive::Ui_Sidebar_Button::_init_icon(std::string icon_path)
 {
     m_icon_path = icon_path;
+    update();
 }
 
 void beiklive::Ui_Sidebar_Button::_init_text(std::string text)
 {
     m_text = text;
+    update();
 }
 

@@ -19,6 +19,20 @@ beiklive::Ui_Sidebar::Ui_Sidebar(QWidget *parent):
     _init_ui();
 }
 
+beiklive::Ui_Sidebar_Button *beiklive::Ui_Sidebar::addButton(std::string name, std::string icon_path, std::function<void()> onClick)
+{
+    beiklive::Ui_Sidebar_Button *btn = new beiklive::Ui_Sidebar_Button(this, icon_path, name);
+    m_buttons.append(btn);
+    m_button_layout->addWidget(btn);
+    
+    if (onClick) {
+        connect(btn, &beiklive::Ui_Sidebar_Button::clicked, onClick);
+    }
+    
+    return btn;
+}
+
+
 
 void beiklive::Ui_Sidebar::_startAnimation()
 {
@@ -66,16 +80,16 @@ void beiklive::Ui_Sidebar::_init_ui()
     m_button_layout->setSpacing(0);
     btnBox->setLayout(m_button_layout);
 
-    Ui_Sidebar_Button *home_btn = new Ui_Sidebar_Button(this, "assets/icons/home.svg", "主页");
-    Ui_Sidebar_Button *setting_btn = new Ui_Sidebar_Button(this, "assets/icons/setting.svg", "设置");
-    Ui_Sidebar_Button *info_btn = new Ui_Sidebar_Button(this, "assets/icons/info.svg", "信息");
-    m_buttons.append(home_btn);
-    m_buttons.append(setting_btn);
-    m_buttons.append(info_btn);
+    // Ui_Sidebar_Button *home_btn = new Ui_Sidebar_Button(this, "assets/icons/home.svg", "主页");
+    // Ui_Sidebar_Button *setting_btn = new Ui_Sidebar_Button(this, "assets/icons/setting.svg", "设置");
+    // Ui_Sidebar_Button *info_btn = new Ui_Sidebar_Button(this, "assets/icons/info.svg", "信息");
+    // m_buttons.append(home_btn);
+    // m_buttons.append(setting_btn);
+    // m_buttons.append(info_btn);
 
-    m_button_layout->addWidget(home_btn);
-    m_button_layout->addWidget(setting_btn);
-    m_button_layout->addWidget(info_btn);
+    // m_button_layout->addWidget(home_btn);
+    // m_button_layout->addWidget(setting_btn);
+    // m_button_layout->addWidget(info_btn);
     m_layout->addWidget(btnBox);
 
 

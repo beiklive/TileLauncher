@@ -100,11 +100,6 @@ void beiklive::Ui_FrameLessWindow::resizeEvent(QResizeEvent *event)
 {
     updateGrip();
 
-    if(titleBar){
-        titleBar->setGeometry(0, 0, m_centralWidget->width(), 30);
-    }
-
-
 }
 void beiklive::Ui_FrameLessWindow::SetupUi()
 {
@@ -117,12 +112,8 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     if (custom_window)
     {
         initGrip();
-        mainLayout->setContentsMargins(10, 10, 10, 10);
     }
-    else
-    {
-        mainLayout->setContentsMargins(0, 0, 0, 0);
-    }
+    mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(0);
     mainLayout->addWidget(m_centralWidget);
     m_centralWidget->setMouseTracking(true);
@@ -135,11 +126,6 @@ void beiklive::Ui_FrameLessWindow::SetupUi()
     spdlog::debug("主视图大小 {} {}, pos {} {}", 
         m_centralWidget->width(), m_centralWidget->height(),
         m_centralWidget->x(), m_centralWidget->y());
-    if(titleBar){
-        spdlog::debug("标题栏大小 {} {}, pos {} {}", 
-            titleBar->width(), titleBar->height(),
-            titleBar->x(), titleBar->y());
-    }
 
 
 }
@@ -161,17 +147,18 @@ void beiklive::Ui_FrameLessWindow::initGrip()
 
 void beiklive::Ui_FrameLessWindow::updateGrip()
 {
+    int gapsize = 3;
     if (custom_window)
     {
 
-        m_top_grop->setGeo(5, 5, width() - 10, 10);
-        m_bottom_grop->setGeo(5, height() - 15, width() - 10, 10);
-        m_left_grop->setGeo(5, 5, 10, height() - 10);
-        m_right_grop->setGeo(width() - 15, 5, 10, height() - 10);
-        m_topleft_grop->setGeo(5, 5, 15, 15);
-        m_topright_grop->setGeo(width() - 20, 5, 15, 15);
-        m_bottomleft_grop->setGeo(5, height() - 20, 15, 15);
-        m_bottomright_grop->setGeo(width() - 20, height() - 20, 15, 15);
+        m_top_grop->setGeo(gapsize, 0, width() - gapsize*2, gapsize);
+        m_bottom_grop->setGeo(gapsize, height() - gapsize, width() - gapsize*2, gapsize);
+        m_left_grop->setGeo(gapsize, gapsize, gapsize, height() - gapsize*2);
+        m_right_grop->setGeo(width() - gapsize, gapsize, gapsize, height() - gapsize*2);
+        m_topleft_grop->setGeo(0, 0, gapsize*2, gapsize*2);
+        m_topright_grop->setGeo(width() - gapsize*2, 0, gapsize*2, gapsize*2);
+        m_bottomleft_grop->setGeo(0, height() - gapsize*2, gapsize*2, gapsize*2);
+        m_bottomright_grop->setGeo(width() - gapsize*2, height() - gapsize*2, gapsize*2, gapsize*2);
     }
 }
 
