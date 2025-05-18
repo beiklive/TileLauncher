@@ -8,6 +8,7 @@
 #include "widgets/ui_FrameLessWindow/ui_FrameLessWindow.h"
 #include "widgets/ui_sidebar/ui_sidebar.h"
 #include "widgets/ui_title_bar/ui_title_bar.h"
+#include "widgets/ui_file_list_view/ui_file_list_view.h"
 
 #include <QSystemTrayIcon>
 #include <QMenu>
@@ -46,6 +47,7 @@ namespace beiklive
     private:
         void _setupUI();
         void _initSidebar();
+        void _initFileListView();
         void moveWindowToBottomLeft(QWidget *window);
         void createTrayIcon();
 
@@ -62,8 +64,16 @@ namespace beiklive
         Ui_FrameLessWindow *ui;
         QWidget *m_centralWidget{nullptr};
         Ui_Sidebar *m_sidebar{nullptr};
+        
+        Ui_File_List_View* m_filelistview{nullptr};
+
+        
         Ui_Title_Bar *titleBar{nullptr};
+        
+        
         QWidget *m_bodywidget{nullptr};
+
+
         QGraphicsDropShadowEffect *shadow;
 
 

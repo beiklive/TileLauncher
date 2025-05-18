@@ -1,5 +1,5 @@
 QWidget{
-    font-family: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', sans-serif;
+    font-family: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC';
     font-size: 14px;
     color: #D3D3D3;
 }
@@ -12,12 +12,18 @@ QWidget{
 
 
 [styleclass="centralWidget"]{
-    background-color: #dd222222;
+    background-color: #ff222222;
     border: 1px solid #42c8c8c8;
     border-radius: 5px;
 }
 
-
+[styleclass="FileListView"]
+{
+    max-width: 25px;
+    min-width: 25px;
+    border-radius: 2px;
+    background-color: #ffffffff;
+}
 
 [styleclass="windowButton"]
 {
@@ -53,7 +59,7 @@ QWidget{
 
 [styleclass="TitleBar"]
 {
-    background-color: #b47492a4;
+    background-color: #ff28a2ee;
     border: 1px solid #d40000;
     border-radius: 5px;
 }

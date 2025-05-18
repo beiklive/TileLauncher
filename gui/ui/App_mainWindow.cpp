@@ -8,7 +8,7 @@ beiklive::App_MainWindow::App_MainWindow(QWidget *parent)
     setWindowIcon(QIcon(ICON_LOGO));   // 使用文件系统中的图标
 
     _setupUI();
-    menuMode(true);
+    // menuMode(true);
     createTrayIcon();
 
 }
@@ -147,12 +147,12 @@ void beiklive::App_MainWindow::_initSidebar()
     m_sidebar = new Ui_Sidebar(m_centralWidget);
     layout->addWidget(m_sidebar);
 
-    beiklive::Ui_Sidebar_Button *btn = m_sidebar->addButton("亮色主题", "assets/icons/sun.svg");
-    btn->setProperty("theme", "light");
-    connect(btn, &beiklive::Ui_Sidebar_Button::clickedAtPosition, this, [this, btn](const QPoint &pos) {
-        QPoint globalPos = btn->mapTo(this, pos);
-        drawBackground(btn, globalPos);
-    });
+    // beiklive::Ui_Sidebar_Button *btn = m_sidebar->addButton("亮色主题", "assets/icons/sun.svg");
+    // btn->setProperty("theme", "light");
+    // connect(btn, &beiklive::Ui_Sidebar_Button::clickedAtPosition, this, [this, btn](const QPoint &pos) {
+    //     QPoint globalPos = btn->mapTo(this, pos);
+    //     drawBackground(btn, globalPos);
+    // });
 
     m_sidebar->addButton("主页", "assets/icons/home.svg", [this]() {
         spdlog::info("主页");
@@ -163,6 +163,12 @@ void beiklive::App_MainWindow::_initSidebar()
     m_sidebar->addButton("关于", "assets/icons/info.svg",  [this]() {
         spdlog::info("关于");
     });
+}
+
+void beiklive::App_MainWindow::_initFileListView()
+{
+    m_filelistview = new Ui_File_List_View(m_centralWidget);
+    layout->addWidget(m_sidebar);
 }
 
 void beiklive::App_MainWindow::moveWindowToBottomLeft(QWidget *window)

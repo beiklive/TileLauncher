@@ -80,16 +80,6 @@ void beiklive::Ui_Sidebar::_init_ui()
     m_button_layout->setSpacing(0);
     btnBox->setLayout(m_button_layout);
 
-    // Ui_Sidebar_Button *home_btn = new Ui_Sidebar_Button(this, "assets/icons/home.svg", "主页");
-    // Ui_Sidebar_Button *setting_btn = new Ui_Sidebar_Button(this, "assets/icons/setting.svg", "设置");
-    // Ui_Sidebar_Button *info_btn = new Ui_Sidebar_Button(this, "assets/icons/info.svg", "信息");
-    // m_buttons.append(home_btn);
-    // m_buttons.append(setting_btn);
-    // m_buttons.append(info_btn);
-
-    // m_button_layout->addWidget(home_btn);
-    // m_button_layout->addWidget(setting_btn);
-    // m_button_layout->addWidget(info_btn);
     m_layout->addWidget(btnBox);
 
 

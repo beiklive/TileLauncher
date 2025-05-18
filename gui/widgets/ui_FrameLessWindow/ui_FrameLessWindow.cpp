@@ -2,12 +2,12 @@
 
 beiklive::Ui_FrameLessWindow::Ui_FrameLessWindow(QWidget *parent) : QWidget(parent)
 {
-    // THEME_NAME(this, "FrameLessWindow")
+    THEME_NAME(this, "FrameLessWindow")
     custom_window = globalSettings["window"]["custom_window"];
     if (custom_window)
     {
         // 设置无边框窗口
-        setWindowFlags(this->windowFlags() |Qt::FramelessWindowHint);
+        setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint);
         setAttribute(Qt::WA_TranslucentBackground);
     }
     setMinimumSize(
