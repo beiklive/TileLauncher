@@ -8,7 +8,7 @@ beiklive::App_MainWindow::App_MainWindow(QWidget *parent)
     setWindowIcon(QIcon(ICON_LOGO));   // 使用文件系统中的图标
 
     _setupUI();
-    // menuMode(true);
+    menuMode(true);
     createTrayIcon();
 
 }
@@ -106,7 +106,7 @@ void beiklive::App_MainWindow::_setupUI()
     m_centralWidget->setLayout(layout);
 
     _initSidebar();
-
+    _initFileListView();
     m_bodywidget = new QWidget(m_centralWidget);
     
     if (globalSettings["titlebar"]["custom_title_bar"])

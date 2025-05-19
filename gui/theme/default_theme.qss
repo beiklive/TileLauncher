@@ -4,15 +4,18 @@ QWidget{
     color: #D3D3D3;
 }
 
-/* [styleclass="FrameLessWindow"]{
-    background-color: transparent;
-    border: 1px solid #1f1f1f;
+
+[styleclass="FrameLessWindow"]
+{
+    background-color: #64222222;
+    border: 1px solid #42c8c8c8;
     border-radius: 5px;
-} */
+}
 
 
-[styleclass="centralWidget"]{
-    background-color: #ff222222;
+[styleclass="centralWidget"]
+{
+    background-color: #64222222;
     border: 1px solid #42c8c8c8;
     border-radius: 5px;
 }
@@ -59,8 +62,8 @@ QWidget{
 
 [styleclass="TitleBar"]
 {
-    background-color: #ff28a2ee;
-    border: 1px solid #d40000;
+    background-color: transparent;
+    border: 1px solid #47ffffff;
     border-radius: 5px;
 }
 

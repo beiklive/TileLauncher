@@ -8,7 +8,7 @@
 
 namespace beiklive {
 
-class Ui_File_List_View : public QWidget {
+class Ui_File_List_View : public QFrame {
 public:
     Ui_File_List_View(QWidget *parent = nullptr);
     ~Ui_File_List_View() = default;

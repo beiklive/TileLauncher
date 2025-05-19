@@ -13,7 +13,7 @@
 #include <QLabel>
 namespace beiklive {
 
-class Ui_Title_Bar : public QWidget{
+class Ui_Title_Bar : public QFrame{
     Q_OBJECT
 public:
     Ui_Title_Bar(QWidget *parent = nullptr, QWidget* app_parent=nullptr, std::string title_text = "Title Bar");

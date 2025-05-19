@@ -1,7 +1,6 @@
 #include "ui_sidebar.h"
 
-beiklive::Ui_Sidebar::Ui_Sidebar(QWidget *parent):
-    QWidget(parent)
+beiklive::Ui_Sidebar::Ui_Sidebar(QWidget *parent)
 {
     THEME_NAME(this, "Sidebar")
 
@@ -15,7 +14,7 @@ beiklive::Ui_Sidebar::Ui_Sidebar(QWidget *parent):
     m_margin = globalSettings["sidebar"]["margin"].get<int>();
     setMinimumSize(m_normal_width, 0);
     setMaximumSize(m_normal_width, 16777215);
-
+    // setAttribute(Qt::WA_StyledBackground, true);
     _init_ui();
 }
 
@@ -91,3 +90,4 @@ void beiklive::Ui_Sidebar::_init_ui()
     // 连接动画完成信号到回调槽
     connect(animation, &QPropertyAnimation::finished, this, &Ui_Sidebar::_onAnimationFinished);
 }
+ 

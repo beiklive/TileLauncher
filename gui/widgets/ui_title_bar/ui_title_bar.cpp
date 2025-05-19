@@ -9,7 +9,7 @@ beiklive::Ui_Title_Bar::Ui_Title_Bar(QWidget *parent, QWidget *app_parent, std::
     m_title_text = title_text;
     m_height = globalSettings["titlebar"]["title_bar_height"].get<int>();
     m_margin = globalSettings["titlebar"]["margin"].get<int>();
-
+    // setAttribute(Qt::WA_StyledBackground, true);
     setFixedHeight(m_height);
     _init_ui();
 }

@@ -18,21 +18,19 @@
 #include <QLabel>
 #include <QPainter>
 
-
 // 定义窗口四个角和四个边的枚举
-enum WindowParts {
-    NONE      = 0,       // 0000 (无)
-    TOP       = 1,  // 0001 (上边)
-    BOTTOM    = 2,  // 0010 (下边)
-    LEFT      = 4,  // 0100 (左边)
-    RIGHT     = 8,  // 1000 (右边)
+enum WindowParts
+{
+    NONE = 0,   // 0000 (无)
+    TOP = 1,    // 0001 (上边)
+    BOTTOM = 2, // 0010 (下边)
+    LEFT = 4,   // 0100 (左边)
+    RIGHT = 8,  // 1000 (右边)
 };
 #define THEME_NAME(obj, name) obj->setProperty("styleclass", name);
 
-
-
 #define ICON_DEFAULT "assets/icons/default.svg"
-#define ICON_LOGO "assets/icons/logo.svg"
+#define ICON_LOGO "assets/icons/logo.png"
 #define ICON_WINDOW_CLOSE "assets/icons/icon_close.svg"
 #define ICON_WINDOW_MINIMIZE "assets/icons/icon_minimize.svg"
 #define ICON_WINDOW_MAXIMIZE "assets/icons/icon_maximize.svg"

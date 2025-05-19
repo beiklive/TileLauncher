@@ -12,7 +12,7 @@
 #include <functional>
 namespace beiklive {
 
-class Ui_Sidebar : public QWidget {
+class Ui_Sidebar : public QFrame {
     Q_OBJECT
 public:
     Ui_Sidebar(QWidget *parent = nullptr);
