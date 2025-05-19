@@ -9,6 +9,10 @@
 #include <QPixmap>
 #include <QEnterEvent>
 #include <QEvent>
+
+#if QT_VERSION >= 0x050000
+#include <QEnterEvent>
+#endif
 namespace beiklive {
 
 class Ui_Sidebar_Button : public QPushButton {
@@ -24,10 +28,14 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    void enterEvent(QEnterEvent *event) override;
+#else
     void enterEvent(QEvent *event) override;
+#endif
     void leaveEvent(QEvent *event) override;
     // void mouseReleaseEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event) override;
 
 signals:
     void clickedAtPosition(const QPoint &pos);  // 发射点击位置

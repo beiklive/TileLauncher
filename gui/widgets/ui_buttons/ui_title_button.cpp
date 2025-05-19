@@ -34,8 +34,11 @@ void beiklive::Ui_Title_Button::paintEvent(QPaintEvent *event)
     iconPaint(&painter, m_icon_path.c_str(), rect_icon, m_set_icon_color);
     painter.end();
 }
-
-void beiklive::Ui_Title_Button::enterEvent(QEvent *event)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    void beiklive::Ui_Title_Button::enterEvent(QEnterEvent *event)
+#else
+    void beiklive::Ui_Title_Button::enterEvent(QEvent *event)
+#endif
 {
     m_is_hover = true;
     update();

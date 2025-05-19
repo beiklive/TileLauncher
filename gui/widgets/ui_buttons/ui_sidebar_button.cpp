@@ -59,7 +59,12 @@ void beiklive::Ui_Sidebar_Button::paintEvent(QPaintEvent *event)
     painter.drawText(rect_text, Qt::AlignVCenter, m_text.c_str());
     painter.end();
 }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void beiklive::Ui_Sidebar_Button::enterEvent(QEnterEvent *event)
+#else
 void beiklive::Ui_Sidebar_Button::enterEvent(QEvent *event)
+#endif
 {
     m_is_hover = true;
     update();
