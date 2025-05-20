@@ -15,17 +15,18 @@ QWidget{
 
 [styleclass="centralWidget"]
 {
-    background-color: #64222222;
+    background-color: #ff222222;
     border: 1px solid #42c8c8c8;
     border-radius: 5px;
 }
 
 [styleclass="FileListView"]
 {
-    max-width: 25px;
-    min-width: 25px;
+    /* max-width: 25px;
+    min-width: 25px; */
     border-radius: 2px;
     background-color: #ffffffff;
+    border: 1px solid #daff0000;
 }
 
 [styleclass="windowButton"]
@@ -45,10 +46,10 @@ QWidget{
 
 [styleclass="Sidebar"]
 {
-    background-color: #6dd0d0d0;
+    background-color: #00d0d0d0;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    border: 1px solid #bec8c8c8;
+    border: 1px solid #4ec8c8c8;
 
 }
 

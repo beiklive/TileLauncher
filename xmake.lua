@@ -4,6 +4,13 @@ add_requires("spdlog")
 add_requires("nlohmann_json")  -- 自动下载并集成
 
 
+target("test")
+    add_rules("qt.widgetapp")
+    set_languages("c99", "c++20")
+    add_includedirs("test/")
+    add_files("test/**.cpp")
+
+    add_files("test/ui_list_button.h")
 
 
 

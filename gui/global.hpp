@@ -16,6 +16,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QPushButton>
 #include <QPainter>
 
 // 定义窗口四个角和四个边的枚举

@@ -103,6 +103,7 @@ void beiklive::App_MainWindow::_setupUI()
     m_centralWidget = this->get_centralWidget();
     layout = new QHBoxLayout();
     layout->setContentsMargins(m_margin, m_margin, m_margin, m_margin);
+    layout->setSpacing(0);
     m_centralWidget->setLayout(layout);
 
     _initSidebar();
@@ -168,7 +169,7 @@ void beiklive::App_MainWindow::_initSidebar()
 void beiklive::App_MainWindow::_initFileListView()
 {
     m_filelistview = new Ui_File_List_View(m_centralWidget);
-    layout->addWidget(m_sidebar);
+    layout->addWidget(m_filelistview);
 }
 
 void beiklive::App_MainWindow::moveWindowToBottomLeft(QWidget *window)
