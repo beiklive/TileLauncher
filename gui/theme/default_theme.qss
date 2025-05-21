@@ -15,15 +15,15 @@ QWidget{
 
 [styleclass="centralWidget"]
 {
-    background-color: #ff222222;
+    background-color: #df222222;
     border: 1px solid #42c8c8c8;
     border-radius: 5px;
 }
 
 [styleclass="FileListView"]
 {
-    /* max-width: 25px;
-    min-width: 25px; */
+    /* max-width: 250px;
+    min-width: 0px; */
     border-radius: 2px;
     background-color: #00ffffff;
     border: 1px solid #00ff0000;
@@ -33,7 +33,7 @@ QWidget{
     /* max-width: 25px;
     min-width: 25px; */
     border-radius: 2px;
-    background-color: #00ffffff;
+    background-color: transparent;
     border: 1px solid #00ff0000;
 }
 
@@ -43,7 +43,7 @@ QWidget{
     /* max-width: 25px;
     min-width: 25px; */
     border-radius: 2px;
-    background-color: #00ffffff;
+    background-color: transparent;
     border: 1px solid #00ff0000;
 }
 [styleclass="windowButton"]
@@ -94,11 +94,6 @@ QWidget{
     min-width: 30px;
     border-radius: 3px;
 }
-
-
-
-
-
 
     /* 垂直滚动条 */
     QScrollBar:vertical {

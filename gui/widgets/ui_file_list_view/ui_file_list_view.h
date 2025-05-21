@@ -7,6 +7,7 @@
 #include "global.hpp"
 #include "widgets/ui_buttons/ui_list_button.h"
 #include <QScrollArea>
+#include <QVector>
 namespace beiklive {
 
 class Ui_File_List_View : public QFrame {
@@ -18,13 +19,21 @@ public:
 void createButton(const QString &name, const QString &path, ButtonMode mode);
 private:
     void _setup_ui();
+    void _init_root_list();
 
+    ButtonMode BtnType(std::string type);
+    QString typeName(ButtonMode mode);
+
+    bool show_suffixed = true;
     int button_count = 0;
     int heightall = 0;
     // Add member variables here
     QVBoxLayout *main_layout;
     QScrollArea *scrollArea;
     QVBoxLayout *scroll_layout;
+    QFrame *scrollContent;
+
+    QVector<beiklive::Ui_List_Button *> buttons;
 };
 
 } // namespace beiklive

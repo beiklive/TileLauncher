@@ -34,6 +34,8 @@
         "text_color" : "#FFFFFF"
     },
     "listmenu" : {
+        "listPath" : "/Users/beiklive/Applications",
+        "showsuffix" : false,
         "height" : 36,
         "content_height" : 30,
         "btn_color" : "#00ffffff",
