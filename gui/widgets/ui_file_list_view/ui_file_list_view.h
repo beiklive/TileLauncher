@@ -5,6 +5,7 @@
 #define _INCLUDE_UI_FILE_LIST_VIEW_H_
 
 #include "global.hpp"
+#include "widgets/ui_buttons/ui_list_button.h"
 #include <QScrollArea>
 namespace beiklive {
 
@@ -14,16 +15,16 @@ public:
     ~Ui_File_List_View() = default;
 
     // Add member functions here
-
+void createButton(const QString &name, const QString &path, ButtonMode mode);
 private:
     void _setup_ui();
 
-
-
+    int button_count = 0;
+    int heightall = 0;
     // Add member variables here
     QVBoxLayout *main_layout;
     QScrollArea *scrollArea;
-
+    QVBoxLayout *scroll_layout;
 };
 
 } // namespace beiklive

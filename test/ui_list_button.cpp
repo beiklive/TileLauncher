@@ -15,8 +15,19 @@ namespace beiklive
           file_path_(file_path),
           icon_path_(icon_path),
           is_hover_(false),
-          is_pressed_(false)
+          is_pressed_(false),
+          is_folder_expand_(false)
     {
+        m_height = 36;
+        m_contentHeight = 30;
+
+        m_NormalColor = "#00ffffff";
+        m_HoverColor = "#7d9e9e9e";
+        m_PressedColor = "#7d565656";
+        m_TextColor = "#1f1f1f";
+
+        setFixedHeight(m_height);
+        _flush_rect();
         _init_ui();
     }
 
@@ -29,61 +40,51 @@ namespace beiklive
             // 文件模式 - 使用改进的文件图标获取方法
             if (icon_path_.isEmpty() && !file_path_.isEmpty())
             {
-                setIcon(getFileIcon(file_path_));
+                m_icon = getFileIcon(file_path_);
             }
             else if (!icon_path_.isEmpty())
             {
-                setIcon(QIcon(icon_path_));
+                m_icon = QIcon(icon_path_);
             }
             else
             {
                 // 如果既没有文件路径也没有图标路径，使用默认文件图标
-                setIcon(QApplication::style()->standardIcon(QStyle::SP_FileIcon));
+                m_icon = QApplication::style()->standardIcon(QStyle::SP_FileIcon);
             }
-            setText(name_);
             break;
 
         case ButtonMode::FOLDER:
             // 文件夹模式
             if (icon_path_.isEmpty())
             {
-                setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
+                m_icon = QApplication::style()->standardIcon(QStyle::SP_DirIcon);
             }
             else
             {
-                setIcon(QIcon(icon_path_));
+                m_icon = QIcon(icon_path_);
             }
-            setText(name_);
             break;
 
         case ButtonMode::INDEX:
             // 索引模式 - 显示首字母
-            setText(name_.left(1).toUpper());
+            name_ = name_.left(1).toUpper();
             break;
 
         case ButtonMode::NONE:
         default:
-            // 普通按钮模式
-            setText(name_);
             break;
         }
 
         // 通用样式设置
         setCursor(Qt::PointingHandCursor);
-        setFlat(true);
-        setStyleSheet(
-            "QPushButton {"
-            "   border: none;"
-            "   padding: 5px 10px;"
-            "   text-align: left;"
-            "   spacing: 8px;"
-            "}"
-            "QPushButton:hover {"
-            "   background-color: #e0e0e0;"
-            "}"
-            "QPushButton:pressed {"
-            "   background-color: #d0d0d0;"
-            "}");
+    }
+
+    void Ui_List_Button::_flush_rect()
+    {
+        int margin = (m_height - m_contentHeight) / 2;
+        m_iconRect = QRect(margin, margin, m_contentHeight, m_contentHeight);
+        m_textRect = QRect(m_height + margin, margin, width() - m_height - margin*2, m_contentHeight);
+        m_indexRect = m_iconRect;
     }
 
     QIcon Ui_List_Button::getFileIcon(const QString &filePath)
@@ -117,38 +118,87 @@ namespace beiklive
         return icon;
     }
 
+    void Ui_List_Button::FolderExpand(bool expand)
+    {
+        is_folder_expand_ = expand;
+        update();
+    }
+
     void Ui_List_Button::paintEvent(QPaintEvent *event)
     {
         Q_UNUSED(event);
 
-        QStyleOptionButton option;
-        initStyleOption(&option);
+        _flush_rect();
+
+        // QStyleOptionButton option;
+        // initStyleOption(&option);
 
         QPainter painter(this);
+        painter.setPen(Qt::NoPen);
+        painter.setRenderHint(QPainter::Antialiasing);
 
         // 绘制背景
         if (is_hover_ || is_pressed_)
         {
-            QColor bgColor = is_pressed_ ? QColor("#d0d0d0") : QColor("#e0e0e0");
-            painter.fillRect(rect(), bgColor);
+            QColor bgColor = is_pressed_ ? QColor(m_PressedColor.c_str()) : QColor(m_HoverColor.c_str());
+            painter.setBrush(QBrush(bgColor));
+        }else
+        {
+            QColor bgColor = QColor(m_NormalColor.c_str());
+            painter.setBrush(QBrush(bgColor));
         }
+        painter.drawRoundedRect(rect(), 3, 3);
+
 
         // 绘制图标和文本
-        if (mode_ == ButtonMode::INDEX)
+        switch (mode_)
         {
-            // 索引模式特殊绘制
-            painter.setPen(Qt::black);
-            QFont font = painter.font();
-            font.setBold(true);
-            font.setPointSize(16);
-            painter.setFont(font);
-            painter.drawText(rect(), Qt::AlignCenter, name_.left(1).toUpper());
+        case ButtonMode::FILE:
+            // 文件模式
+            if (!m_icon.isNull())
+            {
+                // 绘制图标
+                iconPaint(&painter, m_icon, m_iconRect);
+                // 绘制文本
+                painter.setPen(QColor(m_TextColor.c_str()));
+                painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, name_);
+            }
+            /* code */
+            break;
+        case ButtonMode::FOLDER:
+            // 文件夹模式
+            if (!m_icon.isNull())
+            {
+                // 绘制图标
+                iconPaint(&painter, m_icon, m_iconRect);
+                // 绘制文本
+                painter.setPen(QColor(m_TextColor.c_str()));
+                painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, name_);
+            }
+            /* code */
+            break;
+        case ButtonMode::INDEX:
+            // 索引模式
+            {
+                // 创建字体对象
+                QFont font = painter.font(); // 获取当前字体
+                
+                // 设置字体大小（两种方式任选其一）
+                // font.setPointSize(20);       // 使用逻辑点(pt)为单位
+                font.setPixelSize(m_contentHeight);    // 使用像素(px)为单位
+                
+                // 应用字体到painter
+                painter.setFont(font);
+                // 绘制文本
+                painter.setPen(QColor(m_TextColor.c_str()));
+                painter.drawText(m_indexRect, Qt::AlignCenter, name_);
+            }
+            break;
+        case ButtonMode::NONE:
+        default:
+            break;
         }
-        else
-        {
-            // 其他模式使用默认绘制
-            style()->drawControl(QStyle::CE_PushButton, &option, &painter, this);
-        }
+        painter.end();
     }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -178,5 +228,32 @@ namespace beiklive
         }
         QPushButton::mousePressEvent(event);
     }
+    void Ui_List_Button::mouseReleaseEvent(QMouseEvent *event)
+    {
+        if (event->button() == Qt::LeftButton)
+        {
+            is_pressed_ = false;
+            update();
+        }
+        QPushButton::mouseReleaseEvent(event);
+    }
+    void Ui_List_Button::iconPaint(QPainter* painter, const QIcon& icon, const QRect& rect)
+    {
+        QPixmap pixmap = icon.pixmap(rect.size());
+        
+        // 如果是SVG图标（QT5.6+支持）
+        if (!pixmap.isNull()) {
+            painter->drawPixmap(rect, pixmap);
+        } 
+        else {
+            // 回退方案
+            icon.paint(painter, rect);
+        }
+    }
+
+
+
+
+
 
 } // namespace beiklive

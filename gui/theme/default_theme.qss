@@ -25,10 +25,27 @@ QWidget{
     /* max-width: 25px;
     min-width: 25px; */
     border-radius: 2px;
-    background-color: #ffffffff;
-    border: 1px solid #daff0000;
+    background-color: #00ffffff;
+    border: 1px solid #00ff0000;
+}
+[styleclass="FileListViewScrollArea"]
+{
+    /* max-width: 25px;
+    min-width: 25px; */
+    border-radius: 2px;
+    background-color: #00ffffff;
+    border: 1px solid #00ff0000;
 }
 
+
+[styleclass="FileListViewContent"]
+{
+    /* max-width: 25px;
+    min-width: 25px; */
+    border-radius: 2px;
+    background-color: #00ffffff;
+    border: 1px solid #00ff0000;
+}
 [styleclass="windowButton"]
 {
     max-width: 25px;
@@ -49,7 +66,7 @@ QWidget{
     background-color: #00d0d0d0;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    border: 1px solid #4ec8c8c8;
+    border: 1px solid #00c8c8c8;
 
 }
 

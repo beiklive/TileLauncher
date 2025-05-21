@@ -32,5 +32,13 @@
         "icon_size" : 24,
         "icon_color" : "#FFFFFF",
         "text_color" : "#FFFFFF"
+    },
+    "listmenu" : {
+        "height" : 36,
+        "content_height" : 30,
+        "btn_color" : "#00ffffff",
+        "btn_hover_color" : "#7d9e9e9e",
+        "btn_pressed_color" : "#7d565656",
+        "btn_text_color" : "#D3D3D3"
     }
 }

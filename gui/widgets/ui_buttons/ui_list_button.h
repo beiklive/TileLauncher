@@ -44,7 +44,6 @@ namespace beiklive
         QIcon getFileIcon(const QString &filePath);
         
         void FolderExpand(bool expand);
-
         // Add member functions here
     protected:
         void paintEvent(QPaintEvent *event) override;
