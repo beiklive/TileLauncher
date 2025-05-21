@@ -96,3 +96,80 @@ QWidget{
 }
 
 
+
+
+
+
+    /* 垂直滚动条 */
+    QScrollBar:vertical {
+        border: none;
+        background: rgba(30, 30, 30, 50);
+        width: 5px;
+        margin: 0px 0px 0px 0px;
+    }
+    
+    /* 垂直滚动条滑块 */
+    QScrollBar::handle:vertical {
+        background: rgba(120, 120, 120, 180);
+        min-height: 20px;
+        border-radius: 5px;
+    }
+    
+    /* 垂直滚动条滑块悬停 */
+    QScrollBar::handle:vertical:hover {
+        background: rgba(150, 150, 150, 180);
+    }
+    
+    /* 垂直滚动条滑块按下 */
+    QScrollBar::handle:vertical:pressed {
+        background: rgba(180, 180, 180, 180);
+    }
+    
+    /* 垂直滚动条背景 */
+    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+        background: transparent;
+    }
+    
+    /* 垂直滚动条上下箭头 */
+    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+        border: none;
+        background: none;
+        height: 0px;
+    }
+    
+    /* 水平滚动条 */
+    QScrollBar:horizontal {
+        border: none;
+        background: rgba(30, 30, 30, 50);
+        height: 5px;
+        margin: 0px 0px 0px 0px;
+    }
+    
+    /* 水平滚动条滑块 */
+    QScrollBar::handle:horizontal {
+        background: rgba(120, 120, 120, 180);
+        min-width: 20px;
+        border-radius: 5px;
+    }
+    
+    /* 水平滚动条滑块悬停 */
+    QScrollBar::handle:horizontal:hover {
+        background: rgba(150, 150, 150, 180);
+    }
+    
+    /* 水平滚动条滑块按下 */
+    QScrollBar::handle:horizontal:pressed {
+        background: rgba(180, 180, 180, 180);
+    }
+    
+    /* 水平滚动条背景 */
+    QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+        background: transparent;
+    }
+    
+    /* 水平滚动条左右箭头 */
+    QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+        border: none;
+        background: none;
+        width: 0px;
+    }
