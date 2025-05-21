@@ -6,6 +6,7 @@
 
 #include "logger.h"
 #include "json.h"
+#include "PinyinLookup.h"
 
 #include <QFile>
 #include <QVariant>
@@ -19,6 +20,7 @@
 #include <QPushButton>
 #include <QPainter>
 
+#include <iostream>
 // 定义窗口四个角和四个边的枚举
 enum WindowParts
 {
@@ -28,6 +30,15 @@ enum WindowParts
     LEFT = 4,   // 0100 (左边)
     RIGHT = 8,  // 1000 (右边)
 };
+
+enum ButtonMode
+{
+    BM_NONE,
+    BM_FILE,
+    BM_FOLDER,
+    BM_INDEX
+};
+
 #define THEME_NAME(obj, name) obj->setProperty("styleclass", name);
 
 #define ICON_DEFAULT "assets/icons/default.svg"

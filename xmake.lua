@@ -4,13 +4,13 @@ add_requires("spdlog")
 add_requires("nlohmann_json")  -- 自动下载并集成
 
 
-target("test")
-    add_rules("qt.widgetapp")
-    set_languages("c99", "c++20")
-    add_includedirs("test/")
-    add_files("test/**.cpp")
+-- target("test")
+--     add_rules("qt.widgetapp")
+--     set_languages("c99", "c++20")
+--     add_includedirs("test/")
+--     add_files("test/**.cpp")
 
-    add_files("test/ui_list_button.h")
+--     add_files("test/ui_list_button.h")
 
 
 
@@ -53,12 +53,14 @@ target("TileLauncher")
     add_includedirs("gui/ui/")
     add_includedirs("gui/core/")
     add_files("gui/**.cpp")
+    add_files("gui/core/**.cpp")
     -- 添加带有 Q_OBJECT 宏的文件（这些是专门给 Qt 的 moc 工具处理的）
     add_files(
         "gui/widgets/ui_FrameLessWindow/ui_FrameLessWindow.h",
         "gui/ui/App_mainWindow.h",
         "gui/widgets/ui_buttons/ui_sidebar_button.h",
         "gui/widgets/ui_buttons/ui_title_button.h",
+        "gui/widgets/ui_buttons/ui_list_button.h",
         "gui/widgets/ui_title_bar/ui_title_bar.h",
         "gui/widgets/ui_sidebar/ui_sidebar.h"
     )
