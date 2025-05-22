@@ -50,4 +50,9 @@ enum ButtonMode
 #define ICON_WINDOW_MAXIMIZE "assets/icons/icon_maximize.svg"
 #define ICON_WINDOW_RESTORE "assets/icons/icon_restore.svg"
 
+#define ICON_DIR_UP "assets/icons/dir_up.svg"
+#define ICON_DIR_DOWN "assets/icons/dir_down.svg"
+
+
+
 #endif // _INCLUDE_GLOBAL_H_

@@ -44,6 +44,7 @@ namespace beiklive
         QIcon getFileIcon(const QString &filePath);
         
         void FolderExpand(bool expand);
+        bool isFolderExpanded();
         // Add member functions here
     protected:
         void paintEvent(QPaintEvent *event) override;
@@ -59,6 +60,7 @@ namespace beiklive
 
     private:
         void iconPaint(QPainter *painter, const QIcon &icon, const QRect &rect);
+        void dirPaint(QPainter *painter, const QIcon &icon, const QRect &rect);
 
         void _init_ui();
         void _flush_rect();
@@ -76,7 +78,9 @@ namespace beiklive
         int m_textheight;
         int m_contentHeight;
         QIcon m_icon;
+        QIcon m_expand_icon_;
         QRect m_iconRect;
+        QRect m_arrowRect;
         QRect m_textRect;
         QRect m_indexRect;
 
@@ -84,6 +88,7 @@ namespace beiklive
         std::string m_NormalColor;
         std::string m_HoverColor;
         std::string m_PressedColor;
+
     };
 
 } // namespace beiklive

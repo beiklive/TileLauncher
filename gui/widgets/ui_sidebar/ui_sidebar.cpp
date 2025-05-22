@@ -86,7 +86,7 @@ void beiklive::Ui_Sidebar::_init_ui()
     connect(expand_btn, &QPushButton::clicked, this, &Ui_Sidebar::_startAnimation);
     // 初始化动画
     animation = new QPropertyAnimation(this, "minimumWidth");
-    animation->setDuration(500); // 动画持续时间，单位毫秒
+    animation->setDuration(100); // 动画持续时间，单位毫秒
     // 连接动画完成信号到回调槽
     connect(animation, &QPropertyAnimation::finished, this, &Ui_Sidebar::_onAnimationFinished);
 }

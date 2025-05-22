@@ -4,11 +4,11 @@
 beiklive::App_MainWindow::App_MainWindow(QWidget *parent)
 {
     m_margin = globalSettings["window"]["margin"].get<int>();
-
+    is_menu_mode = globalSettings["window"]["menu_mode"].get<bool>();
     setWindowIcon(QIcon(ICON_LOGO));   // 使用文件系统中的图标
 
     _setupUI();
-    menuMode(true);
+    menuMode(is_menu_mode);
     createTrayIcon();
 
 }

@@ -83,7 +83,7 @@ namespace beiklive
     {
         int margin = (m_height - m_contentHeight) / 2;
         m_iconRect = QRect(margin, margin, m_contentHeight, m_contentHeight);
-        m_textRect = QRect(m_height + margin, margin, width() - m_height - margin*2, m_contentHeight);
+        m_textRect = QRect(m_height + margin, 0, width() - m_height - margin*2, height());
         m_indexRect = m_iconRect;
     }
 
@@ -251,9 +251,9 @@ namespace beiklive
         }
     }
 
-
-
-
-
+    bool Ui_List_Button::isFolderExpanded()
+    {
+        return is_folder_expand_;
+    }
 
 } // namespace beiklive

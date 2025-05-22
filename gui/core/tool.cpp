@@ -116,6 +116,25 @@ std::string getFirstLetter(PinyinLookup *pinyin, const std::string &str) {
     return "#";
 }
 
+bool openFileWithDefaultProgram(const QString &filePath) {
+    // 检查文件是否存在
+    QFileInfo fileInfo(filePath);
+    if (!fileInfo.exists()) {
+        qWarning() << "File does not exist:" << filePath;
+        return false;
+    }
+
+    // 使用QDesktopServices打开文件
+    QUrl fileUrl = QUrl::fromLocalFile(filePath);
+    bool success = QDesktopServices::openUrl(fileUrl);
+
+    if (!success) {
+        qWarning() << "Failed to open file with default program:" << filePath;
+    }
+
+    return success;
+}
+
 QString generateUuid() {
     return QUuid::createUuid().toString(QUuid::WithoutBraces); // 格式: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 }

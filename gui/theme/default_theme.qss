@@ -15,7 +15,7 @@ QWidget{
 
 [styleclass="centralWidget"]
 {
-    background-color: #df222222;
+    background-color: #222222;
     border: 1px solid #42c8c8c8;
     border-radius: 5px;
 }

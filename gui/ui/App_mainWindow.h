@@ -59,6 +59,7 @@ namespace beiklive
         QPropertyAnimation *animation;
         QHBoxLayout *layout;
 
+        bool is_menu_mode{false};
         int m_app_margin{10};
         int m_margin;
         Ui_FrameLessWindow *ui;

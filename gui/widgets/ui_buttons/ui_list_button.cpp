@@ -30,6 +30,7 @@ namespace beiklive
         setFixedHeight(m_height);
         _flush_rect();
         _init_ui();
+        FolderExpand(false);
     }
 
     void Ui_List_Button::_init_ui()
@@ -85,7 +86,10 @@ namespace beiklive
         int margin = (m_height - m_contentHeight) / 2;
         m_iconRect = QRect(margin, margin, m_contentHeight, m_contentHeight);
         int margin_text = (m_height - m_textheight) / 2;
-        m_textRect = QRect(m_height + margin, margin_text, width() - m_height - margin_text * 2, m_textheight);
+        int arrheight = 10;
+        m_arrowRect = QRect(width() - arrheight-5, (height() - arrheight)/2, arrheight, arrheight);
+
+        m_textRect = QRect(m_height + margin, 0, width() - m_height - margin_text * 2, m_height);
         m_indexRect = m_iconRect;
     }
 
@@ -123,6 +127,7 @@ namespace beiklive
     void Ui_List_Button::FolderExpand(bool expand)
     {
         is_folder_expand_ = expand;
+        m_expand_icon_ = QIcon(is_folder_expand_ ? ICON_DIR_UP : ICON_DIR_DOWN);
         update();
     }
 
@@ -163,11 +168,16 @@ namespace beiklive
                 iconPaint(&painter, m_icon, m_iconRect);
                 // 绘制文本
                 QFont font = painter.font(); // 获取当前字体
-                font.setPixelSize(m_textRect.height()); // 使用像素(px)为单位
+                font.setPixelSize(m_textheight); // 使用像素(px)为单位
                 // 应用字体到painter
                 painter.setFont(font);
                 painter.setPen(QColor(m_TextColor.c_str()));
-                painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, name_);
+                // 获取字体度量
+                QFontMetrics metrics(painter.font());
+                // 使用 elidedText 处理文本
+                QString elidedText = metrics.elidedText(name_, Qt::ElideRight, m_textRect.width());
+                painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, elidedText);
+                
             }
             /* code */
             break;
@@ -175,15 +185,25 @@ namespace beiklive
             // 文件夹模式
             if (!m_icon.isNull())
             {
-                // 绘制图标
+                // 绘制文件图标
                 iconPaint(&painter, m_icon, m_iconRect);
                 // 绘制文本
                 QFont font = painter.font(); // 获取当前字体
-                font.setPixelSize(m_textRect.height()); // 使用像素(px)为单位
+                font.setPixelSize(m_textheight); // 使用像素(px)为单位
                 // 应用字体到painter
                 painter.setFont(font);
                 painter.setPen(QColor(m_TextColor.c_str()));
-                painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, name_);
+
+                // 获取字体度量
+                QFontMetrics metrics(painter.font());
+                // 使用 elidedText 处理文本
+                QString elidedText = metrics.elidedText(name_, Qt::ElideRight, m_textRect.width());
+                painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, elidedText);
+
+                // 绘制文件夹展开按钮
+                painter.setBrush(QBrush(QColor(m_TextColor.c_str())));
+                dirPaint(&painter, m_expand_icon_, m_arrowRect);
+                
             }
             /* code */
             break;
@@ -192,11 +212,7 @@ namespace beiklive
             {
                 // 创建字体对象
                 QFont font = painter.font(); // 获取当前字体
-
-                // 设置字体大小（两种方式任选其一）
-                // font.setPointSize(20);       // 使用逻辑点(pt)为单位
-                font.setPixelSize(m_textRect.height()); // 使用像素(px)为单位
-
+                font.setPixelSize(m_textheight); // 使用像素(px)为单位
                 // 应用字体到painter
                 painter.setFont(font);
                 // 绘制文本
@@ -249,6 +265,8 @@ namespace beiklive
     }
     void Ui_List_Button::iconPaint(QPainter *painter, const QIcon &icon, const QRect &rect)
     {
+        
+        
         QPixmap pixmap = icon.pixmap(rect.size());
 
         // 如果是SVG图标（QT5.6+支持）
@@ -262,5 +280,31 @@ namespace beiklive
             icon.paint(painter, rect);
         }
     }
+    void Ui_List_Button::dirPaint(QPainter *painter, const QIcon &icon, const QRect &rect)
+    {
+        
+        
+        QPixmap pixmap = icon.pixmap(rect.size());
+        // 创建临时 QPainter 来修改图标颜色
+        QPainter tpainter(&pixmap);
+        tpainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        tpainter.fillRect(pixmap.rect(), QColor(m_TextColor.c_str()));
+        tpainter.end();  // 结束对图标的绘制
 
+        // 如果是SVG图标（QT5.6+支持）
+        if (!pixmap.isNull())
+        {
+            painter->drawPixmap(rect, pixmap);
+        }
+        else
+        {
+            // 回退方案
+            icon.paint(painter, rect);
+        }
+    }
+
+    bool Ui_List_Button::isFolderExpanded()
+    {
+        return is_folder_expand_;
+    }
 } // namespace beiklive

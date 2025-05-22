@@ -8,6 +8,7 @@
 #include "widgets/ui_buttons/ui_list_button.h"
 #include <QScrollArea>
 #include <QVector>
+#include <QPropertyAnimation>
 namespace beiklive
 {
 
@@ -23,7 +24,7 @@ namespace beiklive
     private:
         void _setup_ui();
         void _init_root_list();
-
+        void _init_file_list(QVBoxLayout *layout = nullptr, std::string path = "", bool is_root = false);
         ButtonMode BtnType(std::string type);
         QString typeName(ButtonMode mode);
 
