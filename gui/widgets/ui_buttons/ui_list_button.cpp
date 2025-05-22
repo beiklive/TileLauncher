@@ -20,6 +20,7 @@ namespace beiklive
     {
         m_height = globalSettings["listmenu"]["height"].get<int>();
         m_contentHeight = globalSettings["listmenu"]["content_height"].get<int>();
+        m_textheight = globalSettings["listmenu"]["text_height"].get<int>();
 
         m_NormalColor = globalSettings["listmenu"]["btn_color"].get<std::string>();
         m_HoverColor = globalSettings["listmenu"]["btn_hover_color"].get<std::string>();
@@ -83,7 +84,8 @@ namespace beiklive
     {
         int margin = (m_height - m_contentHeight) / 2;
         m_iconRect = QRect(margin, margin, m_contentHeight, m_contentHeight);
-        m_textRect = QRect(m_height + margin, margin, width() - m_height - margin * 2, m_contentHeight);
+        int margin_text = (m_height - m_textheight) / 2;
+        m_textRect = QRect(m_height + margin, margin_text, width() - m_height - margin_text * 2, m_textheight);
         m_indexRect = m_iconRect;
     }
 
@@ -160,6 +162,10 @@ namespace beiklive
                 // 绘制图标
                 iconPaint(&painter, m_icon, m_iconRect);
                 // 绘制文本
+                QFont font = painter.font(); // 获取当前字体
+                font.setPixelSize(m_textRect.height()); // 使用像素(px)为单位
+                // 应用字体到painter
+                painter.setFont(font);
                 painter.setPen(QColor(m_TextColor.c_str()));
                 painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, name_);
             }
@@ -172,6 +178,10 @@ namespace beiklive
                 // 绘制图标
                 iconPaint(&painter, m_icon, m_iconRect);
                 // 绘制文本
+                QFont font = painter.font(); // 获取当前字体
+                font.setPixelSize(m_textRect.height()); // 使用像素(px)为单位
+                // 应用字体到painter
+                painter.setFont(font);
                 painter.setPen(QColor(m_TextColor.c_str()));
                 painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, name_);
             }
@@ -185,7 +195,7 @@ namespace beiklive
 
                 // 设置字体大小（两种方式任选其一）
                 // font.setPointSize(20);       // 使用逻辑点(pt)为单位
-                font.setPixelSize(25); // 使用像素(px)为单位
+                font.setPixelSize(m_textRect.height()); // 使用像素(px)为单位
 
                 // 应用字体到painter
                 painter.setFont(font);

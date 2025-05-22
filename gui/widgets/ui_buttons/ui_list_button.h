@@ -73,6 +73,7 @@ namespace beiklive
         bool is_folder_expand_;
         //
         int m_height;
+        int m_textheight;
         int m_contentHeight;
         QIcon m_icon;
         QRect m_iconRect;
