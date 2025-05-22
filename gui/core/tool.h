@@ -3,6 +3,7 @@
 
 #include <QLayout>
 #include <QWidget>
+#include <QDebug>
 #include <QUuid>
 #include "PinyinLookup.h"
 #include <cctype>

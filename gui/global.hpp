@@ -10,6 +10,7 @@
 #include "PinyinLookup.h"
 
 #include <QFile>
+#include <QDebug>
 #include <QVariant>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
