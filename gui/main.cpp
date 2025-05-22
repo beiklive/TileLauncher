@@ -50,25 +50,13 @@ void init()
 
 int main(int argc, char *argv[])
 {
-    PinyinLookup pinyin;
-    if (!pinyin.load("assets/file/pinyin.txt")) {
-        std::cerr << "Failed to load pinyin data!" << std::endl;
-        return 1;
-    }
+    init();
 
-    // 通过汉字查询
-    std::cout << "中: " << pinyin.getPinyinFromHanzi("中") << std::endl;      // 输出 "zhōng/zhòng"
-    std::cout << "汉: " << pinyin.getPinyinFromHanzi("汉") << std::endl;      // 输出 "hàn"
-
-    // 通过 Unicode 查询
-    std::cout << "U+4E2D: " << pinyin.getPinyinFromUnicode("U+4E2D") << std::endl;  // 输出 "zhōng/zhòng"
-    std::cout << "U+6C49: " << pinyin.getPinyinFromUnicode("U+6C49") << std::endl;  // 输出 "hàn"
 
     // 启用Qt的高DPI支持（推荐）
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication a(argc, argv);
-    init();
 
     App_MainWindow w;
 

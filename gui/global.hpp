@@ -6,6 +6,7 @@
 
 #include "logger.h"
 #include "json.h"
+#include "tool.h"
 #include "PinyinLookup.h"
 
 #include <QFile>
@@ -19,7 +20,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QPainter>
-
+#include <QList>
 #include <iostream>
 // 定义窗口四个角和四个边的枚举
 enum WindowParts

@@ -41,6 +41,45 @@ json get_directory_structure(const std::string &root_path)
     return result;
 }
 
+json get_sorted_directory_structure(const std::string &root_path)
+{
+    json result = get_directory_structure(root_path);
+    PinyinLookup pinyin;
+    if (!pinyin.load("assets/file/pinyin.txt")) {
+        std::cerr << "Failed to load pinyin data!" << std::endl;
+        return 1;
+    }
+
+    if (!result.empty())
+    {
+        json sort_list;
+        // 初始化所有字母键，即使为空也保留
+        for (char key = 'A'; key <= 'Z'; ++key)
+        {
+            sort_list[std::string(1, key)] = json::array();
+        }
+        sort_list["#"] = json::array();
+
+        for (auto &entry : result["list"])
+        {
+            std::string name = entry["name"];
+            char first_letter = getFirstLetter(&pinyin, name)[0];
+
+            if (first_letter >= 'A' && first_letter <= 'Z')
+            {
+                sort_list[std::string(1, first_letter)].push_back(entry);
+            }
+            else
+            {
+                sort_list["#"].push_back(entry);
+            }
+        }
+
+        return sort_list;
+    }
+
+    return json();
+}
 
 std::string removeFileExtension(const std::string &fileName)
 {

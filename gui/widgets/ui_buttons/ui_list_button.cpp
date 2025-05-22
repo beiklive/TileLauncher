@@ -185,7 +185,7 @@ namespace beiklive
 
                 // 设置字体大小（两种方式任选其一）
                 // font.setPointSize(20);       // 使用逻辑点(pt)为单位
-                font.setPixelSize(m_contentHeight); // 使用像素(px)为单位
+                font.setPixelSize(25); // 使用像素(px)为单位
 
                 // 应用字体到painter
                 painter.setFont(font);
