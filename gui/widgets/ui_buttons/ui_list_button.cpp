@@ -130,102 +130,70 @@ namespace beiklive
         m_expand_icon_ = QIcon(is_folder_expand_ ? ICON_DIR_UP : ICON_DIR_DOWN);
         update();
     }
+void Ui_List_Button::paintEvent(QPaintEvent *event)
+{
+    // 只绘制需要更新的区域
+    if (event && !event->rect().intersects(rect()))
+        return;
 
-    void Ui_List_Button::paintEvent(QPaintEvent *event)
+    _flush_rect();
+
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(Qt::NoPen);
+
+    // 1. 优化背景绘制
+    const QColor bgColor = is_pressed_ ? QColor(m_PressedColor.c_str()) 
+                         : is_hover_ ? QColor(m_HoverColor.c_str())
+                         : QColor(m_NormalColor.c_str());
+    
+    painter.setBrush(bgColor);
+    painter.drawRoundedRect(rect(), 3, 3);
+
+    // 2. 提前准备字体和颜色（减少重复设置）
+    QFont font = painter.font();
+    font.setPixelSize(m_textheight);
+    const QColor textColor(m_TextColor.c_str());
+
+    // 3. 使用switch-case处理不同模式
+    switch (mode_)
     {
-        Q_UNUSED(event);
-
-        _flush_rect();
-
-        // QStyleOptionButton option;
-        // initStyleOption(&option);
-
-        QPainter painter(this);
-        painter.setPen(Qt::NoPen);
-        painter.setRenderHint(QPainter::Antialiasing);
-
-        // 绘制背景
-        if (is_hover_ || is_pressed_)
+    case ButtonMode::BM_FILE:
+    case ButtonMode::BM_FOLDER:
+        if (!m_icon.isNull())
         {
-            QColor bgColor = is_pressed_ ? QColor(m_PressedColor.c_str()) : QColor(m_HoverColor.c_str());
-            painter.setBrush(QBrush(bgColor));
-        }
-        else
-        {
-            QColor bgColor = QColor(m_NormalColor.c_str());
-            painter.setBrush(QBrush(bgColor));
-        }
-        painter.drawRoundedRect(rect(), 3, 3);
+            // 绘制图标
+            iconPaint(&painter, m_icon, m_iconRect);
+            
+            // 绘制文本（公共代码提取）
+            painter.setFont(font);
+            painter.setPen(textColor);
+            
+            QFontMetrics metrics(font);
+            QString elidedText = metrics.elidedText(name_, Qt::ElideRight, m_textRect.width());
+            painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, elidedText);
 
-        // 绘制图标和文本
-        switch (mode_)
-        {
-        case ButtonMode::BM_FILE:
-            // 文件模式
-            if (!m_icon.isNull())
+            // 仅文件夹模式绘制展开按钮
+            if (mode_ == ButtonMode::BM_FOLDER)
             {
-                // 绘制图标
-                iconPaint(&painter, m_icon, m_iconRect);
-                // 绘制文本
-                QFont font = painter.font(); // 获取当前字体
-                font.setPixelSize(m_textheight); // 使用像素(px)为单位
-                // 应用字体到painter
-                painter.setFont(font);
-                painter.setPen(QColor(m_TextColor.c_str()));
-                // 获取字体度量
-                QFontMetrics metrics(painter.font());
-                // 使用 elidedText 处理文本
-                QString elidedText = metrics.elidedText(name_, Qt::ElideRight, m_textRect.width());
-                painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, elidedText);
-                
-            }
-            /* code */
-            break;
-        case ButtonMode::BM_FOLDER:
-            // 文件夹模式
-            if (!m_icon.isNull())
-            {
-                // 绘制文件图标
-                iconPaint(&painter, m_icon, m_iconRect);
-                // 绘制文本
-                QFont font = painter.font(); // 获取当前字体
-                font.setPixelSize(m_textheight); // 使用像素(px)为单位
-                // 应用字体到painter
-                painter.setFont(font);
-                painter.setPen(QColor(m_TextColor.c_str()));
-
-                // 获取字体度量
-                QFontMetrics metrics(painter.font());
-                // 使用 elidedText 处理文本
-                QString elidedText = metrics.elidedText(name_, Qt::ElideRight, m_textRect.width());
-                painter.drawText(m_textRect, Qt::AlignLeft | Qt::AlignVCenter, elidedText);
-
-                // 绘制文件夹展开按钮
-                painter.setBrush(QBrush(QColor(m_TextColor.c_str())));
+                painter.setBrush(textColor);
                 dirPaint(&painter, m_expand_icon_, m_arrowRect);
-                
             }
-            /* code */
-            break;
-        case ButtonMode::BM_INDEX:
-            // 索引模式
-            {
-                // 创建字体对象
-                QFont font = painter.font(); // 获取当前字体
-                font.setPixelSize(m_textheight); // 使用像素(px)为单位
-                // 应用字体到painter
-                painter.setFont(font);
-                // 绘制文本
-                painter.setPen(QColor(m_TextColor.c_str()));
-                painter.drawText(m_indexRect, Qt::AlignCenter, name_);
-            }
-            break;
-        case ButtonMode::BM_NONE:
-        default:
-            break;
         }
-        painter.end();
+        break;
+
+    case ButtonMode::BM_INDEX:
+        // 索引模式
+        painter.setFont(font);
+        painter.setPen(textColor);
+        painter.drawText(m_indexRect, Qt::AlignCenter, name_);
+        break;
+
+    case ButtonMode::BM_NONE:
+    default:
+        break;
     }
+}
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     void Ui_List_Button::enterEvent(QEnterEvent *event)
