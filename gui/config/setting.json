@@ -35,7 +35,8 @@
         "text_color" : "#FFFFFF"
     },
     "listmenu" : {
-        "listPath" : "F:/games",
+        "macPath" : "/Users/beiklive/Applications",
+        "winPath" : "F:/games",
         "showsuffix" : false,
         "height" : 36,
         "content_height" : 26,

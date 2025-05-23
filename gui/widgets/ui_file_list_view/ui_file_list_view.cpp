@@ -40,8 +40,16 @@ void beiklive::Ui_File_List_View::_setup_ui()
 
 void beiklive::Ui_File_List_View::_init_root_list()
 {
-    std::string root_path = globalSettings["listmenu"]["listPath"].get<std::string>();
-    _init_file_list(scroll_layout, root_path, true);
+    if (IS_WINDOWS) {
+        // Windows 特有实现
+        std::string root_path = globalSettings["listmenu"]["winPath"].get<std::string>();
+        _init_file_list(scroll_layout, root_path, true);
+    } 
+    else if (IS_MACOS) {
+        // macOS 特有实现
+        std::string root_path = globalSettings["listmenu"]["macPath"].get<std::string>();
+        _init_file_list(scroll_layout, root_path, true);
+    }
 }
 
 void beiklive::Ui_File_List_View::_init_file_list(QVBoxLayout *layout, std::string path, bool is_root)

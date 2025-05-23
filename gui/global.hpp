@@ -41,6 +41,23 @@ enum ButtonMode
     BM_INDEX
 };
 
+
+
+// 判断是否是 Windows 系统
+#if defined(Q_OS_WIN)
+    #define IS_WINDOWS 1
+#else
+    #define IS_WINDOWS 0
+#endif
+
+// 判断是否是 macOS 系统
+#if defined(Q_OS_MACOS) || defined(Q_OS_MAC)
+    #define IS_MACOS 1
+#else
+    #define IS_MACOS 0
+#endif
+
+
 #define THEME_NAME(obj, name) obj->setProperty("styleclass", name);
 
 #define ICON_DEFAULT "assets/icons/default.svg"
